@@ -12,22 +12,20 @@
   \draw[->, line width=1.4pt, azulacero] (0,0,0) -- (\sx,\sy,\sz);
   \draw[->, line width=1.4pt, azulprof] (0,0,0) -- (\fx,\fy,\fz);
   % vector relativo R = r - r'
-  \draw[->, line width=1.8pt, rojoteo] (\sx,\sy,\sz) -- (\fx,\fy,\fz);
+  \draw[->, line width=1.8pt, acento] (\sx,\sy,\sz) -- (\fx,\fy,\fz);
   % versor u_R en el punto campo
   \pgfmathsetmacro{\Rx}{\fx-\sx}\pgfmathsetmacro{\Ry}{\fy-\sy}\pgfmathsetmacro{\Rz}{\fz-\sz}
   \pgfmathsetmacro{\Rn}{sqrt(\Rx*\Rx+\Ry*\Ry+\Rz*\Rz)}
   \draw[->, line width=1.6pt, verdeteo] (\fx,\fy,\fz) -- ++({0.95*\Rx/\Rn},{0.95*\Ry/\Rn},{0.95*\Rz/\Rn});
-  \fill[azulacero] (\sx,\sy,\sz) circle (1.8pt);
-  \fill[azulprof] (\fx,\fy,\fz) circle (1.8pt);
+  \fill[azulacero] (\sx,\sy,\sz) circle (1.1pt);
+  \fill[azulprof] (\fx,\fy,\fz) circle (1.1pt);
   \fill (0,0,0) circle (1.2pt);
   % etiquetas
   \node[azulacero, font=\normalsize] at (0.35,-0.55,1.0) {$\vc{r}\,'$};
-  \node[azulprof, font=\normalsize] at (0.55,1.35,-0.15) {$\vc{r}$};
-  \node[rojoteo, font=\normalsize, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt]
+  \node[azulprof, font=\normalsize] at (0.4,1.4,0.05) {$\vc{r}$};
+  \node[acento, font=\normalsize, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt]
      at (1.55,1.15,1.5) {$\vc{R}=\vc{r}-\vc{r}\,'$};
   \node[verdeteo, font=\normalsize] at ({\fx+1.3*\Rx/\Rn},{\fy+1.3*\Ry/\Rn},{\fz+1.3*\Rz/\Rn}) {$\uR$};
-  \node[font=\small, text=black!80, anchor=east] at (\sx+0.05,\sy-0.05,\sz+0.1) {fuente};
-  \node[font=\small, text=black!80, anchor=north] at (\fx,\fy,\fz-0.12) {campo};
 \end{tikzpicture}
 \caption{Funciones de la posición relativa. El vector $\vc{r}\,'$ (azul claro)
 localiza el \emph{punto fuente}, $\vc{r}$ (azul oscuro) el \emph{punto campo}, y

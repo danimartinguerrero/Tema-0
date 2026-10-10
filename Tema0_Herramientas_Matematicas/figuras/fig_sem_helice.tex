@@ -9,18 +9,18 @@
   % hélice (eje z comprimido: se dibuja 0.28 t en lugar de t)
   \draw[trayecto, domain=0:{3*pi}, samples=140, variable=\t, smooth]
     plot ({cos(deg(\t))},{sin(deg(\t))},{0.28*\t});
-  \foreach \k in {0,1,...,6}{%
+  \foreach \k in {1,3,5}{%
     \pgfmathsetmacro{\tt}{\k*pi/2*1.0}%
     \pgfmathsetmacro{\px}{cos(deg(\tt))}\pgfmathsetmacro{\py}{sin(deg(\tt))}\pgfmathsetmacro{\pz}{0.28*\tt}%
     % tangente (azul) y campo (ámbar/carmín)
     \draw[->, line width=1pt, azulprof] (\px,\py,\pz) -- ++({-0.55*sin(deg(\tt))},{0.55*cos(deg(\tt))},0.16);
     \draw[->, line width=1pt, cm3] (\px,\py,\pz) -- ++({-0.42*\px},{-0.42*\py},0.30);
     \fill (\px,\py,\pz) circle (1pt);}
-  \fill[rojoteo] (1,0,0) circle (2pt) node[below right, text=black] {\small$(1,0,0)$};
-  \fill[rojoteo] (-1,0,{0.28*3*pi}) circle (2pt) node[above left, text=black, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt] {\small$(-1,0,3\pi)$};
-  \node[font=\small, text=azulprof, anchor=west] at (1.55,0.35,2.7) {$\gamma'(t)$};
-  \node[font=\small, text=cm3, anchor=west] at (1.55,-0.75,2.2) {$\vc{F}$};
-  \node[font=\small, text=rojoteo, anchor=west] at (-0.2,1.5,0.7) {$C$};
+  \fill[acento] (1,0,0) circle (1.1pt) node[below right, text=black] {\small$(1,0,0)$};
+  \fill[acento] (-1,0,{0.28*3*pi}) circle (1.1pt) node[above, text=black] {\small$(-1,0,3\pi)$};
+  \node[font=\small, text=azulprof, anchor=west] at (1.55,0.9,1.0) {$\gamma'(t)$};
+  \node[font=\small, text=cm3, anchor=west] at (1.55,-0.9,1.6) {$\vc{F}$};
+  \node[font=\small, text=acento, anchor=west] at (-0.2,1.5,0.7) {$C$};
 \end{tikzpicture}
 \caption{Hélice del \cref{ejer:helice}. La parte horizontal de
 $\vc{F}=-\tfrac12(x\,\ux+y\,\uy)+\tfrac14\,\uz$ es radial y, por tanto,
@@ -32,15 +32,13 @@ dibuja comprimido.)}
 
 \begin{figure}[ht]
 \centering
-\begin{tikzpicture}[x=1.0cm, y=1.0cm]
-  \shade[inner color=azulclaro!25, outer color=azulclaro!60] (0,0) circle (2.2);
-  \clipD{-2.9}{2.9}{-2.9}{2.9}{\flechas{-\y}{\x}{-2.0,-1.5,...,2.0}{-2.0,-1.5,...,2.0}{0.36}{2.9}}
+\begin{tikzpicture}[x=0.9cm, y=0.9cm]
+  \fill[azulfondo] (0,0) circle (2.2);
+  \clipD{-2.9}{2.9}{-2.9}{2.9}{\flechas{-\y}{\x}{-2.4,-1.6,...,2.4}{-2.4,-1.6,...,2.4}{0.30}{3.4}}
   \draw[trayecto] (0,0) circle (2.2);
-  \foreach \a in {20,110,200,290}{%
-    \draw[-{Stealth[length=7pt]}, rojoteo, line width=1.6pt] ({2.2*cos(\a)},{2.2*sin(\a)}) -- ++({-0.01*sin(\a)*40},{0.01*cos(\a)*40});}
-  \draw[->, line width=0.5pt, grispizarra] (0,0) -- (-1.55,-1.55) node[midway, below left, font=\small] {$R$};
-  \node[font=\small, text=rojoteo, anchor=west] at (2.3,1.9) {$C$};
-  \node[font=\small, text=azulprof] at (0,0.55) {$\nab\times\vc{F}=2\,\uz$};
+  \foreach \a in {20,140,260}{%
+    \draw[-{Stealth[length=6pt]}, acento, line width=1.2pt] ({2.2*cos(\a)},{2.2*sin(\a)}) -- ++({-0.5*sin(\a)},{0.5*cos(\a)});}
+  \node[font=\small, text=acento, anchor=west] at (2.35,1.9) {$C$};
   \marcoD{-2.9}{2.9}{-2.9}{2.9}{-2,-1,0,1,2}{-2,-1,0,1,2}
   \ejesD{-2.9}{2.9}{-2.9}{2.9}
 \end{tikzpicture}

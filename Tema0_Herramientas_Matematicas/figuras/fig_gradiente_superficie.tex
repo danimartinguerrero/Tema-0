@@ -19,15 +19,16 @@
     \addplot3[acento, densely dashed, line width=0.6pt, domain=0:360, samples=90, samples y=0]
       ({0.9434*cos(x)},{0.9434*sin(x)},{0});
     % P, su proyección y el gradiente (en el plano z=0)
-    \addplot3[only marks, mark=*, mark size=2pt, azulprof] coordinates {(0.8,0.5,0.4107)};
+    \addplot3[only marks, mark=*, mark size=1.3pt, azulprof] coordinates {(0.8,0.5,0.4107)};
     \addplot3[densely dotted, grispizarra, line width=0.6pt] coordinates {(0.8,0.5,0) (0.8,0.5,0.4107)};
     \draw[-{Stealth[length=6pt]}, line width=1.6pt, acento] (axis cs:0.8,0.5,0) -- (axis cs:0.376,0.235,0);
     % vector tangente a la superficie, de máximo ascenso
     \draw[-{Stealth[length=6pt]}, line width=1.6pt, azulprof] (axis cs:0.8,0.5,0.4107) -- (axis cs:0.376,0.235,0.7977);
-    \node[font=\small, azulprof, anchor=east, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:-0.1,-0.05,1.0) {máximo ascenso};
+    \node[font=\small, azulprof, anchor=east, fill=white, fill opacity=0.9, text opacity=1, inner sep=1.5pt] at (axis cs:-1.0,0.9,1.05) {máximo ascenso};
+    \draw[azulprof, line width=0.4pt] (axis cs:-1.0,0.9,1.05) -- (axis cs:0.55,0.35,0.6);
     \node[font=\small, azulprof, anchor=south west, fill=white, fill opacity=0.85, text opacity=1, inner sep=1pt] at (axis cs:0.85,0.5,0.45) {$P$};
     \node[font=\small, acento, anchor=north east, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:0.3,0.1,0.0) {$\nab f(P)$};
-    \node[font=\small, acento, anchor=north west, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:-0.5,-1.9,0.0) {curva de nivel $f=c$};
+    \node[font=\small, acento, anchor=north, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:0.6,-0.95,0.0) {curva de nivel $f=c$};
   \end{axis}
 \end{tikzpicture}
 \caption{Interpretación del gradiente sobre la superficie $z=f(x,y)$. En el

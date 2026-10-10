@@ -22,6 +22,7 @@
 \usepackage{amsmath, amssymb, mathtools}
 \usepackage{bm}
 \usepackage{mathrsfs}
+\usepackage{esint}
 
 % --- PÁGINA, COLORES Y GRÁFICOS --------------------------------------------
 \usepackage[a4paper,margin=2.6cm]{geometry}
@@ -96,6 +97,10 @@
   \let\@evenfoot\@empty \let\@oddfoot\@empty}
 \makeatother
 \numberwithin{equation}{section}
+% Subsecciones como títulos en bloque (no «run-in»), con aire antes y después
+\usepackage{titlesec}
+\titleformat{\subsection}[block]{\normalfont\bfseries\color{azulprof}}{\thesubsection.}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{3ex plus 1ex minus .5ex}{1.6ex plus .4ex}
 \setcounter{tocdepth}{2}
 \makeatletter
 \def\@@and{y}
@@ -145,9 +150,7 @@
 \DeclareMathOperator{\Tr}{Tr}
 \renewcommand{\sin}{\sen}                            % «sen» en todo el texto
 
-% Integral de superficie cerrada (doble integral con círculo)
-\newcommand{\oiint}{\mathop{\vcenter{\hbox{$\displaystyle\oint\mkern-13mu\oint$}}}\nolimits}
-\newcommand{\oiintt}{\mathop{\vcenter{\hbox{$\textstyle\oint\mkern-11mu\oint$}}}\nolimits}
+% Integrales cerradas de superficie (∯) y de volumen cerrado (∰): paquete esint, como en L. Navas
 
 % Tensor de Levi-Civita y delta de Kronecker
 \newcommand{\eps}{\varepsilon}
@@ -192,14 +195,14 @@
   enhanced, breakable, sharp corners,
   colback=azulfondo, colframe=azulclaro, boxrule=0.4pt,
   left=9pt, right=9pt, top=5pt, bottom=5pt,
-  before skip=10pt, after skip=10pt,
+  before skip=12pt, after skip=12pt,
   attach boxed title to top left={yshift*=-\tcboxedtitleheight/2, xshift=8pt},
   boxed title style={colback=white, colframe=white, sharp corners, boxrule=0pt,
                      left=3pt, right=3pt, top=1pt, bottom=1pt},
   fonttitle=\bfseries\color{azulprof}, coltitle=azulprof,
   title={Definición~\thedefinicion\ifx\relax#1\relax\else\ (#1)\fi}}
 \newenvironment{definicion}[1][]
-  {\stepcounter{proposicion}\refstepcounter{definicion}\begin{definicionbox}{#1}}
+  {\par\stepcounter{proposicion}\refstepcounter{definicion}\begin{definicionbox}{#1}}
   {\end{definicionbox}}
 
 \theoremstyle{cienobs}
