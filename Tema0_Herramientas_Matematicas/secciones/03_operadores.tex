@@ -232,17 +232,17 @@ Para un campo escalar $f$ y un campo vectorial $\vc{A}$, ambos de clase $C^{2}$,
 Ambas se reducen a la simetría de las derivadas parciales segundas
 cruzadas (teorema de Schwarz), válida para funciones de clase $C^{2}$.
 Desarrollando el rotacional del gradiente,
-\[
-  \nab\times\nab f=
+\begin{align*}
+  \nab\times\nab f&=
   \begin{vmatrix}
     \ux & \uy & \uz\\
     \partial_x & \partial_y & \partial_z\\
     \partial_xf & \partial_yf & \partial_zf
   \end{vmatrix}
-  =\Bigl(\pdm{f}{y}{z}-\pdm{f}{z}{y}\Bigr)\ux
+  \\&=\Bigl(\pdm{f}{y}{z}-\pdm{f}{z}{y}\Bigr)\ux
    +\Bigl(\pdm{f}{z}{x}-\pdm{f}{x}{z}\Bigr)\uy
    +\Bigl(\pdm{f}{x}{y}-\pdm{f}{y}{x}\Bigr)\uz=\vc{0}.
-\]
+\end{align*}
 Del mismo modo, para $\vc{A}=(A_x,A_y,A_z)$,
 \begin{align*}
   \nab\cdot(\nab\times\vc{A})

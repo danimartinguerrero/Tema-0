@@ -40,14 +40,14 @@ función sobre el borde de esa región.
     \draw[densely dashed, grispizarra] (\xx,0) -- (\xx,\yy);
     \fill[azulprof] (\xx,\yy) circle (2pt);
     \node[below] at (\xx,0) {$\lab$};}
-  \node[font=\small, text=rojoteo, anchor=west] at (3.3,3.5) {$\dif f$};
-  \draw[->, rojoteo, line width=0.5pt] (3.3,3.45) -- (2.55,2.85);
+  \node[font=\small, text=rojoteo, anchor=west] at (3.0,3.7) {$\dif f$};
+  \draw[->, rojoteo, line width=0.5pt] (3.0,3.65) -- (2.55,3.0);
   \node[font=\small, text=azulacero, anchor=north] at (3.9,0.35) {$\dif x$};
   \draw[|<->|, azulacero, line width=0.5pt] (3.4,0.3) -- (4.0,0.3);
-  \node[font=\small, text=azulprof, rotate=90, anchor=south] at (8.45,{(\fx{1.0}+\fx{7.6})/2}) {$f(b)-f(a)=\textstyle\sum\dif f$};
-  \draw[|<->|, grispizarra, line width=0.5pt] (8.3,{\fx{1.0}}) -- (8.3,{\fx{7.6}});
-  \draw[densely dashed, grispizarra] (7.6,{\fx{7.6}}) -- (8.35,{\fx{7.6}});
-  \draw[densely dashed, grispizarra] (1.0,{\fx{1.0}}) -- (8.35,{\fx{1.0}});
+  \node[font=\small, text=azulprof, rotate=90, anchor=south] at (9.1,{(\fx{1.0}+\fx{7.6})/2}) {$f(b)-f(a)=\textstyle\sum\dif f$};
+  \draw[|<->|, grispizarra, line width=0.5pt] (8.5,{\fx{1.0}}) -- (8.5,{\fx{7.6}});
+  \draw[densely dashed, grispizarra] (7.6,{\fx{7.6}}) -- (8.5,{\fx{7.6}});
+  \draw[densely dashed, grispizarra] (1.0,{\fx{1.0}}) -- (8.5,{\fx{1.0}});
 \end{tikzpicture}
 \caption{Teorema fundamental del cálculo como suma de variaciones: la suma de
 los incrementos $\dif f$ (en rojo) sobre una partición de $[a,b]$ es el
@@ -151,7 +151,7 @@ continuo,
 
 \begin{proposicion}[Propiedades de la integral de línea]\label{prop:prop-linea}
 \begin{enumerate}[label=(\alph*)]
-  \item \emph{Linealidad:} $\int_C(\alpha\vc{F}+\beta\vc{G})\cdot\dl=\alpha\int_C\vc{F}\cdot\dl+\beta\int_C\vc{G}\cdot\dl$.
+  \item \emph{Linealidad:} $\displaystyle\int_C(\alpha\vc{F}+\beta\vc{G})\cdot\dl=\alpha\int_C\vc{F}\cdot\dl+\beta\int_C\vc{G}\cdot\dl$.
   \item \emph{Aditividad:} si $C=C_1\uplus C_2$ (la segunda curva empieza donde acaba la primera), $\int_C=\int_{C_1}+\int_{C_2}$.
   \item \emph{Cambio de orientación:} si $C^{\mathrm{op}}$ es la misma curva recorrida en sentido contrario, $\int_{C^{\mathrm{op}}}\vc{F}\cdot\dl=-\int_C\vc{F}\cdot\dl$.
   \item \emph{Invariancia por reparametrización:} si $\alpha:[a,b]\to C$ y
@@ -463,10 +463,10 @@ La fórmula es lineal en $\vc{A}$, así que basta probarla para campos paralelos
 a los ejes: sea $\vc{A}=R\,\uz$. Para el cubo unidad $V=[0,1]^{3}$, solo las
 tapas $z=1$ (normal $+\uz$) y $z=0$ (normal $-\uz$) contribuyen, pues en las
 otras cuatro caras $\vc{A}\cdot\un=0$:
-\[
-  \oiint_{\partial V}\vc{A}\cdot\dS=\int_0^1\!\!\int_0^1\bigl[R(x,y,1)-R(x,y,0)\bigr]\dif x\,\dif y
-  =\int_0^1\!\!\int_0^1\!\!\int_0^1\pd{R}{z}\,\dif z\,\dif x\,\dif y=\iiint_V\nab\cdot(R\,\uz)\,\dV ,
-\]
+\begin{align*}
+  \oiint_{\partial V}\vc{A}\cdot\dS&=\int_0^1\!\!\int_0^1\bigl[R(x,y,1)-R(x,y,0)\bigr]\dif x\,\dif y\\
+  &=\int_0^1\!\!\int_0^1\!\!\int_0^1\pd{R}{z}\,\dif z\,\dif x\,\dif y=\iiint_V\nab\cdot(R\,\uz)\,\dV ,
+\end{align*}
 donde se ha usado el teorema fundamental del cálculo en $z$. Para un sólido
 general se pega una malla de cubitos (o se cambia de variable): cada cara
 interior aparece dos veces con normales opuestas, y los flujos interiores se

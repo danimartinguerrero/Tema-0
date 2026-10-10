@@ -1,0 +1,40 @@
+% Figura: el gradiente sobre la superficie z=f(x,y): dirección de máximo ascenso
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[superficie, width=0.92\textwidth, height=0.66\textwidth,
+      xlabel={$x$}, ylabel={$y$}, zlabel={$z=f(x,y)$},
+      xmin=-2, xmax=2, ymin=-2, ymax=2, zmin=0, zmax=1.15,
+      xtick={-2,-1,0,1,2}, ytick={-2,-1,0,1,2}, ztick={0,0.5,1},
+      grid=major, grid style={grisclaro, very thin},
+      axis line style={azulprof!70}, every tick/.style={azulprof!70},
+      colormap name=campoclaro, point meta min=0, point meta max=1.3,
+      view={-38}{26}, clip=false]
+    % superficie con malla
+    \addplot3[surf, shader=faceted interp, faceted color=white!40!azulclaro, line width=0.25pt,
+              samples=30, domain=-2:2, opacity=0.78] {exp(-(x^2+y^2))};
+    % curva de nivel por P (f = e^{-0.89}) sobre la superficie y su proyección
+    \addplot3[acento, line width=1.1pt, domain=0:360, samples=90, samples y=0]
+      ({0.9434*cos(x)},{0.9434*sin(x)},{0.4107});
+    \addplot3[acento, densely dashed, line width=0.6pt, domain=0:360, samples=90, samples y=0]
+      ({0.9434*cos(x)},{0.9434*sin(x)},{0});
+    % P, su proyección y el gradiente (en el plano z=0)
+    \addplot3[only marks, mark=*, mark size=2pt, azulprof] coordinates {(0.8,0.5,0.4107)};
+    \addplot3[densely dotted, grispizarra, line width=0.6pt] coordinates {(0.8,0.5,0) (0.8,0.5,0.4107)};
+    \draw[-{Stealth[length=6pt]}, line width=1.6pt, acento] (axis cs:0.8,0.5,0) -- (axis cs:0.376,0.235,0);
+    % vector tangente a la superficie, de máximo ascenso
+    \draw[-{Stealth[length=6pt]}, line width=1.6pt, azulprof] (axis cs:0.8,0.5,0.4107) -- (axis cs:0.376,0.235,0.7977);
+    \node[font=\small, azulprof, anchor=east, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:-0.1,-0.05,1.0) {máximo ascenso};
+    \node[font=\small, azulprof, anchor=south west, fill=white, fill opacity=0.85, text opacity=1, inner sep=1pt] at (axis cs:0.85,0.5,0.45) {$P$};
+    \node[font=\small, acento, anchor=north east, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:0.3,0.1,0.0) {$\nab f(P)$};
+    \node[font=\small, acento, anchor=north west, fill=white, fill opacity=0.85, text opacity=1, inner sep=1.5pt] at (axis cs:-0.5,-1.9,0.0) {curva de nivel $f=c$};
+  \end{axis}
+\end{tikzpicture}
+\caption{Interpretación del gradiente sobre la superficie $z=f(x,y)$. En el
+punto $P$, la curva de nivel (en ocre) y el gradiente $\nab f(P)$ (en el plano
+del dominio) son perpendiculares. El vector tangente a la superficie con
+la misma proyección horizontal apunta en la dirección de máximo ascenso y su
+pendiente es $\norm{\nab f(P)}$. El gradiente \emph{no} apunta hacia abajo: en el
+plano $xy$ señala hacia donde $f$ aumenta, aquí hacia el origen.}
+\label{fig:gradiente-superficie}
+\end{figure}

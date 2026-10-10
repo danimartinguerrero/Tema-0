@@ -14,7 +14,7 @@
     \node[font=\small\scshape, anchor=south] at (0,2.15) {(a)\; $f(x,y)=\eul^{-(x^{2}+y^{2})}$};
   \end{scope}
   % (c) gradiente sobre el mapa
-  \begin{scope}[shift={(0,-5.4)}]
+  \begin{scope}[shift={(0,-6.1)}]
     \mapaGauss{%
       \flechas{-2*exp(-(\x*\x+\y*\y))*\x}{-2*exp(-(\x*\x+\y*\y))*\y}%
         {-2,-1.6,...,2}{-2,-1.6,...,2}{0.75}{0.86}}
@@ -23,24 +23,24 @@
 \end{tikzpicture}
 \hfill
 \begin{tikzpicture}
-  % (b) superficie
-  \begin{axis}[superficie, width=0.56\textwidth, height=0.46\textwidth, name=B,
-      xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
+  \pgfplotsset{gsup/.style={superficie, width=0.58\textwidth, height=0.48\textwidth,
+      xlabel={$x$}, ylabel={$y$}, zlabel={$f(x,y)$},
       xmin=-2, xmax=2, ymin=-2, ymax=2, zmin=0, zmax=1,
-      xtick={-2,0,2}, ytick={-2,0,2}, ztick={0,0.5,1},
+      xtick={-2,-1,0,1,2}, ytick={-2,-1,0,1,2}, ztick={0,0.5,1},
+      grid=major, grid style={grisclaro, very thin},
+      axis line style={azulprof!70}, every tick/.style={azulprof!70},
       view={-38}{26}, point meta min=0, point meta max=1,
-      title={\small\scshape (b)\; superficie $z=f(x,y)$}]
-    \addplot3[surf, shader=interp, samples=34, domain=-2:2, opacity=0.97] {exp(-(x^2+y^2))};
+      title style={yshift=3pt}}}
+  % (b) superficie con malla
+  \begin{axis}[gsup, name=B, title={\small\scshape (b)\; superficie $z=f(x,y)$}]
+    \addplot3[surf, shader=faceted interp, faceted color=white!85!azulclaro, line width=0.3pt,
+              samples=22, domain=-2:2, opacity=0.97] {exp(-(x^2+y^2))};
   \end{axis}
   % (d) gradiente sobre la superficie
-  \begin{axis}[superficie, width=0.56\textwidth, height=0.46\textwidth, at={(B.south)},
-      anchor=north, yshift=-1.4cm,
-      xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
-      xmin=-2, xmax=2, ymin=-2, ymax=2, zmin=0, zmax=1,
-      xtick={-2,0,2}, ytick={-2,0,2}, ztick={0,0.5,1},
-      view={-38}{26}, point meta min=0, point meta max=1,
+  \begin{axis}[gsup, at={(B.south)}, anchor=north, yshift=-2.4cm,
       title={\small\scshape (d)\; $\nab f$ sobre la superficie}]
-    \addplot3[surf, shader=interp, samples=34, domain=-2:2, opacity=0.55] {exp(-(x^2+y^2))};
+    \addplot3[surf, shader=faceted interp, faceted color=white!85!azulclaro, line width=0.3pt,
+              samples=22, domain=-2:2, opacity=0.55] {exp(-(x^2+y^2))};
     \addplot3[quiver={u={-1.1*x*exp(-(x^2+y^2))}, v={-1.1*y*exp(-(x^2+y^2))},
                       w={1.1*2*(x^2+y^2)*exp(-2*(x^2+y^2))}, colored=mapped color},
               -{Stealth[length=3pt]}, line width=0.6pt, point meta={2*sqrt(x^2+y^2)*exp(-(x^2+y^2))},

@@ -98,8 +98,10 @@ natural!
 
 \textbf{(b) Divergencia.} El campo $\vc{A}=\ur/r^{2}=\vc{r}/r^{3}$ tiene
 componentes cartesianas
-$\vc{A}=\dfrac{x\,\ux+y\,\uy+z\,\uz}{(x^{2}+y^{2}+z^{2})^{3/2}}$ (es, salvo signo,
-el campo $\nab f$ anterior). En cartesianas,
+\[
+  \vc{A}=\frac{x\,\ux+y\,\uy+z\,\uz}{(x^{2}+y^{2}+z^{2})^{3/2}}
+\]
+(es, salvo signo, el campo $\nab f$ anterior). En cartesianas,
 \[
   \nab\cdot\vc{A}=\pd{A_x}{x}+\pd{A_y}{y}+\pd{A_z}{z},
 \]
@@ -232,7 +234,9 @@ $\varepsilon_{ijk}(\partial_iA_j)B_k=(\nab\times\vc{A})_kB_k=\vc{B}\cdot(\nab\ti
 \emph{Segundo sumando.} Usamos antisimetría para reordenar:
 $\varepsilon_{ijk}=-\varepsilon_{jik}$, luego
 $\varepsilon_{ijk}\,\partial_iB_k=-\varepsilon_{jik}\,\partial_iB_k=-(\nab\times\vc{B})_j$, y
-$\varepsilon_{ijk}A_j(\partial_iB_k)=-A_j(\nab\times\vc{B})_j=-\vc{A}\cdot(\nab\times\vc{B})$.
+\[
+  \varepsilon_{ijk}A_j(\partial_iB_k)=-A_j(\nab\times\vc{B})_j=-\vc{A}\cdot(\nab\times\vc{B}).
+\]
 
 Sumando ambos resultados se obtiene la identidad pedida.
 \end{resolucion}
@@ -382,10 +386,10 @@ Parametrizamos con el ángulo polar, que es el parámetro natural:
 $x=R\cos\varphi$, $y=R\sen\varphi$, $\varphi\in[0,2\pi]$. Entonces
 $\dif x=-R\sen\varphi\,\dif\varphi$ y $\dif y=R\cos\varphi\,\dif\varphi$, y componiendo
 directamente sobre el integrando diferencial,
-\[
-  x\,\dif y-y\,\dif x=(R\cos\varphi)(R\cos\varphi)\,\dif\varphi-(R\sen\varphi)(-R\sen\varphi)\,\dif\varphi
-  =R^{2}(\cos^{2}\varphi+\sen^{2}\varphi)\,\dif\varphi=R^{2}\,\dif\varphi ,
-\]
+\begin{align*}
+  x\,\dif y-y\,\dif x&=(R\cos\varphi)(R\cos\varphi)\,\dif\varphi-(R\sen\varphi)(-R\sen\varphi)\,\dif\varphi\\
+  &=R^{2}(\cos^{2}\varphi+\sen^{2}\varphi)\,\dif\varphi=R^{2}\,\dif\varphi ,
+\end{align*}
 de donde
 \[
   \int_Cx\,\dif y-y\,\dif x=\int_{0}^{2\pi}R^{2}\,\dif\varphi=R^{2}\bigl[\varphi\bigr]_{0}^{2\pi}=\boxed{2\pi R^{2}} .
@@ -501,10 +505,10 @@ Como $\partial R/\partial x=(x-x')/R$ (\cref{eq:dR}), la regla de la cadena da
 Por tanto
 $\pd{}{x}\bigl[R^{n-1}(x-x')\bigr]=(n-1)R^{n-3}(x-x')^{2}+R^{n-1}$, y análogamente para
 $y$ y $z$:
-\[
-  \pd{}{y}\bigl[R^{n-1}(y-y')\bigr]=(n-1)R^{n-3}(y-y')^{2}+R^{n-1},\qquad
-  \pd{}{z}\bigl[R^{n-1}(z-z')\bigr]=(n-1)R^{n-3}(z-z')^{2}+R^{n-1}.
-\]
+\begin{align*}
+  \pd{}{y}\bigl[R^{n-1}(y-y')\bigr]&=(n-1)R^{n-3}(y-y')^{2}+R^{n-1},\\
+  \pd{}{z}\bigl[R^{n-1}(z-z')\bigr]&=(n-1)R^{n-3}(z-z')^{2}+R^{n-1}.
+\end{align*}
 Sumando los tres, y usando $(x-x')^{2}+(y-y')^{2}+(z-z')^{2}=R^{2}$,
 \[
   \nab\cdot\bigl(R^{n}\uR\bigr)=(n-1)\,R^{n-3}R^{2}+3R^{n-1}=(n-1)R^{n-1}+3R^{n-1}=\boxed{(n+2)\,R^{n-1}} .
@@ -646,11 +650,12 @@ $\vc{n}_\sigma=\partial_x\sigma\times\partial_y\sigma=\ux\times\uy=\uz$, compati
 elegida. \emph{El integrando:} evaluado sobre la superficie ($z=0$),
 $(\nab\times\vc{A})(\sigma(x,y))=(-2y,\,0,\,-x)$, y su producto escalar con la normal
 es $(\nab\times\vc{A})\cdot\uz=-x$. Por tanto
-\[
-  \iint_S(\nab\times\vc{A})\cdot\dS=\int_0^2\!\!\int_0^{-x+2}(-x)\,\dif y\,\dif x
-  =\int_0^2-x\bigl[y\bigr]_0^{-x+2}\dif x=\int_0^2(x^{2}-2x)\,\dif x
+\begin{align*}
+  \iint_S(\nab\times\vc{A})\cdot\dS&=\int_0^2\!\!\int_0^{-x+2}(-x)\,\dif y\,\dif x
+  =\int_0^2-x\bigl[y\bigr]_0^{-x+2}\dif x\\
+  &=\int_0^2(x^{2}-2x)\,\dif x
   =\Bigl[\frac{x^{3}}{3}-x^{2}\Bigr]_0^2=\frac83-4=-\frac43 .
-\]
+\end{align*}
 
 \textbf{2. Integral de línea (circulación).} Dividimos el contorno en tres tramos,
 $L=\Gamma_1\uplus\Gamma_2\uplus\Gamma_3$:

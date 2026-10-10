@@ -20,7 +20,7 @@
 \end{tikzpicture}\\[4pt]{\small\scshape (a)}\; $\dif f=\norm{\nab f}\,\norm{\dl}\cos\theta$
 \end{minipage}\hfill
 \begin{minipage}[t]{0.47\textwidth}\centering
-\begin{tikzpicture}[>=Stealth, baseline=(current bounding box.north)]
+\begin{tikzpicture}[>=Stealth, baseline=(current bounding box.north), scale=0.9, transform shape]
   \foreach \c/\pc in {1/100,2/65,3/35}{%
     \draw[azulprof!\pc!azulclaro, line width=0.9pt] (0,0) ellipse ({1.0*\c} and {0.5*\c});}
   \fill[azulprof] (0,0) circle (1.4pt);

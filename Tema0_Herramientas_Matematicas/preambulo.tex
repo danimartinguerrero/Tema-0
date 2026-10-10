@@ -15,6 +15,7 @@
 % --- TIPOGRAFÍA (Palatino, como el documento de referencia) ---------------
 \usepackage{mathpazo}
 \linespread{1.05}
+\emergencystretch=2em
 \usepackage[final]{microtype}
 
 % --- MATEMÁTICAS -------------------------------------------------------------
@@ -27,22 +28,24 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 % Paleta base (idéntica a la del informe de ecuaciones diferenciales)
-\definecolor{azulprof}{HTML}{1B365D}    % azul marino
-\definecolor{azulacero}{HTML}{3B6EA8}   % azul acero
-\definecolor{azulclaro}{HTML}{B7CBE3}   % azul hielo
-\definecolor{grispizarra}{HTML}{5B6770} % gris pizarra
-\definecolor{grisclaro}{HTML}{E4E8EC}   % gris perla
+\definecolor{azulprof}{HTML}{1F3A5F}    % azul oscuro (EDO)
+\definecolor{azulacero}{HTML}{3B6EA5}   % azul medio
+\definecolor{azulclaro}{HTML}{8FB3D9}   % azul claro
+\definecolor{azulfondo}{HTML}{F3F7FB}   % fondo tenue de definiciones
+\definecolor{grispizarra}{HTML}{6B7280} % gris
+\definecolor{grisclaro}{HTML}{D4D8DE}   % gris claro
+\definecolor{acento}{HTML}{B5651D}      % acento (ocre quemado)
 % Paleta ampliada para campos escalares y vectoriales (magnitud creciente:
-% índigo → púrpura → carmín → naranja → ámbar), sobria y legible en impresión
+% índigo -> púrpura -> carmín -> naranja -> ámbar)
 \definecolor{cm0}{RGB}{38,30,112}
 \definecolor{cm1}{RGB}{112,36,140}
 \definecolor{cm2}{RGB}{190,52,118}
 \definecolor{cm3}{RGB}{236,104,66}
 \definecolor{cm4}{RGB}{252,184,42}
-% Colores de apoyo para diagramas geométricos
-\definecolor{rojoteo}{HTML}{B3262E}     % trayectorias y circuitos
-\definecolor{verdeteo}{HTML}{2E8B57}    % vector unitario / normal
-\definecolor{ocreteo}{HTML}{C98A12}     % superficies y volúmenes
+% Colores de apoyo de los diagramas geométricos (tonos sobrios)
+\definecolor{rojoteo}{HTML}{B5651D}     % trayectorias, circuitos, resultados
+\definecolor{verdeteo}{HTML}{2F6F68}    % versores y normales
+\definecolor{ocreteo}{HTML}{8FB3D9}     % superficies y volúmenes (relleno)
 
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
@@ -58,7 +61,7 @@
 \pgfplotsset{colormap={campoclaro}{
   rgb255=(232,236,240) rgb255=(183,203,227) rgb255=(59,110,168) rgb255=(27,54,93)}}
 \pgfplotsset{colormap={verdeamarillo}{
-  rgb255=(120,200,70) rgb255=(190,220,80) rgb255=(250,225,100) rgb255=(250,190,90)}}
+  rgb255=(236,243,250) rgb255=(143,179,217) rgb255=(59,110,165) rgb255=(31,58,95)}}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
@@ -157,6 +160,7 @@
 %        ENTORNOS FORMALES (enunciados numerados, estilo artículo)
 % =========================================================================
 \usepackage{amsthm}
+\usepackage[most]{tcolorbox}
 
 % Enunciados en cursiva (resultados generales)
 \newtheoremstyle{cienplano}{10pt}{10pt}{\itshape}{}%
@@ -177,10 +181,27 @@
 \newtheorem{lema}[proposicion]{Lema}
 \newtheorem{corolario}[proposicion]{Corolario}
 \theoremstyle{ciendef}
-\newtheorem{definicion}[proposicion]{Definición}
 \newtheorem{notacion}[proposicion]{Notación}
 \newtheorem{ejemplo}[proposicion]{Ejemplo}
 \newtheorem{ejercicio}[proposicion]{Ejercicio}
+% Definiciones: único entorno enmarcado (como en el tema de EDO): caja fina con
+% fondo tenue y título sobre el borde. Comparte contador con los enunciados.
+\newcounter{definicion}
+\renewcommand{\thedefinicion}{\theproposicion}
+\newtcolorbox{definicionbox}[1]{%
+  enhanced, breakable, sharp corners,
+  colback=azulfondo, colframe=azulclaro, boxrule=0.4pt,
+  left=9pt, right=9pt, top=5pt, bottom=5pt,
+  before skip=10pt, after skip=10pt,
+  attach boxed title to top left={yshift*=-\tcboxedtitleheight/2, xshift=8pt},
+  boxed title style={colback=white, colframe=white, sharp corners, boxrule=0pt,
+                     left=3pt, right=3pt, top=1pt, bottom=1pt},
+  fonttitle=\bfseries\color{azulprof}, coltitle=azulprof,
+  title={Definición~\thedefinicion\ifx\relax#1\relax\else\ (#1)\fi}}
+\newenvironment{definicion}[1][]
+  {\stepcounter{proposicion}\refstepcounter{definicion}\begin{definicionbox}{#1}}
+  {\end{definicionbox}}
+
 \theoremstyle{cienobs}
 \newtheorem{observacion}[proposicion]{Observación}
 

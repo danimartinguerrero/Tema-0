@@ -1,9 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Portada — estilo artículo científico, motivo: curvas de nivel y campo
-% gradiente de f(x,y)=exp(-(x^2+y^2)).  Requiere (definidos en main.tex)
-% los colores azulprof, azulacero, azulclaro, grispizarra, grisclaro y las
+% Portada formal (estilo tesis): logotipos, identificación institucional,
+% título y datos de autoría. Banda vertical a la derecha, como en el
+% «Cálculo integral multivariable» de L. Navas. Requiere en main.tex las
 % macros \Universidad, \Facultad, \Titulacion, \Asignatura, \NumTema,
-% \TituloTema, \tipotrabajo, \miNombre, \miContenido, \miUbicacion.
+% \TituloTema, \SubtituloTema, \tipotrabajo, \miNombre, \miProfesor,
+% \miUbicacion.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{titlepage}
@@ -13,99 +14,56 @@
 \begin{tikzpicture}[remember picture, overlay]
   \coordinate (O) at (current page.south west);
 
-  % ----------------------------------------------------------------
-  % Motivo gráfico: curvas de nivel de f = exp(-rho^2/s^2) (equiespaciadas
-  % en f) y campo gradiente (flechas hacia el máximo, longitud ~ |grad f|).
-  % ----------------------------------------------------------------
-  \begin{scope}
-    \clip (O) rectangle ($(O)+(21cm,24.6cm)$);
-    % curvas de nivel
-    \foreach \k in {1,...,14}{
-      \pgfmathsetmacro{\fk}{\k/15}
-      \pgfmathsetmacro{\rr}{5.2*sqrt(-ln(\fk))}
-      \pgfmathsetmacro{\pc}{100-6.2*\k}
-      \pgfmathsetmacro{\lw}{0.25+0.045*\k}
-      \draw[azulprof!\pc!azulclaro, line width=\lw pt]
-        ($(O)+(14.2cm,17.2cm)$) circle (\rr cm);
-    }
-    % flechas del gradiente a lo largo de 24 rayos
-    \foreach \ang in {0,15,...,345}{
-      \foreach \rho in {1.6,2.9,4.3,6.1,8.3}{
-        \pgfmathsetmacro{\g}{(\rho/5.2)*exp(-(\rho/5.2)*(\rho/5.2))}
-        \pgfmathsetmacro{\len}{3.2*\g}
-        \pgfmathsetmacro{\pc}{30+250*\g}
-        \draw[-{Stealth[length=3.2pt,width=3pt]}, line width=0.5pt,
-              azulacero!\pc!azulclaro]
-          ($(O)+(14.2cm,17.2cm)+(\ang:\rho cm)$) -- ++(\ang+180:\len cm);
-      }
-    }
-    \fill[azulprof] ($(O)+(14.2cm,17.2cm)$) circle (2.2pt);
-  \end{scope}
+  % Velo muy tenue en la mitad superior (cabecera institucional)
+  \shade[top color=azulfondo, bottom color=white]
+    ($(O)+(0,18.5cm)$) rectangle ($(O)+(21cm,29.7cm)$);
 
-  % ----------------------------------------------------------------
-  % Cabecera: logotipos y filete
-  % ----------------------------------------------------------------
-  \node[anchor=north west, inner sep=0] at ($(O)+(2.2cm,27.9cm)$)
-    {\includegraphics[height=1.42cm]{logo_usal.png}};
-  \node[anchor=north east, inner sep=0] at ($(O)+(18.8cm,27.9cm)$)
-    {\includegraphics[height=1.42cm]{logo_facultad.png}};
-  \draw[grispizarra!60, line width=0.4pt]
-    ($(O)+(2.2cm,26.0cm)$) -- ($(O)+(18.8cm,26.0cm)$);
-  \node[anchor=north west, inner sep=0, text=grispizarra, font=\scshape\small]
-    at ($(O)+(2.2cm,25.75cm)$)
-    {\textls[80]{\Universidad\ \textbar\ \Facultad}};
-  \node[anchor=north east, inner sep=0, text=grispizarra, font=\scshape\small]
-    at ($(O)+(18.8cm,25.75cm)$)
-    {\textls[80]{\Titulacion}};
+  % Banda vertical azul, a la derecha del bloque de texto
+  \fill[azulacero] ($(O)+(19.0cm,2.6cm)$) rectangle ($(O)+(19.14cm,27.4cm)$);
 
-  % ----------------------------------------------------------------
-  % Bloque del título (sobre un velo blanco para que el motivo no tape el texto)
-  % ----------------------------------------------------------------
-  \shade[top color=white!0, bottom color=white, opacity=0.95]
-    ($(O)+(0,12.3cm)$) rectangle ($(O)+(21cm,13.4cm)$);
-  \fill[white, opacity=0.95] ($(O)+(0,5.35cm)$) rectangle ($(O)+(21cm,12.3cm)$);
+  % Logotipos
+  \node[anchor=north west, inner sep=0] at ($(O)+(2.4cm,27.7cm)$)
+    {\includegraphics[height=1.55cm]{logo_usal.png}};
+  \node[anchor=north east, inner sep=0] at ($(O)+(17.4cm,27.7cm)$)
+    {\includegraphics[height=1.55cm]{logo_facultad.png}};
+  \draw[grispizarra!60, line width=0.4pt] ($(O)+(2.4cm,25.7cm)$) -- ($(O)+(17.4cm,25.7cm)$);
 
-  % Perfil de f a lo largo de un diámetro, como filete ondulado
-  \begin{scope}[shift={(O)}]
-    \draw[azulacero, line width=0.9pt, domain=2.2:18.8, samples=300, smooth]
-      plot ({\x}, {12.72 + 0.62*exp(-((\x-10.5)/2.4)^2)});
-  \end{scope}
+  % Identificación institucional
+  \node[anchor=north, align=center, inner sep=0, text width=15cm] at ($(O)+(9.9cm,25.2cm)$)
+    {{\color{azulprof}\scshape\Large\textls[120]{\Universidad}}\\[5pt]
+     {\color{grispizarra}\scshape\large\textls[80]{\Facultad}}\\[3pt]
+     {\color{grispizarra}\scshape\large\textls[80]{\Titulacion}}};
 
-  \node[anchor=north west, inner sep=0, text width=16.6cm, align=left]
-    at ($(O)+(2.2cm,12.0cm)$)
-    {{\color{azulacero}\scshape\large\textls[120]{\Asignatura\ \textbar\ \NumTema}}\\[12pt]
-     {\color{azulprof}\fontsize{35}{39}\selectfont\bfseries\TituloTema}\\[14pt]
-     {\color{azulacero}\rule{2.5cm}{1.4pt}}\\[9pt]
-     {\color{grispizarra}\itshape\large
-      $\displaystyle \int_{\vc{a}}^{\vc{b}}\nab f\cdot\dl \;=\; f(\vc{b})-f(\vc{a})$}};
+  % Asignatura y título
+  \node[anchor=north, align=center, inner sep=0, text width=15cm] at ($(O)+(9.9cm,19.2cm)$)
+    {{\color{azulacero}\scshape\Large\textls[160]{\Asignatura}}\\[4pt]
+     {\color{grispizarra}\scshape\large\textls[100]{\NumTema}}\\[22pt]
+     {\color{azulprof}\fontsize{34}{40}\selectfont\bfseries\TituloTema}\\[14pt]
+     {\color{azulacero}\rule{3.2cm}{0.8pt}}\\[14pt]
+     {\color{black!80}\itshape\large\SubtituloTema}};
 
-  % ----------------------------------------------------------------
-  % Pie: tipo de trabajo, autor, contenidos, lugar y fecha
-  % ----------------------------------------------------------------
-  \draw[grispizarra!60, line width=0.4pt]
-    ($(O)+(2.2cm,5.1cm)$) -- ($(O)+(18.8cm,5.1cm)$);
+  % Epígrafe: los tres teoremas integrales del tema
+  \node[anchor=north, align=center, inner sep=0, text width=15cm] at ($(O)+(9.9cm,10.4cm)$)
+    {\color{grispizarra}\small
+     $\displaystyle\int_{\vc{a}}^{\vc{b}}\nab f\cdot\dl=f(\vc{b})-f(\vc{a})\qquad
+      \iint_{S}(\nab\times\vc{A})\cdot\dS=\oint_{\partial S}\vc{A}\cdot\dl\qquad
+      \iiint_{V}\nab\cdot\vc{A}\,\dV=\oiint_{\partial V}\vc{A}\cdot\dS$};
 
-  \node[anchor=north west, inner sep=0, text width=4.6cm, align=left]
-    at ($(O)+(2.2cm,4.75cm)$)
-    {{\scshape\small\color{azulacero}\textls[80]{Documento}}\\[3pt]
-     {\large\bfseries\color{azulprof}\tipotrabajo}};
+  % Autoría y dirección
+  \draw[grispizarra!60, line width=0.4pt] ($(O)+(2.4cm,7.6cm)$) -- ($(O)+(17.4cm,7.6cm)$);
+  \node[anchor=north west, inner sep=0, text width=7cm, align=left] at ($(O)+(2.4cm,7.2cm)$)
+    {{\scshape\small\color{azulacero}\textls[80]{Autor}}\\[4pt]
+     {\large\color{black!85}\miNombre}\\[2pt]
+     {\small\color{grispizarra}Grado en Física}};
+  \node[anchor=north west, inner sep=0, text width=7cm, align=left] at ($(O)+(10.4cm,7.2cm)$)
+    {{\scshape\small\color{azulacero}\textls[80]{Profesor}}\\[4pt]
+     {\large\color{black!85}\miProfesor}\\[2pt]
+     {\small\color{grispizarra}\Asignatura}};
 
-  \node[anchor=north west, inner sep=0, text width=5.6cm, align=left]
-    at ($(O)+(7.2cm,4.75cm)$)
-    {{\scshape\small\color{azulacero}\textls[80]{Autor}}\\[3pt]
-     {\large\color{black!85}\miNombre}};
-
-  \node[anchor=north west, inner sep=0, text width=5cm, align=left]
-    at ($(O)+(13.8cm,4.75cm)$)
-    {{\scshape\small\color{azulacero}\textls[80]{Profesor}}\\[3pt]
-     {\large\color{black!85}\miContenido}};
-
-  \node[anchor=south east, inner sep=0, text=grispizarra, font=\scshape\small]
-    at ($(O)+(18.8cm,1.45cm)$)
-    {\textls[100]{\miUbicacion}};
-  \fill[azulprof] ($(O)+(0,0)$) rectangle ($(O)+(21cm,0.45cm)$);
-  \fill[azulacero] ($(O)+(0,0)$) rectangle ($(O)+(7cm,0.45cm)$);
-  \fill[azulclaro] ($(O)+(0,0)$) rectangle ($(O)+(3cm,0.45cm)$);
+  % Tipo de documento, lugar y curso
+  \node[anchor=south, align=center, inner sep=0, text width=15cm] at ($(O)+(9.9cm,2.9cm)$)
+    {{\color{azulprof}\scshape\large\textls[100]{\tipotrabajo}}\\[4pt]
+     {\color{grispizarra}\scshape\small\textls[80]{\miUbicacion}}};
 \end{tikzpicture}
 
 \end{titlepage}

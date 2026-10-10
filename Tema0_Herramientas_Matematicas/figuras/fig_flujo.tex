@@ -10,7 +10,7 @@
       /pgf/number format/use comma, clip=false]
     % campo por debajo de la superficie
     \addplot3[quiver={u=0.34, v=0.18, w=0.80}, -{Stealth[length=3pt]}, line width=0.7pt,
-              rojoteo!80!black, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
+              acento, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
       {-1.2};
     % superficie
     \addplot3[surf, shader=interp, samples=28, samples y=22, domain=-2.5:2.5, domain y=-1.8:1.8,
@@ -18,16 +18,16 @@
       {0.85*sin(deg(1.25*x))*cos(deg(0.5*y))+0.12*y};
     % campo por encima de la superficie
     \addplot3[quiver={u=0.34, v=0.18, w=0.80}, -{Stealth[length=3pt]}, line width=0.7pt,
-              rojoteo!80!black, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
+              acento, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
       {1.0};
-    \node[font=\small, text=rojoteo!80!black] at (axis cs:2.6,0.3,1.9) {$\vc{A}$};
+    \node[font=\small, text=acento] at (axis cs:2.6,0.3,1.9) {$\vc{A}$};
     \node[font=\small, text=black!80, fill=white, fill opacity=0.7, text opacity=1, inner sep=1pt] at (axis cs:-2.0,-1.2,-0.5) {$S$};
   \end{axis}
 \end{tikzpicture}\\[2pt]{\small\scshape (a)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.40\textwidth}\centering
 \begin{tikzpicture}[>=Stealth, x=1cm, y=1cm, baseline=(current bounding box.north)]
-  \shade[top color=green!55!lime!85, bottom color=yellow!70!orange!70, shading angle=0]
+  \shade[top color=azulclaro!55, bottom color=azulfondo, shading angle=0]
     (0,0) -- (3.4,0) -- (2.7,1.1) -- (-0.7,1.1) -- cycle;
   \draw[grispizarra!70, line width=0.4pt] (0,0) -- (3.4,0) -- (2.7,1.1) -- (-0.7,1.1) -- cycle;
   \coordinate (O) at (1.35,0.55);
