@@ -1,0 +1,24 @@
+% Figura: tensor de Levi-Civita como orientación cíclica
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm]
+  \foreach \i/\ang in {1/90,2/-30,3/210}{%
+    \node[circle, draw=azulprof, fill=azulclaro!50, minimum size=0.8cm, font=\large, text=azulprof] (n\i) at (\ang:1.5) {\i};}
+  \draw[->, line width=1.4pt, azulprof] (n1) to[bend left=18] (n2);
+  \draw[->, line width=1.4pt, azulprof] (n2) to[bend left=18] (n3);
+  \draw[->, line width=1.4pt, azulprof] (n3) to[bend left=18] (n1);
+  \node[font=\small, text=azulprof, align=center] at (0,0) {sentido\\ cíclico};
+  \node[anchor=west, align=left, font=\small] at (2.6,0.55)
+     {$\textcolor{azulprof}{\varepsilon_{123}=\varepsilon_{231}=\varepsilon_{312}=+1}$\quad(a favor de las flechas)};
+  \node[anchor=west, align=left, font=\small] at (2.6,-0.15)
+     {$\textcolor{rojoteo}{\varepsilon_{132}=\varepsilon_{213}=\varepsilon_{321}=-1}$\quad(en contra)};
+  \node[anchor=west, align=left, font=\small] at (2.6,-0.85)
+     {$\textcolor{grispizarra}{\varepsilon_{112}=\varepsilon_{233}=\varepsilon_{121}=\cdots=0}$\quad(índices repetidos)};
+\end{tikzpicture}
+\caption{El tensor de Levi-Civita codifica la orientación: es $+1$ si los
+índices recorren $1,2,3$ en el sentido cíclico de las flechas, $-1$ si lo hacen
+en sentido contrario y $0$ si algún índice se repite. Así, $\vc{A}\times\vc{B}$
+con $(\vc{A}\times\vc{B})_i=\varepsilon_{ijk}A_jB_k$ reproduce
+$\ux\times\uy=\uz$ y los demás productos de la base.}
+\label{fig:levi}
+\end{figure}

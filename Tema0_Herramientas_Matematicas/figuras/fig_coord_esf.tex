@@ -1,0 +1,34 @@
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{72}{120}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.45]
+  \def\rr{3.0}\def\th{52}\def\ph{38}
+  \pgfmathsetmacro{\px}{\rr*sin(\th)*cos(\ph)}\pgfmathsetmacro{\py}{\rr*sin(\th)*sin(\ph)}\pgfmathsetmacro{\pz}{\rr*cos(\th)}
+  \draw[eje] (0,0,0) -- (3.5,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.7,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.5) node[above] {\small $z$};
+  % casquete esférico
+  \fill[ocreteo, opacity=0.20]
+    plot[variable=\t, domain=0:90, samples=10] ({\rr*sin(\t)*cos(-10)},{\rr*sin(\t)*sin(-10)},{\rr*cos(\t)})
+    -- plot[variable=\t, domain=-10:100, samples=14] ({\rr*cos(\t)},{\rr*sin(\t)},0)
+    -- plot[variable=\t, domain=90:0, samples=10] ({\rr*sin(\t)*cos(100)},{\rr*sin(\t)*sin(100)},{\rr*cos(\t)}) -- cycle;
+  \draw[punteado] (0,0,0) -- (\px,\py,0) -- (\px,\py,\pz);
+  \draw[->, line width=1.5pt, azulprof] (0,0,0) -- (\px,\py,\pz);
+  \node[azulprof, font=\small] at ({0.45*\px+0.25},{0.45*\py-0.1},{0.45*\pz+0.25}) {$\vc{r}$};
+  % arcos de theta y phi
+  \draw[grispizarra, line width=0.5pt] plot[variable=\t, domain=0:\th, samples=8]
+        ({1.0*sin(\t)*cos(\ph)},{1.0*sin(\t)*sin(\ph)},{1.0*cos(\t)});
+  \node[font=\scriptsize] at ({1.35*sin(\th/2)*cos(\ph)},{1.35*sin(\th/2)*sin(\ph)},{1.35*cos(\th/2)}) {$\theta$};
+  \draw[grispizarra, line width=0.5pt] plot[variable=\t, domain=0:\ph, samples=8] ({1.0*cos(\t)},{1.0*sin(\t)},0);
+  \node[font=\scriptsize] at ({1.35*cos(\ph/2)},{1.35*sin(\ph/2)},0) {$\varphi$};
+  \uvect{\px}{\py}{\pz}{({0.95*sin(\th)*cos(\ph)},{0.95*sin(\th)*sin(\ph)},{0.95*cos(\th)})}{above}
+  \uvect{\px}{\py}{\pz}{({0.95*cos(\th)*cos(\ph)},{0.95*cos(\th)*sin(\ph)},{-0.95*sin(\th)})}{below}
+  \uvect{\px}{\py}{\pz}{({-0.95*sin(\ph)},{0.95*cos(\ph)},0)}{right}
+  \node[rojoteo, font=\scriptsize] at ({\px+1.2*sin(\th)*cos(\ph)},{\py+1.2*sin(\th)*sin(\ph)},{\pz+1.2*cos(\th)}) {$\ur$};
+  \node[rojoteo, font=\scriptsize] at ({\px+1.25*cos(\th)*cos(\ph)},{\py+1.25*cos(\th)*sin(\ph)},{\pz-1.25*sin(\th)}) {$\uth$};
+  \node[rojoteo, font=\scriptsize] at ({\px-1.2*sin(\ph)},{\py+1.2*cos(\ph)},\pz) {$\uph$};
+  \fill[azulprof] (\px,\py,\pz) circle (1.8pt);
+\end{tikzpicture}
+\caption{Coordenadas esféricas $(r,\theta,\varphi)$. El versor $\ur$ es radial, $\uth$ apunta hacia la dirección en que aumenta $\theta$ (hacia el sur) y $\uph$ es el mismo versor azimutal de las cilíndricas. El casquete es la superficie $r=\text{cte}$; el vector de posición es $\vc{r}=r\,\ur$.}
+\label{fig:coord-esf}
+\end{figure}

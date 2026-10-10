@@ -1,0 +1,27 @@
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{72}{120}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.45]
+  \def\px{1.8}\def\py{2.3}\def\pz{2.1}
+  \draw[eje] (0,0,0) -- (3.3,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.6,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.2) node[above] {\small $z$};
+  \fill[ocreteo, opacity=0.18] (0,0,0) -- (3.0,0,0) -- (3.0,3.2,0) -- (0,3.2,0) -- cycle;
+  \draw[punteado] (\px,0,0) -- (\px,\py,0) -- (0,\py,0) (\px,\py,0) -- (\px,\py,\pz);
+  \draw[punteado] (0,0,\pz) -- (\px,0,\pz) -- (\px,\py,\pz) (0,\py,0) -- (0,\py,\pz) -- (\px,\py,\pz);
+  \draw[->, line width=1.5pt, azulprof] (0,0,0) -- (\px,\py,\pz);
+  \node[azulprof, font=\small] at (0.55,0.5,1.6) {$\vc{r}$};
+  \uvect{\px}{\py}{\pz}{(0.95,0,0)}{right}
+  \uvect{\px}{\py}{\pz}{(0,0.95,0)}{right}
+  \uvect{\px}{\py}{\pz}{(0,0,0.95)}{above}
+  \node[rojoteo, font=\scriptsize] at (3.15,2.1,1.7) {$\ux$};
+  \node[rojoteo, font=\scriptsize] at (2.0,3.15,1.7) {$\uy$};
+  \node[rojoteo, font=\scriptsize] at (2.0,2.1,2.95) {$\uz$};
+  \fill[azulprof] (\px,\py,\pz) circle (1.8pt);
+  \node[font=\scriptsize] at (\px,-0.25,0) {$x$};
+  \node[font=\scriptsize] at (-0.25,\py,0) {$y$};
+  \node[font=\scriptsize] at (0,-0.15,\pz) {$z$};
+\end{tikzpicture}
+\caption{Coordenadas cartesianas $(x,y,z)$ y su base ortonormal constante $(\ux,\uy,\uz)$ en un punto $P$ de vector de posición $\vc{r}=x\,\ux+y\,\uy+z\,\uz$. Las líneas discontinuas muestran las proyecciones de $P$ sobre los ejes y los planos coordenados.}
+\label{fig:coord-cart}
+\end{figure}

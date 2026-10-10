@@ -1,0 +1,42 @@
+% Figura: verificación del teorema del gradiente por dos caminos
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{62}{112}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.9]
+  \draw[eje] (0,0,0) -- (2.8,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,2.8,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,2.8) node[above] {\small $z$};
+  % cota de referencia: aristas del cubo
+  \draw[punteado] (2,0,0) -- (2,2,0) -- (0,2,0) (2,2,0) -- (2,2,2) (2,0,0) -- (2,0,2) -- (2,2,2) (0,2,0) -- (0,2,2) -- (2,2,2) (0,0,2) -- (2,0,2) (0,0,2) -- (0,2,2);
+  % camino 1: segmento recto
+  \draw[line width=1.6pt, rojoteo] (0,0,0) -- (2,2,2);
+  \draw[->, line width=1.6pt, rojoteo] (0.9,0.9,0.9) -- (1.05,1.05,1.05);
+  % camino 2: poligonal por los ejes
+  \draw[line width=1.6pt, azulprof] (0,0,0) -- (2,0,0) -- (2,2,0) -- (2,2,2);
+  \draw[->, line width=1.6pt, azulprof] (0.9,0,0) -- (1.1,0,0);
+  \draw[->, line width=1.6pt, azulprof] (2,0.9,0) -- (2,1.1,0);
+  \draw[->, line width=1.6pt, azulprof] (2,2,0.9) -- (2,2,1.1);
+  % gradiente grad f = (y^2, 2xy, 0) sobre C_y y sobre el camino 1
+  \foreach \t in {0.4,0.8,1.2,1.6}{%
+    \pgfmathsetmacro{\gx}{\t*\t}\pgfmathsetmacro{\gy}{4*\t}\pgfmathsetmacro{\gn}{sqrt(\gx*\gx+\gy*\gy)}
+    \mapcolor{\gn/6.6}%
+    \draw[-{Stealth[length=4pt]}, line width=0.9pt, mapc] (2,\t,0) -- ++({0.09*\gx},{0.09*\gy},0);}
+  \foreach \t in {0.4,0.8,1.2,1.6}{%
+    \pgfmathsetmacro{\gx}{\t*\t}\pgfmathsetmacro{\gy}{2*\t*\t}\pgfmathsetmacro{\gn}{sqrt(\gx*\gx+\gy*\gy)}
+    \mapcolor{\gn/6.6}%
+    \draw[-{Stealth[length=4pt]}, line width=0.9pt, mapc] (\t,\t,\t) -- ++({0.09*\gx},{0.09*\gy},0);}
+  \fill[azulprof] (0,0,0) circle (2.2pt) node[below left, text=black] {\small $\vc{a}=(0,0,0)$};
+  \fill[azulprof] (2,2,2) circle (2.2pt) node[above right, text=black] {\small $\vc{b}=(2,2,2)$};
+  \node[font=\small, text=rojoteo, anchor=east] at (0.85,0.55,1.05) {$\gamma_1$};
+  \node[font=\small, text=azulprof] at (1,-0.25,0) {$C_x$};
+  \node[font=\small, text=azulprof, anchor=west] at (2.15,1.1,0) {$C_y$};
+  \node[font=\small, text=azulprof, anchor=west] at (2.12,2,1.0) {$C_z$};
+\end{tikzpicture}
+\caption{Verificación del teorema del gradiente para $f=xy^{2}$ entre
+$\vc{a}=(0,0,0)$ y $\vc{b}=(2,2,2)$. En rojo, el segmento $\gamma_1$; en azul, la
+ruta escalonada $\gamma_2=C_x\uplus C_y\uplus C_z$. Se dibuja también
+$\nab f=(y^{2},2xy,0)$ (color según su módulo): en $C_x$ es nulo y en $C_z$ es
+perpendicular al camino, de modo que el incremento $f=0\to8$ lo aporta solo
+$C_y$. Ambos caminos dan $\int\nab f\cdot\dl=8$.}
+\label{fig:sem-trayectorias}
+\end{figure}

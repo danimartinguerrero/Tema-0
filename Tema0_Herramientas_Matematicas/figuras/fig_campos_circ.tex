@@ -1,0 +1,28 @@
+% Figura: campos de rotacional uniforme y dos circuitos iguales en posiciones distintas.
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.47\textwidth}\centering
+\begin{tikzpicture}[x=0.74cm, y=0.74cm, baseline=(current bounding box.north)]
+  \marcoD{-2.7}{2.7}{-2.7}{2.7}{-2,-1,0,1,2}{-2,-1,0,1,2}
+  \ejesD{-2.7}{2.7}{-2.7}{2.7}
+  \clipD{-2.7}{2.7}{-2.7}{2.7}{\flechas{\y}{-\x}{-2.4,-1.8,...,2.4}{-2.4,-1.8,...,2.4}{0.34}{3.4}}
+  \circuitoC{-0.7}{0.7}{-0.45}{0.55}
+  \circuitoC{-0.7}{0.7}{-2.0}{-1.0}
+\end{tikzpicture}\\[3pt]{\small $\vc{F}=y\,\ux-x\,\uy$,\quad $\nab\times\vc{F}=-2\,\uz$}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}\centering
+\begin{tikzpicture}[x=0.74cm, y=0.74cm, baseline=(current bounding box.north)]
+  \marcoD{-2.7}{2.7}{-2.7}{2.7}{-2,-1,0,1,2}{-2,-1,0,1,2}
+  \ejesD{-2.7}{2.7}{-2.7}{2.7}
+  \clipD{-2.7}{2.7}{-2.7}{2.7}{\flechas{\y}{0}{-2.4,-1.8,...,2.4}{-2.4,-1.8,...,2.4}{0.34}{2.5}}
+  \circuitoC{-0.7}{0.7}{-0.45}{0.55}
+  \circuitoC{-0.7}{0.7}{-2.0}{-1.0}
+\end{tikzpicture}\\[3pt]{\small $\vc{F}=y\,\ux$,\quad $\nab\times\vc{F}=-\uz$}
+\end{minipage}
+\caption{Campos de rotacional uniforme y dos circuitos rectangulares iguales
+(área $1{,}4$, recorridos en sentido horario) en posiciones distintas. Aunque
+el campo es muy diferente sobre uno y otro circuito, la circulación es la misma
+en ambos: $2{,}8$ para $\vc{F}=y\,\ux-x\,\uy$ y $1{,}4$ para $\vc{F}=y\,\ux$.
+Solo depende del rotacional y del área encerrada.}
+\label{fig:campos_circ}
+\end{figure}

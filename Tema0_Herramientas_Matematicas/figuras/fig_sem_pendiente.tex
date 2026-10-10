@@ -1,0 +1,33 @@
+% Figura: pendiente máxima de la campana gaussiana
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.52\textwidth}\centering
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+  \begin{axis}[tema, width=\textwidth, height=5.8cm, xlabel={$r$}, xmin=0, xmax=3, ymin=0, ymax=1.12,
+      samples=120, domain=0:3, xtick={0,0.5,0.707,1,1.5,2,3}, xticklabels={0,0{,}5,$\tfrac{1}{\sqrt2}$,1,1{,}5,2,3},
+      legend style={at={(0.98,0.97)}, anchor=north east}]
+    \addplot[azulacero, line width=1.1pt] {exp(-x^2)};
+    \addplot[rojoteo, line width=1.1pt] {2*x*exp(-x^2)};
+    \addplot[grispizarra, densely dashed, line width=0.6pt] coordinates {(0.7071,0) (0.7071,0.858)};
+    \addplot[only marks, mark=*, mark size=2pt, rojoteo] coordinates {(0.7071,0.8578)};
+    \node[font=\scriptsize, rojoteo, anchor=west] at (axis cs:0.78,0.98) {máximo: $\sqrt2\,\eul^{-1/2}\approx0{,}858$};
+    \legend{$f(r)=\eul^{-r^{2}}$, $\norm{\nab f}=g(r)=2r\,\eul^{-r^{2}}$}
+  \end{axis}
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.44\textwidth}\centering
+\begin{tikzpicture}[x=0.78cm, y=0.78cm, baseline=(current bounding box.north)]
+  \mapaGauss{%
+    \draw[white, dashed, line width=1.1pt] (0,0) circle (0.7071);
+    \foreach \a in {0,45,...,315}{%
+      \draw[-{Stealth[length=4pt]}, line width=0.9pt, white] ({0.7071*cos(\a)},{0.7071*sin(\a)}) -- ++({-0.62*cos(\a)},{-0.62*sin(\a)});}
+    \node[white, font=\scriptsize, fill=cm0, fill opacity=0.6, text opacity=1, inner sep=1pt] at (1.45,1.45) {$r=\tfrac{1}{\sqrt2}$};}
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}
+\caption{Pendiente máxima de $f=\eul^{-(x^{2}+y^{2})}$. (a)~Perfil radial $f(r)$ y
+módulo de su gradiente $g(r)=\norm{\nab f}$, que crece desde cero en el origen,
+alcanza su máximo en $r=1/\sqrt2$ y decae. (b)~Sobre el mapa de calor, la
+circunferencia $r=1/\sqrt2$ (discontinua) es el lugar geométrico de máxima
+pendiente; las flechas son $\nab f$ allí.}
+\label{fig:sem-pendiente}
+\end{figure}

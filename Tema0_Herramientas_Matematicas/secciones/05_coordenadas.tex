@@ -1,0 +1,274 @@
+% =========================================================================
+\section{Sistemas de coordenadas y operadores diferenciales}\label{sec:coordenadas}
+% =========================================================================
+Las leyes del electromagnetismo no dependen de los ejes que elijamos, pero los
+\emph{cálculos} sí: ante una distribución con simetría esférica o cilíndrica,
+lo inteligente es usar coordenadas adaptadas a esa simetría. En esta sección
+repasamos los tres sistemas ortogonales fundamentales (cartesiano, cilíndrico y
+esférico) con sus elementos de línea, de área y de volumen, sus cambios de base,
+y los cuatro operadores diferenciales en cada uno de ellos~\cite{FORMULARIO}.
+Los obtenemos todos a la vez a partir de un marco general.
+
+% -------------------------------------------------------------------------
+\subsection{Coordenadas curvilíneas ortogonales}\label{sec:curvilineas}
+% -------------------------------------------------------------------------
+Un sistema de coordenadas curvilíneas $(q_1,q_2,q_3)$ viene dado por el
+vector de posición $\vc{r}=\vc{r}(q_1,q_2,q_3)$. Variando solo $q_i$ se
+recorre la \emph{línea coordenada} $i$, cuya tangente es $\partial\vc{r}/\partial q_i$.
+
+\begin{definicion}[Coordenadas ortogonales y factores de escala]\label{def:ortogonales}
+El sistema es \emph{ortogonal} si los tres vectores $\partial\vc{r}/\partial q_i$
+son perpendiculares dos a dos. Se definen entonces los \emph{factores de escala}
+$h_i$ y los versores $\uh{i}$ por
+\[
+  h_i\defeq\Bigl\lVert\pd{\vc{r}}{q_i}\Bigr\rVert,
+  \qquad
+  \uh{i}\defeq\frac{1}{h_i}\pd{\vc{r}}{q_i},
+\]
+y $(\uh{1},\uh{2},\uh{3})$ es una base ortonormal \emph{local} (depende del
+punto), que supondremos orientada a derechas: $\uh{1}\times\uh{2}=\uh{3}$.
+\end{definicion}
+
+El factor $h_i$ convierte un incremento de la coordenada, $\dif q_i$, en una
+\emph{longitud} $h_i\,\dif q_i$ (por ejemplo, $\dif\varphi$ es un ángulo y
+$\rho\,\dif\varphi$ un arco). De ahí se obtienen los elementos geométricos.
+
+\begin{proposicion}[Elementos de línea, área y volumen]\label{prop:elementos}
+En coordenadas ortogonales,
+\begin{align}
+  \dl&=h_1\,\dif q_1\,\uh{1}+h_2\,\dif q_2\,\uh{2}+h_3\,\dif q_3\,\uh{3}, \label{eq:dl-gen}\\
+  \dif S_i&=h_jh_k\,\dif q_j\,\dif q_k\quad(i,j,k\ \text{cíclicos}), \label{eq:dS-gen}\\
+  \dV&=h_1h_2h_3\,\dif q_1\,\dif q_2\,\dif q_3, \label{eq:dV-gen}
+\end{align}
+donde $\dif S_i$ es el área de la cara del elemento de volumen perpendicular a
+$\uh{i}$ (a $q_i$ constante). El jacobiano del cambio de variable
+$(q_1,q_2,q_3)\mapsto(x,y,z)$ es
+$\bigl|\partial(x,y,z)/\partial(q_1,q_2,q_3)\bigr|=h_1h_2h_3$.
+\end{proposicion}
+\begin{proof}
+Al variar $q_i$ en $\dif q_i$ el punto se desplaza
+$(\partial\vc{r}/\partial q_i)\dif q_i=h_i\,\dif q_i\,\uh{i}$, y el desplazamiento
+total es la suma, \cref{eq:dl-gen}. El elemento de volumen es el paralelepípedo
+rectangular de aristas $h_i\,\dif q_i$, lo que da \eqref{eq:dV-gen}, y cada cara es
+el rectángulo de las otras dos aristas, \cref{eq:dS-gen}. El jacobiano es el
+determinante de la matriz cuyas columnas son $\partial\vc{r}/\partial q_i=h_i\uh{i}$,
+que, por ser ortogonales, vale el producto de sus longitudes.
+\end{proof}
+
+\begin{teorema}[Operadores diferenciales en coordenadas ortogonales]\label{teo:operadores-ortogonales}
+Sean $f$ un campo escalar y $\vc{A}=A_1\uh{1}+A_2\uh{2}+A_3\uh{3}$ un campo vectorial.
+Con $\partial_i\equiv\partial/\partial q_i$ y $H=h_1h_2h_3$,
+\begin{align}
+  \nab f&=\sum_{i=1}^{3}\frac{1}{h_i}\,\partial_if\;\uh{i}, \label{eq:grad-gen}\\
+  \nab\cdot\vc{A}&=\frac{1}{H}\Bigl[\partial_1(h_2h_3A_1)+\partial_2(h_3h_1A_2)+\partial_3(h_1h_2A_3)\Bigr], \label{eq:div-gen}\\
+  \nab\times\vc{A}&=\frac{1}{H}
+  \begin{vmatrix}
+    h_1\uh{1} & h_2\uh{2} & h_3\uh{3}\\
+    \partial_1 & \partial_2 & \partial_3\\
+    h_1A_1 & h_2A_2 & h_3A_3
+  \end{vmatrix}, \label{eq:rot-gen}\\
+  \Lap f&=\frac{1}{H}\Bigl[\partial_1\Bigl(\frac{h_2h_3}{h_1}\partial_1f\Bigr)
+     +\partial_2\Bigl(\frac{h_3h_1}{h_2}\partial_2f\Bigr)
+     +\partial_3\Bigl(\frac{h_1h_2}{h_3}\partial_3f\Bigr)\Bigr]. \label{eq:lap-gen}
+\end{align}
+\end{teorema}
+\begin{proof}
+\emph{Gradiente.} Por un lado $\dif f=\sum_i\partial_if\,\dif q_i$; por otro, por
+la \cref{eq:df-compacta} y la \cref{eq:dl-gen},
+$\dif f=\nab f\cdot\dl=\sum_i(\nab f)_i\,h_i\,\dif q_i$. Comparando coeficientes de los
+$\dif q_i$ independientes, $(\nab f)_i=\partial_if/h_i$.
+
+\emph{Divergencia.} Usamos la \cref{prop:div-intrinseca} sobre el elemento de
+volumen curvilíneo. El flujo por las dos caras perpendiculares a $\uh{1}$ (de
+área $h_2h_3\,\dif q_2\,\dif q_3$, evaluada en $q_1$ y en $q_1+\dif q_1$) es
+\[
+  \bigl[A_1h_2h_3\bigr]_{q_1+\dif q_1}\dif q_2\dif q_3-\bigl[A_1h_2h_3\bigr]_{q_1}\dif q_2\dif q_3
+  \approx\partial_1(h_2h_3A_1)\,\dif q_1\dif q_2\dif q_3 ,
+\]
+y análogamente para las otras dos parejas de caras. Dividiendo el flujo total
+por $\dV=H\,\dif q_1\dif q_2\dif q_3$ se obtiene \eqref{eq:div-gen}.
+
+\emph{Rotacional.} Usamos la \cref{prop:vorticidad} sobre la cara perpendicular a
+$\uh{1}$, de área $h_2h_3\,\dif q_2\,\dif q_3$. Su circulación (lados de longitud
+$h_2\dif q_2$ y $h_3\dif q_3$) es, a primer orden,
+$\bigl[\partial_2(h_3A_3)-\partial_3(h_2A_2)\bigr]\dif q_2\dif q_3$; dividiendo por el
+área, $(\nab\times\vc{A})_1=\tfrac{1}{h_2h_3}\bigl[\partial_2(h_3A_3)-\partial_3(h_2A_2)\bigr]$.
+Las otras dos componentes se obtienen permutando cíclicamente los índices, y el
+conjunto es el desarrollo del determinante \eqref{eq:rot-gen}.
+
+\emph{Laplaciano.} Es $\nab\cdot(\nab f)$: basta sustituir $A_i=\partial_if/h_i$
+en la \cref{eq:div-gen}.
+\end{proof}
+
+Los factores de escala de los tres sistemas que usaremos son
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Sistema & $(q_1,q_2,q_3)$ & $(h_1,h_2,h_3)$ & $H=h_1h_2h_3$\\
+\midrule
+cartesiano & $(x,y,z)$ & $(1,\,1,\,1)$ & $1$\\
+cilíndrico & $(\rho,\varphi,z)$ & $(1,\,\rho,\,1)$ & $\rho$\\
+esférico & $(r,\theta,\varphi)$ & $(1,\,r,\,r\sen\theta)$ & $r^{2}\sen\theta$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% -------------------------------------------------------------------------
+\subsection{Coordenadas cartesianas}\label{sec:cartesianas}
+% -------------------------------------------------------------------------
+\input{figuras/fig_coord_cart}
+Son las coordenadas $(x,y,z)$ asociadas a una base ortonormal \emph{constante}
+$(\ux,\uy,\uz)$. Con $h_i=1$:
+\begin{align}
+  \vc{r}&=x\,\ux+y\,\uy+z\,\uz, & \dl&=\dif x\,\ux+\dif y\,\uy+\dif z\,\uz,\nonumber\\
+  \dif S_x&=\dif y\,\dif z,\quad\dif S_y=\dif x\,\dif z,\quad\dif S_z=\dif x\,\dif y, & \dV&=\dif x\,\dif y\,\dif z.\nonumber
+\end{align}
+Los operadores son los ya conocidos:
+\begin{align}
+  \nab f&=\pd{f}{x}\,\ux+\pd{f}{y}\,\uy+\pd{f}{z}\,\uz, &
+  \nab\cdot\vc{F}&=\pd{F_x}{x}+\pd{F_y}{y}+\pd{F_z}{z},\nonumber\\
+  \nab\times\vc{F}&=\Bigl(\pd{F_z}{y}-\pd{F_y}{z}\Bigr)\ux+\Bigl(\pd{F_x}{z}-\pd{F_z}{x}\Bigr)\uy+\Bigl(\pd{F_y}{x}-\pd{F_x}{y}\Bigr)\uz, &
+  \Lap f&=\pdd{f}{x}+\pdd{f}{y}+\pdd{f}{z}.\nonumber
+\end{align}
+
+% -------------------------------------------------------------------------
+\subsection{Coordenadas cilíndricas}\label{sec:cilindricas}
+% -------------------------------------------------------------------------
+Se usan $(\rho,\varphi,z)$ con $\rho\ge0$ la distancia al eje $z$,
+$\varphi\in[0,2\pi)$ el ángulo azimutal y $z\in\R$. (En el formulario del curso
+la distancia al eje se denota $r$; aquí empleamos $\rho$ para no confundirla con
+la distancia al origen $r$ de las coordenadas esféricas.)
+
+\input{figuras/fig_coord_cil}
+
+\begin{align}
+  x&=\rho\cos\varphi, & y&=\rho\sen\varphi, & z&=z,\nonumber\\
+  \rho&=\sqrt{x^{2}+y^{2}}, & \varphi&=\tan^{-1}(y/x), & z&=z .\nonumber
+\end{align}
+Los versores y su relación con la base cartesiana son
+\begin{align}
+  \urho&=\cos\varphi\,\ux+\sen\varphi\,\uy, & \ux&=\cos\varphi\,\urho-\sen\varphi\,\uph,\nonumber\\
+  \uph&=-\sen\varphi\,\ux+\cos\varphi\,\uy, & \uy&=\sen\varphi\,\urho+\cos\varphi\,\uph,\label{eq:base-cil}\\
+  \uz&=\uz, & \uz&=\uz.\nonumber
+\end{align}
+La posición es $\vc{r}=\rho\,\urho+z\,\uz$ y los elementos geométricos
+(\cref{prop:elementos} con $h=(1,\rho,1)$):
+\begin{align}
+  \dl&=\dif\rho\,\urho+\rho\,\dif\varphi\,\uph+\dif z\,\uz, \nonumber\\
+  \dif S_\rho&=\rho\,\dif\varphi\,\dif z,\quad
+  \dif S_\varphi=\dif\rho\,\dif z,\quad
+  \dif S_z=\rho\,\dif\rho\,\dif\varphi,\qquad
+  \dV=\rho\,\dif\rho\,\dif\varphi\,\dif z .\nonumber
+\end{align}
+Los operadores (\cref{teo:operadores-ortogonales}) son
+\begin{align}
+  \nab f&=\pd{f}{\rho}\,\urho+\frac{1}{\rho}\pd{f}{\varphi}\,\uph+\pd{f}{z}\,\uz,\nonumber\\
+  \nab\cdot\vc{F}&=\frac{1}{\rho}\pd{(\rho F_\rho)}{\rho}+\frac{1}{\rho}\pd{F_\varphi}{\varphi}+\pd{F_z}{z},\nonumber\\
+  \nab\times\vc{F}&=\Bigl(\frac{1}{\rho}\pd{F_z}{\varphi}-\pd{F_\varphi}{z}\Bigr)\urho
+    +\Bigl(\pd{F_\rho}{z}-\pd{F_z}{\rho}\Bigr)\uph
+    +\frac{1}{\rho}\Bigl(\pd{(\rho F_\varphi)}{\rho}-\pd{F_\rho}{\varphi}\Bigr)\uz,\label{eq:ops-cil}\\
+  \Lap f&=\frac{1}{\rho}\pd{}{\rho}\Bigl(\rho\pd{f}{\rho}\Bigr)+\frac{1}{\rho^{2}}\pdd{f}{\varphi}+\pdd{f}{z}.\nonumber
+\end{align}
+
+% -------------------------------------------------------------------------
+\subsection{Coordenadas esféricas}\label{sec:esfericas}
+% -------------------------------------------------------------------------
+Se usan $(r,\theta,\varphi)$ con $r\ge0$ la distancia al origen,
+$\theta\in[0,\pi]$ el ángulo polar (medido desde el eje $z$) y
+$\varphi\in[0,2\pi)$ el azimut. Obsérvese que $\sen\theta\ge0$ en todo el
+rango, hecho que usaremos al calcular jacobianos.
+
+\input{figuras/fig_coord_esf}
+\begin{align}
+  x&=r\sen\theta\cos\varphi, & y&=r\sen\theta\sen\varphi, & z&=r\cos\theta,\nonumber\\
+  r&=\sqrt{x^{2}+y^{2}+z^{2}}, & \theta&=\tan^{-1}\!\Bigl(\sqrt{x^{2}+y^{2}}/z\Bigr), & \varphi&=\tan^{-1}(y/x).\nonumber
+\end{align}
+Los versores esféricos en función de los cartesianos, y viceversa, son
+\begin{align}
+  \ur&=\sen\theta\cos\varphi\,\ux+\sen\theta\sen\varphi\,\uy+\cos\theta\,\uz,\nonumber\\
+  \uth&=\cos\theta\cos\varphi\,\ux+\cos\theta\sen\varphi\,\uy-\sen\theta\,\uz,\nonumber\\
+  \uph&=-\sen\varphi\,\ux+\cos\varphi\,\uy,\label{eq:base-esf}\\[4pt]
+  \ux&=\sen\theta\cos\varphi\,\ur+\cos\theta\cos\varphi\,\uth-\sen\varphi\,\uph,\nonumber\\
+  \uy&=\sen\theta\sen\varphi\,\ur+\cos\theta\sen\varphi\,\uth+\cos\varphi\,\uph,\nonumber\\
+  \uz&=\cos\theta\,\ur-\sen\theta\,\uth.\nonumber
+\end{align}
+La posición es simplemente $\vc{r}=r\,\ur$ (¡la dirección está en $\ur$!) y
+\begin{align}
+  \dl&=\dif r\,\ur+r\,\dif\theta\,\uth+r\sen\theta\,\dif\varphi\,\uph, \nonumber\\
+  \dif S_r&=r^{2}\sen\theta\,\dif\theta\,\dif\varphi,\quad
+  \dif S_\theta=r\sen\theta\,\dif r\,\dif\varphi,\quad
+  \dif S_\varphi=r\,\dif r\,\dif\theta,\qquad
+  \dV=r^{2}\sen\theta\,\dif r\,\dif\theta\,\dif\varphi .\nonumber
+\end{align}
+Los operadores son
+\begin{align}
+  \nab f&=\pd{f}{r}\,\ur+\frac{1}{r}\pd{f}{\theta}\,\uth+\frac{1}{r\sen\theta}\pd{f}{\varphi}\,\uph,\nonumber\\
+  \nab\cdot\vc{F}&=\frac{1}{r^{2}}\pd{(r^{2}F_r)}{r}+\frac{1}{r\sen\theta}\pd{(F_\theta\sen\theta)}{\theta}+\frac{1}{r\sen\theta}\pd{F_\varphi}{\varphi},\nonumber\\
+  \nab\times\vc{F}&=\frac{1}{r\sen\theta}\Bigl(\pd{(F_\varphi\sen\theta)}{\theta}-\pd{F_\theta}{\varphi}\Bigr)\ur
+    +\frac{1}{r}\Bigl(\frac{1}{\sen\theta}\pd{F_r}{\varphi}-\pd{(rF_\varphi)}{r}\Bigr)\uth
+    +\frac{1}{r}\Bigl(\pd{(rF_\theta)}{r}-\pd{F_r}{\theta}\Bigr)\uph,\label{eq:ops-esf}\\
+  \Lap f&=\frac{1}{r^{2}}\pd{}{r}\Bigl(r^{2}\pd{f}{r}\Bigr)+\frac{1}{r^{2}\sen\theta}\pd{}{\theta}\Bigl(\sen\theta\pd{f}{\theta}\Bigr)+\frac{1}{r^{2}\sen^{2}\theta}\pdd{f}{\varphi}.\nonumber
+\end{align}
+
+\begin{ejemplo}[Campos con simetría esférica]\label{ej:simetria-esferica}
+Si $\vc{A}=A(r)\,\ur$ solo tiene componente radial y depende solo de $r$, las
+\cref{eq:ops-esf} dan
+\[
+  \nab\cdot\vc{A}=\frac{1}{r^{2}}\frac{\dif}{\dif r}\bigl(r^{2}A\bigr),
+  \qquad\nab\times\vc{A}=\vc{0},
+\]
+y para un campo escalar $f(r)$, $\nab f=f'(r)\,\ur$ y
+$\Lap f=\frac{1}{r^{2}}\frac{\dif}{\dif r}\bigl(r^{2}f'\bigr)$. En particular,
+$A=r^{n}$ da $\nab\cdot\vc{A}=(n+2)\,r^{n-1}$ y, para $A=1/r^{2}$ (campo de una
+carga puntual), la divergencia se anula \emph{fuera del origen}.
+\end{ejemplo}
+
+% -------------------------------------------------------------------------
+\subsection{Derivadas de los versores y jacobianos}\label{sec:versores-jacobianos}
+% -------------------------------------------------------------------------
+En cilíndricas y esféricas los versores \emph{dependen del punto}, y derivar un
+campo exige derivar también la base. Se obtienen directamente de
+las \cref{eq:base-cil,eq:base-esf}.
+
+\begin{lema}[Derivadas de los versores]\label{lema:derivadas-versores}
+Las únicas derivadas no nulas son, en cilíndricas,
+\[
+  \pd{\urho}{\varphi}=\uph,\qquad\pd{\uph}{\varphi}=-\urho,
+\]
+y en esféricas,
+\[
+  \pd{\ur}{\theta}=\uth,\quad\pd{\ur}{\varphi}=\sen\theta\,\uph,\quad
+  \pd{\uth}{\theta}=-\ur,\quad\pd{\uth}{\varphi}=\cos\theta\,\uph,\quad
+  \pd{\uph}{\varphi}=-\sen\theta\,\ur-\cos\theta\,\uth .
+\]
+\end{lema}
+\begin{proof}
+Se derivan los desarrollos cartesianos \eqref{eq:base-cil} y \eqref{eq:base-esf} (con
+$\ux,\uy,\uz$ constantes) y se reexpresa el resultado en la base local. Por
+ejemplo, $\partial_\varphi\urho=-\sen\varphi\,\ux+\cos\varphi\,\uy=\uph$ y
+$\partial_\theta\ur=\cos\theta\cos\varphi\,\ux+\cos\theta\sen\varphi\,\uy-\sen\theta\,\uz=\uth$.
+\end{proof}
+
+Estas relaciones explican, por ejemplo, por qué el laplaciano vectorial no es
+el laplaciano de cada componente cuando se usan curvilíneas
+(\cref{def:laplaciano}), y por qué aparecen los factores $\rho$ y $r\sen\theta$
+en los operadores.
+
+\begin{proposicion}[Jacobianos]\label{prop:jacobianos}
+Para el cambio de variable a coordenadas cilíndricas y esféricas,
+\[
+  \Bigl|\frac{\partial(x,y,z)}{\partial(\rho,\varphi,z)}\Bigr|=\rho,
+  \qquad
+  \Bigl|\frac{\partial(x,y,z)}{\partial(r,\theta,\varphi)}\Bigr|=r^{2}\sen\theta,
+\]
+de modo que $\iiint_Vf\,\dif x\,\dif y\,\dif z$ se transforma, respectivamente, en
+$\iiint f\,\rho\,\dif\rho\,\dif\varphi\,\dif z$ y en
+$\iiint f\,r^{2}\sen\theta\,\dif r\,\dif\theta\,\dif\varphi$.
+\end{proposicion}
+\begin{proof}
+Es el caso particular $|\det|=h_1h_2h_3$ de la \cref{prop:elementos} (el
+valor absoluto elimina el signo, y en esféricas $\sen\theta\ge0$ porque
+$\theta\in[0,\pi]$). El determinante explícito en esféricas se calcula, paso a
+paso, en el \cref{ejer:jacobiano}.
+\end{proof}

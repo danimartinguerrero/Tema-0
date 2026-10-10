@@ -1,0 +1,56 @@
+% Figura: verificación del teorema de Stokes en un triángulo
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.48\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, x=1.9cm, y=1.9cm, baseline=(current bounding box.north)]
+  \draw[eje] (-0.25,0) -- (2.55,0) node[right, text=black] {$x$};
+  \draw[eje] (0,-0.25) -- (0,2.55) node[above, text=black] {$y$};
+  \fill[azulclaro!55] (0,0) -- (2,0) -- (0,2) -- cycle;
+  \draw[trayecto] (0,0) -- (2,0) -- (0,2) -- cycle;
+  \draw[-{Stealth[length=8pt]}, rojoteo, line width=1.6pt] (0.85,0) -- (1.15,0);
+  \draw[-{Stealth[length=8pt]}, rojoteo, line width=1.6pt] (1.07,0.93) -- (0.93,1.07);
+  \draw[-{Stealth[length=8pt]}, rojoteo, line width=1.6pt] (0,1.15) -- (0,0.85);
+  \fill[azulprof] (0,0) circle (1.8pt) node[below left, text=black] {$\vc{a}$};
+  \fill[azulprof] (2,0) circle (1.8pt) node[below right, text=black] {$\vc{b}$};
+  \fill[azulprof] (0,2) circle (1.8pt) node[above left, text=black] {$\vc{c}$};
+  \node[font=\small, text=rojoteo, anchor=north] at (1,-0.05) {$\Gamma_1$};
+  \node[font=\small, text=rojoteo, anchor=south west] at (1.05,1.05) {$\Gamma_2:\ y=-x+2$};
+  \node[font=\small, text=rojoteo, anchor=east] at (-0.06,1) {$\Gamma_3$};
+  \node[font=\small, text=azulprof] at (0.48,0.42) {$S$};
+  % normal saliendo del plano
+  \draw[azulacero, line width=0.8pt] (0.62,0.62) circle (0.075);
+  \fill[azulacero] (0.62,0.62) circle (0.02);
+  \node[font=\footnotesize, text=azulacero, anchor=south west] at (0.66,0.64) {$\un=\uz$};
+  \node[font=\scriptsize, text=black!75, anchor=north west] at (0.15,-0.28) {$\vc{A}=\vc{0}$ sobre $\Gamma_1$ y $\Gamma_3$};
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}\ contorno y orientación
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, x=1.9cm, y=1.9cm, baseline=(current bounding box.north)]
+  \foreach \i in {0,...,79}{%
+    \pgfmathsetmacro{\xa}{2*\i/80}\pgfmathsetmacro{\xb}{2*(\i+1)/80}%
+    \pgfmathsetmacro{\tt}{(\xa+\xb)/4}\mapcolor{\tt}%
+    \fill[mapc, draw=mapc, line width=0.2pt] (\xa,0) -- (\xb,0) -- (\xb,{2-\xb}) -- (\xa,{2-\xa}) -- cycle;}
+  \draw[eje] (-0.25,0) -- (2.55,0) node[right, text=black] {$x$};
+  \draw[eje] (0,-0.25) -- (0,2.55) node[above, text=black] {$y$};
+  \draw[black!60, line width=0.8pt] (0,0) -- (2,0) -- (0,2) -- cycle;
+  % escala de color
+  \foreach \i in {0,...,29}{%
+    \pgfmathsetmacro{\yy}{0.2+1.4*\i/30}\pgfmathsetmacro{\tt}{\i/30}\mapcolor{\tt}%
+    \fill[mapc] (2.35,\yy) rectangle (2.5,{\yy+1.4/30});}
+  \draw[black!60, line width=0.4pt] (2.35,0.2) rectangle (2.5,1.6);
+  \node[font=\scriptsize, anchor=west] at (2.5,0.2) {$0$};
+  \node[font=\scriptsize, anchor=west] at (2.5,0.9) {$-1$};
+  \node[font=\scriptsize, anchor=west] at (2.5,1.6) {$-2$};
+  \node[font=\scriptsize, anchor=south] at (2.42,1.68) {$(\nab\times\vc{A})\cdot\uz$};
+  \node[font=\small, text=white, fill=cm0, fill opacity=0.65, text opacity=1, inner sep=2pt] at (0.62,0.55) {$\iint_S=-\tfrac43$};
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}\ integrando $(\nab\times\vc{A})\cdot\uz=-x$
+\end{minipage}
+\caption{Verificación del teorema de Stokes para $\vc{A}=xy\,\ux+2yz\,\uy+3zx\,\uz$ sobre el
+triángulo de vértices $\vc{a},\vc{b},\vc{c}$. (a)~El borde se recorre
+$\vc{a}\to\vc{b}\to\vc{c}\to\vc{a}$ (antihorario visto desde $+z$) y, por la
+regla de la mano derecha, la normal es $\uz$. El campo se anula sobre los ejes y
+solo $\Gamma_2$ contribuye a la circulación. (b)~La componente normal del
+rotacional $-x$ es más intensa (en valor absoluto) hacia el vértice $\vc{b}$; su
+integral sobre el triángulo es $-4/3$, igual a la circulación $-4/3$.}
+\label{fig:sem-stokes}
+\end{figure}

@@ -1,0 +1,293 @@
+% =========================================================================
+\section{Operadores diferenciales: divergencia, rotacional y laplaciano}\label{sec:operadores}
+% =========================================================================
+
+% -------------------------------------------------------------------------
+\subsection{El operador nabla}\label{sec:nabla}
+% -------------------------------------------------------------------------
+Todo el cálculo diferencial vectorial se organiza alrededor del operador
+simbólico
+\begin{equation}\label{eq:nabla}
+  \nab=\pd{}{x}\,\ux+\pd{}{y}\,\uy+\pd{}{z}\,\uz=\sum_{i=1}^{3}\uh{i}\,\partial_i ,
+\end{equation}
+que se combina con los campos de las tres maneras en que un vector puede
+combinarse con otros objetos (\cref{obs:nabla}):
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}lcll@{}}
+$\vc{A}\,f$ & $\longrightarrow$ & $\nab f$ & (gradiente), aplicado a un campo escalar;\\
+$\vc{A}\cdot\vc{B}$ & $\longrightarrow$ & $\nab\cdot\vc{B}$ & (divergencia), aplicado a un campo vectorial;\\
+$\vc{A}\times\vc{B}$ & $\longrightarrow$ & $\nab\times\vc{B}$ & (rotacional), aplicado a un campo vectorial.
+\end{tabular}
+\end{center}
+El gradiente ya se estudió en la \cref{sec:campos}; veamos los otros dos.
+
+% -------------------------------------------------------------------------
+\subsection{Divergencia}\label{sec:divergencia}
+% -------------------------------------------------------------------------
+\begin{definicion}[Divergencia]\label{def:divergencia}
+Sea $\vc{F}=F_x\,\ux+F_y\,\uy+F_z\,\uz$ un campo vectorial derivable. Su
+\emph{divergencia} es el campo escalar
+\begin{equation}\label{eq:div}
+  \nab\cdot\vc{F}(\vc{r})=\pd{F_x}{x}+\pd{F_y}{y}+\pd{F_z}{z}
+  =\nab\cdot\bigl(F_x\,\ux+F_y\,\uy+F_z\,\uz\bigr).
+\end{equation}
+\end{definicion}
+
+\emph{¿Qué mide?} La divergencia dice cuánto «sale» o «entra» del campo en un
+entorno infinitesimal del punto. Si pensamos en $\vc{F}$ como el campo de
+velocidades de un fluido, $\nab\cdot\vc{F}(\vc{r})$ mide la tendencia del fluido
+a expandirse o a contraerse en $\vc{r}$. En la \cref{sec:gauss} daremos la
+definición intrínseca (independiente de las coordenadas) como densidad de flujo
+por unidad de volumen:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+$\nab\cdot\vc{F}(\vc{r})>0$ & $\Rightarrow$ & el campo \emph{se expande}: $\vc{r}$ es una \emph{fuente};\\
+$\nab\cdot\vc{F}(\vc{r})<0$ & $\Rightarrow$ & el campo \emph{se contrae}: $\vc{r}$ es un \emph{sumidero};\\
+$\nab\cdot\vc{F}(\vc{r})=0$ & $\Rightarrow$ & campo \emph{solenoidal} (ni se expande ni se contrae).
+\end{tabular}
+\end{center}
+
+\begin{ejemplo}[Divergencia de campos de referencia]\label{ej:div}
+Consideremos los campos de las \cref{fig:radial,fig:campos_div}:
+\begin{enumerate}[label=(\roman*)]
+  \item $\vc{F}(\vc{r})=x\,\ux+y\,\uy+z\,\uz=\vc{r}$ (campo radial):
+        $\nab\cdot\vc{F}=\pd{x}{x}+\pd{y}{y}+\pd{z}{z}=1+1+1=3>0$. Se expande en
+        todos los puntos, porque las flechas crecen alejándose del origen.
+  \item $\vc{F}_1(\vc{r})=\ux+\uy$ (campo uniforme): $\nab\cdot\vc{F}_1=0$.
+  \item $\vc{F}_2(\vc{r})=x\,\ux$: $\nab\cdot\vc{F}_2=\pd{x}{x}=1>0$.
+  \item $\vc{F}_3(\vc{r})=y\,\ux$: $\nab\cdot\vc{F}_3=\pd{y}{x}=0$. El módulo
+        crece con $y$, pero el campo apunta según $\ux$ y no hay variación del
+        módulo en esa dirección.
+\end{enumerate}
+\end{ejemplo}
+
+\begin{observacion}[Cuándo hay divergencia]\label{obs:cuando-div}
+Para que un campo tenga divergencia no nula, la componente $F_i$ tiene que
+\emph{variar con respecto a la coordenada $x_i$ correspondiente}: el módulo
+del campo debe cambiar en la dirección hacia la que apunta. Si el módulo solo
+cambia en una dirección perpendicular al campo (como en $\vc{F}_3=y\,\ux$), la
+divergencia es nula: lo que entra por un lado, sale por el otro.
+\end{observacion}
+
+\input{figuras/fig_radial}
+\input{figuras/fig_campos_div}
+
+% -------------------------------------------------------------------------
+\subsection{Rotacional}\label{sec:rotacional}
+% -------------------------------------------------------------------------
+\begin{definicion}[Rotacional]\label{def:rotacional}
+El \emph{rotacional} de un campo vectorial derivable $\vc{F}$ es el campo
+vectorial
+\begin{equation}\label{eq:rot}
+  \nab\times\vc{F}\equiv\rot\vc{F}=
+  \begin{vmatrix}
+    \ux & \uy & \uz\\[2pt]
+    \partial_x & \partial_y & \partial_z\\[2pt]
+    F_x & F_y & F_z
+  \end{vmatrix}
+  =\Bigl(\pd{F_z}{y}-\pd{F_y}{z}\Bigr)\ux
+  +\Bigl(\pd{F_x}{z}-\pd{F_z}{x}\Bigr)\uy
+  +\Bigl(\pd{F_y}{x}-\pd{F_x}{y}\Bigr)\uz ,
+\end{equation}
+donde el determinante se desarrolla por la primera fila haciendo que las
+derivadas (a la izquierda) actúen sobre las componentes (a la derecha). Un campo
+de rotacional nulo se llama \emph{irrotacional}.
+\end{definicion}
+
+\emph{¿Qué mide?} Si sumergimos en el campo una pequeña ruedecita con
+paletas, el rotacional mide la tendencia del campo a hacerla girar:
+la \emph{dirección} de $\nab\times\vc{F}$ es el eje de giro (con sentido dado
+por la regla de la mano derecha) y su \emph{módulo} es proporcional a la
+velocidad angular de la rueda. La definición precisa como densidad de
+circulación se da en la \cref{sec:stokes}.
+
+\begin{ejemplo}[Rotacional de campos de referencia]\label{ej:rot}
+\begin{enumerate}[label=(\roman*)]
+  \item \emph{Giro rígido.} $\vc{F}(\vc{r})=-y\,\ux+x\,\uy$. Solo sobrevive la
+        componente $z$ de la \cref{eq:rot}:
+        \[
+          \nab\times\vc{F}=\Bigl[\pd{(x)}{x}-\pd{(-y)}{y}\Bigr]\uz=[1-(-1)]\,\uz=2\,\uz .
+        \]
+        El campo «gira» en sentido antihorario, y el rotacional es un vector
+        que apunta a lo largo del eje de giro (\cref{fig:campos_rot}, izquierda).
+  \item \emph{Cizalla.} $\vc{F}(\vc{r})=y\,\ux$:
+        \[
+          \nab\times\vc{F}=\Bigl[\pd{(0)}{x}-\pd{(y)}{y}\Bigr]\uz=-\uz .
+        \]
+        No hay líneas de corriente cerradas, pero el módulo del campo crece en
+        la dirección \emph{perpendicular} al campo, y eso basta para hacer girar
+        la rueda (en sentido horario).
+  \item \emph{Campo radial.} $\nab\times\vc{r}=\vc{0}$: es irrotacional (en
+        efecto, $\vc{r}=\nab(r^{2}/2)$ es un gradiente; véase la
+        \cref{prop:fundamentales}).
+\end{enumerate}
+\end{ejemplo}
+
+\begin{observacion}[Cuándo hay rotacional]\label{obs:cuando-rot}
+Complementariamente a la \cref{obs:cuando-div}: el rotacional es no nulo
+cuando el módulo de una componente del campo cambia en una dirección
+\emph{perpendicular} a ella, o cuando el campo gira alrededor de un eje.
+\end{observacion}
+
+\input{figuras/fig_campos_rot}
+
+% -------------------------------------------------------------------------
+\subsection{Derivadas de productos}\label{sec:productos}
+% -------------------------------------------------------------------------
+Al tratarse de derivadas, cabe esperar versiones de la regla del producto.
+Con dos campos escalares $f,g$ y dos vectoriales $\vc{A},\vc{B}$ se pueden
+formar dos productos que dan un escalar ($fg$ y $\vc{A}\cdot\vc{B}$) y dos que
+dan un vector ($f\vc{A}$ y $\vc{A}\times\vc{B}$), y sobre cada uno actúa el
+operador $\nab$ de la manera que corresponde a su carácter (gradiente sobre
+escalares, divergencia y rotacional sobre vectores).
+
+\begin{notacion}[El operador $\vc{A}\cdot\nab$]\label{not:A-nabla}
+Dado un campo vectorial $\vc{A}$, el operador escalar
+$\vc{A}\cdot\nab=A_x\,\partial_x+A_y\,\partial_y+A_z\,\partial_z$ puede aplicarse
+a un campo escalar o a un campo vectorial (componente a componente). Es distinto
+de $\nab\cdot\vc{A}$ (\cref{obs:nabla}).
+\end{notacion}
+
+\begin{proposicion}[Reglas de derivación del producto]\label{prop:productos}
+Sean $f,g$ campos escalares y $\vc{A},\vc{B}$ campos vectoriales de clase
+$C^{1}$. Entonces
+\begin{align}
+  \nab(fg)&=f\,\nab g+g\,\nab f, \label{eq:prod-a}\\
+  \nab(\vc{A}\cdot\vc{B})&=\vc{A}\times(\nab\times\vc{B})+\vc{B}\times(\nab\times\vc{A})
+     +(\vc{A}\cdot\nab)\vc{B}+(\vc{B}\cdot\nab)\vc{A}, \label{eq:prod-b}\\
+  \nab\cdot(f\vc{A})&=f\,\nab\cdot\vc{A}+\vc{A}\cdot\nab f, \label{eq:prod-c}\\
+  \nab\cdot(\vc{A}\times\vc{B})&=\vc{B}\cdot(\nab\times\vc{A})-\vc{A}\cdot(\nab\times\vc{B}), \label{eq:prod-d}\\
+  \nab\times(f\vc{A})&=\nab f\times\vc{A}+f\,\nab\times\vc{A}, \label{eq:prod-e}\\
+  \nab\times(\vc{A}\times\vc{B})&=(\nab\cdot\vc{B})\vc{A}-(\nab\cdot\vc{A})\vc{B}
+     +(\vc{B}\cdot\nab)\vc{A}-(\vc{A}\cdot\nab)\vc{B}. \label{eq:prod-f}
+\end{align}
+\end{proposicion}
+\begin{proof}[Demostración de \cref{eq:prod-a,eq:prod-c}]
+La primera es la regla de Leibniz aplicada a cada componente: $\partial_i(fg)=f\,\partial_ig+g\,\partial_if$.
+Para la segunda, desarrollamos la divergencia en coordenadas y usamos la regla
+del producto en cada sumando:
+\begin{align*}
+  \nab\cdot(f\vc{A})&=\pd{}{x}(fA_x)+\pd{}{y}(fA_y)+\pd{}{z}(fA_z)\\
+  &=f\Bigl(\pd{A_x}{x}+\pd{A_y}{y}+\pd{A_z}{z}\Bigr)
+   +A_x\pd{f}{x}+A_y\pd{f}{y}+A_z\pd{f}{z}
+   =f\,\nab\cdot\vc{A}+\vc{A}\cdot\nab f.
+\end{align*}
+Las identidades \eqref{eq:prod-d} y \eqref{eq:prod-e} se demuestran con el tensor de
+Levi-Civita en el \cref{sec:levi-civita}
+(\cref{ejer:div-prod-vect,ejer:rot-fA}); \eqref{eq:prod-b} y \eqref{eq:prod-f} se
+obtienen de la misma manera con la identidad $\varepsilon$--$\delta$
+(\cref{lema:eps-delta}).
+\end{proof}
+
+\begin{observacion}\label{obs:orden}
+En las \cref{eq:prod-b,eq:prod-c,eq:prod-f} importa el \emph{orden} de los factores:
+$\vc{A}\cdot\nab f$ es la derivada direccional de $f$ a lo largo de $\vc{A}$ (un
+escalar), mientras que $\nab\cdot\vc{A}$ es la divergencia. Del mismo modo,
+$\vc{B}\cdot\nab$ es un \emph{operador} que se aplica a lo que tiene a su
+derecha.
+\end{observacion}
+
+% -------------------------------------------------------------------------
+\subsection{Operadores de segundo orden}\label{sec:segundo-orden}
+% -------------------------------------------------------------------------
+Aplicando dos veces $\nab$ se obtienen cinco combinaciones. La más importante
+en física es el laplaciano.
+
+\begin{definicion}[Laplaciano]\label{def:laplaciano}
+El \emph{laplaciano} de un campo escalar $f$ de clase $C^{2}$ es la divergencia
+de su gradiente,
+\begin{equation}\label{eq:laplaciano}
+  \Delta f\defeq\nab^{2}f=\nab\cdot(\nab f)=\operatorname{div}(\operatorname{grad}f)
+  =\sum_{i=1}^{n}\pdd{f}{x_i}\ ;\qquad
+  \text{en }\R^{3}:\ \ \Lap f=\pdd{f}{x}+\pdd{f}{y}+\pdd{f}{z}.
+\end{equation}
+El \emph{laplaciano vectorial} de un campo $\vc{A}$ se define, en coordenadas
+cartesianas, componente a componente:
+\begin{equation}\label{eq:laplaciano-vect}
+  \Lap\vc{A}\defeq(\Lap A_x)\,\ux+(\Lap A_y)\,\uy+(\Lap A_z)\,\uz .
+\end{equation}
+\end{definicion}
+
+\begin{observacion}
+La definición \eqref{eq:laplaciano-vect} es válida \emph{solo} en cartesianas.
+En otros sistemas de coordenadas el laplaciano vectorial no es el laplaciano
+escalar de cada componente, porque los versores $\ur,\uth,\uph,\ldots$
+cambian de punto a punto (\cref{sec:coordenadas}); su definición general es
+$\Lap\vc{A}=\nab(\nab\cdot\vc{A})-\nab\times(\nab\times\vc{A})$.
+\end{observacion}
+
+Las otras cuatro combinaciones se reducen a dos identidades fundamentales y a
+una relación entre ellas.
+
+\begin{proposicion}[Relaciones fundamentales]\label{prop:fundamentales}
+Para un campo escalar $f$ y un campo vectorial $\vc{A}$, ambos de clase $C^{2}$,
+\begin{equation}\label{eq:rotgrad}
+  \nab\times(\nab f)=\vc{0},
+  \qquad\qquad
+  \nab\cdot(\nab\times\vc{A})=0 .
+\end{equation}
+\end{proposicion}
+\begin{proof}
+Ambas se reducen a la simetría de las derivadas parciales segundas
+cruzadas (teorema de Schwarz), válida para funciones de clase $C^{2}$.
+Desarrollando el rotacional del gradiente,
+\[
+  \nab\times\nab f=
+  \begin{vmatrix}
+    \ux & \uy & \uz\\
+    \partial_x & \partial_y & \partial_z\\
+    \partial_xf & \partial_yf & \partial_zf
+  \end{vmatrix}
+  =\Bigl(\pdm{f}{y}{z}-\pdm{f}{z}{y}\Bigr)\ux
+   +\Bigl(\pdm{f}{z}{x}-\pdm{f}{x}{z}\Bigr)\uy
+   +\Bigl(\pdm{f}{x}{y}-\pdm{f}{y}{x}\Bigr)\uz=\vc{0}.
+\]
+Del mismo modo, para $\vc{A}=(A_x,A_y,A_z)$,
+\begin{align*}
+  \nab\cdot(\nab\times\vc{A})
+  &=\pd{}{x}\Bigl(\pd{A_z}{y}-\pd{A_y}{z}\Bigr)
+   +\pd{}{y}\Bigl(\pd{A_x}{z}-\pd{A_z}{x}\Bigr)
+   +\pd{}{z}\Bigl(\pd{A_y}{x}-\pd{A_x}{y}\Bigr)\\
+  &=\Bigl(\pdm{A_z}{x}{y}-\pdm{A_z}{y}{x}\Bigr)
+   +\Bigl(\pdm{A_x}{y}{z}-\pdm{A_x}{z}{y}\Bigr)
+   +\Bigl(\pdm{A_y}{z}{x}-\pdm{A_y}{x}{z}\Bigr)=0 .
+\end{align*}
+En el \cref{sec:levi-civita} se da otra demostración, con índices, que
+explica por qué ocurre: un objeto simétrico contraído con otro antisimétrico
+es siempre cero.
+\end{proof}
+
+\begin{observacion}[Reglas mnemotécnicas, con cautela]\label{obs:mnemo}
+El producto vectorial cumple $\vc{v}\times\vc{v}=\vc{0}$, lo que sugiere
+$\nab\times\nab=\vc{0}$ y, aplicado a $f$, la primera relación. Cumple también
+$\vc{v}\cdot(\vc{v}\times\vc{w})=0$ (el producto vectorial es ortogonal a sus
+factores), lo que sugiere la segunda. Pero, como $\nab$ no es un vector, esta
+manipulación \emph{sugiere} sin \emph{demostrar}, y puede llevar a error:
+aunque $(\vc{v}\times\vc{w})\cdot\vc{w}=0$ para vectores, en general
+$(\nab\times\vc{F})\cdot\vc{F}\neq0$.
+\end{observacion}
+
+\begin{corolario}[Los gradientes son irrotacionales]\label{cor:grad-irrot}
+Si $\vc{F}=\nab f$ es un campo gradiente de clase $C^{1}$ ($f\in C^{2}$), entonces
+$\nab\times\vc{F}=\vc{0}$. En particular, ser irrotacional es una condición
+\emph{necesaria} para ser conservativo. Es también suficiente en regiones
+estrelladas (lema de Poincaré)~\cite{NAVAS}.
+\end{corolario}
+
+La combinación restante que se usa en electromagnetismo es la del doble
+rotacional.
+
+\begin{proposicion}[Rotacional del rotacional]\label{prop:rotrot}
+Para un campo vectorial $\vc{A}$ de clase $C^{2}$,
+\begin{equation}\label{eq:rotrot}
+  \nab\times(\nab\times\vc{A})=\nab(\nab\cdot\vc{A})-\Lap\vc{A}.
+\end{equation}
+\end{proposicion}
+\begin{proof}
+Véase el \cref{ejer:rotrot}, donde se obtiene con el tensor de Levi-Civita y la
+identidad $\varepsilon$--$\delta$.
+\end{proof}
+
+El resto de combinaciones, $\nab(\nab\cdot\vc{A})$, no tiene un nombre ni un uso
+especial en este curso; solo aparece en la \cref{eq:rotrot}.

@@ -1,0 +1,75 @@
+\documentclass[a4paper,11pt]{amsart}
+
+% =========================================================================
+%  Electromagnetismo I — Tema 0: Herramientas matemáticas
+%  Apuntes formalizados. Compilar con: pdflatex + biber + pdflatex ×2
+%  (o latexmk -pdf main.tex).  Todo el preámbulo está en preambulo.tex.
+% =========================================================================
+\input{preambulo}
+
+% =========================================================================
+%                     VARIABLES PARA LA PORTADA
+% =========================================================================
+\newcommand{\Universidad}{Universidad de Salamanca}
+\newcommand{\Facultad}{Facultad de Ciencias}
+\newcommand{\Titulacion}{Grado en Física}
+\newcommand{\Asignatura}{Electromagnetismo I}
+\newcommand{\NumTema}{Tema 0}
+\newcommand{\TituloTema}{Herramientas\\matemáticas}
+\newcommand{\tipotrabajo}{Apuntes formalizados}
+\newcommand{\miNombre}{Daniel Martín Guerrero}
+\newcommand{\miContenido}{Cálculo vectorial\\Coordenadas curvilíneas\\Teoremas integrales}
+\newcommand{\miUbicacion}{Salamanca, curso 2025/2026}
+
+% =========================================================================
+%                     DATOS DEL ARTÍCULO (cabecera)
+% =========================================================================
+\title{Herramientas matemáticas para el electromagnetismo}
+\author{Daniel Martín Guerrero}
+\address{Grado en Física, Facultad de Ciencias, Universidad de Salamanca,
+         Salamanca, España}
+\date{}
+
+% =========================================================================
+%                                DOCUMENTO
+% =========================================================================
+\begin{document}
+% --- PORTADA ----------------------------------------------------------------
+\pagenumbering{alph}
+\input{portada}
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\begin{abstract}
+Recopilamos y formalizamos las herramientas matemáticas que sustentan el
+curso de Electromagnetismo~I: campos escalares y vectoriales, el operador
+gradiente y las derivadas vectoriales de primer y segundo orden, los tres
+teoremas integrales fundamentales del cálculo vectorial (gradiente, Stokes
+y Gauss), los sistemas de coordenadas cartesianas, cilíndricas y esféricas
+con los operadores diferenciales en cada uno de ellos, y las funciones de
+la posición relativa $\vc{R}=\vc{r}-\vc{r}\,'$ junto con la delta de Dirac.
+Cada resultado se enuncia con rigor y se acompaña de su demostración o de
+una justificación geométrica; los seminarios finales resuelven los
+ejercicios de verificación de los teoremas, incluida la demostración
+de identidades vectoriales con el tensor de Levi-Civita.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\input{secciones/01_introduccion}
+\input{secciones/02_campos}
+\input{secciones/03_operadores}
+\input{secciones/04_integral}
+\input{secciones/05_coordenadas}
+\input{secciones/06_posicion_relativa}
+\input{secciones/07_seminarios}
+\input{secciones/08_apendice}
+
+% =========================================================================
+%                              BIBLIOGRAFÍA
+% =========================================================================
+\printbibliography[title={Referencias}]
+
+\end{document}

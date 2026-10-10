@@ -1,0 +1,50 @@
+% Figura: campo radial F(r)= x ux + y uy + z uz en 3D, en tres planos de
+% corte y en el plano xy.
+\newcommand{\flechaIII}[6]{%  componentes de posición #1,#2,#3 y del campo #4,#5,#6
+  \pgfmathsetmacro{\fm}{sqrt((#4)*(#4)+(#5)*(#5)+(#6)*(#6))}%
+  \ifdim\fm pt>0.01pt
+    \pgfmathsetmacro{\ft}{\fm/3.465}\mapcolor{\ft}%
+    \pgfmathsetmacro{\hl}{2.0+3.4*\ft}%
+    \draw[-{Stealth[length=\hl pt,width=\hl pt]}, line width={0.35+0.5*\ft}, mapc]
+      (#1-0.17*#4,#2-0.17*#5,#3-0.17*#6) -- ++(0.34*#4,0.34*#5,0.34*#6);
+  \fi}
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{68}{128}
+\begin{minipage}[t]{0.325\textwidth}\centering
+\begin{tikzpicture}[tdplot_main_coords, scale=0.62, baseline=(current bounding box.north)]
+  \draw[eje] (0,0,0) -- (3.0,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.0,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.0) node[above] {\small $z$};
+  \foreach \z in {-2,-1,0,1,2}{\foreach \y in {2,1,0,-1,-2}{\foreach \x in {-2,-1,0,1,2}{%
+    \flechaIII{\x}{\y}{\z}{\x}{\y}{\z}}}}
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}\centering
+\begin{tikzpicture}[tdplot_main_coords, scale=0.62, baseline=(current bounding box.north)]
+  \fill[grispizarra!22, opacity=0.55] (-2.7,-2.7,0) -- (2.7,-2.7,0) -- (2.7,2.7,0) -- (-2.7,2.7,0) -- cycle;
+  \fill[grispizarra!22, opacity=0.55] (0,-2.7,-2.7) -- (0,2.7,-2.7) -- (0,2.7,2.7) -- (0,-2.7,2.7) -- cycle;
+  \fill[grispizarra!22, opacity=0.55] (-2.7,0,-2.7) -- (2.7,0,-2.7) -- (2.7,0,2.7) -- (-2.7,0,2.7) -- cycle;
+  \draw[eje] (0,0,0) -- (3.0,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.0,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.0) node[above] {\small $z$};
+  \foreach \x in {-2,-1,0,1,2}{\foreach \y in {-2,-1,0,1,2}{\flechaIII{\x}{\y}{0}{\x}{\y}{0}}}
+  \foreach \y in {-2,-1,0,1,2}{\foreach \z in {-2,-1,0,1,2}{\flechaIII{0}{\y}{\z}{0}{\y}{\z}}}
+  \foreach \x in {-2,-1,0,1,2}{\foreach \z in {-2,-1,0,1,2}{\flechaIII{\x}{0}{\z}{\x}{0}{\z}}}
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}\centering
+\begin{tikzpicture}[x=0.50cm, y=0.50cm, baseline=(current bounding box.north)]
+  \marcoD{-2.7}{2.7}{-2.7}{2.7}{-2,-1,0,1,2}{-2,-1,0,1,2}
+  \ejesD{-2.7}{2.7}{-2.7}{2.7}
+  \clipD{-2.7}{2.7}{-2.7}{2.7}{\flechas{\x}{\y}{-2.4,-1.8,...,2.4}{-2.4,-1.8,...,2.4}{0.5}{3.4}}
+\end{tikzpicture}\\[2pt]{\small\scshape (c)}
+\end{minipage}
+\caption{Campo radial $\vc{F}(\vc{r})=x\,\ux+y\,\uy+z\,\uz=\vc{r}$.
+(a)~Representación tridimensional: las flechas se alejan del origen y su
+módulo crece linealmente con la distancia (color de índigo a ámbar).
+(b)~Cortes por los tres planos coordenados. (c)~Corte por el plano $z=0$.
+Es el prototipo de campo con divergencia positiva ($\nab\cdot\vc{F}=3$):
+el origen es una fuente.}
+\label{fig:radial}
+\end{figure}

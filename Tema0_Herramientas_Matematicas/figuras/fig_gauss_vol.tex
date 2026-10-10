@@ -1,0 +1,115 @@
+% Figura: teorema de la divergencia. Campo radial y elemento de volumen en
+% coordenadas esféricas.
+% Elemento de volumen esférico: caras como polígonos con aristas muestreadas.
+% \pt{r}{theta}{phi} define las coordenadas cartesianas en \X, \Y, \Z
+\newcommand{\sph}[3]{({(#1)*sin(#2)*cos(#3)},{(#1)*sin(#2)*sin(#3)},{(#1)*cos(#2)})}
+% cara a r fijo: #1 = r, recorre theta (ta..tb) y phi (pa..pb)
+\newcommand{\caraR}[1]{%
+  \fill[ocreteo, opacity=0.38]
+  ({#1*sin(\ta)*cos(\pa)},{#1*sin(\ta)*sin(\pa)},{#1*cos(\ta)})
+  \foreach \k in {1,...,6}{ -- ({#1*sin(\ta+\k*(\tb-\ta)/6)*cos(\pa)},{#1*sin(\ta+\k*(\tb-\ta)/6)*sin(\pa)},{#1*cos(\ta+\k*(\tb-\ta)/6)}) }
+  \foreach \k in {1,...,6}{ -- ({#1*sin(\tb)*cos(\pa+\k*(\pb-\pa)/6)},{#1*sin(\tb)*sin(\pa+\k*(\pb-\pa)/6)},{#1*cos(\tb)}) }
+  \foreach \k in {1,...,6}{ -- ({#1*sin(\tb-\k*(\tb-\ta)/6)*cos(\pb)},{#1*sin(\tb-\k*(\tb-\ta)/6)*sin(\pb)},{#1*cos(\tb-\k*(\tb-\ta)/6)}) }
+  \foreach \k in {1,...,6}{ -- ({#1*sin(\ta)*cos(\pb-\k*(\pb-\pa)/6)},{#1*sin(\ta)*sin(\pb-\k*(\pb-\pa)/6)},{#1*cos(\ta)}) }
+  -- cycle;}
+% cara a theta fijo: #1 = theta
+\newcommand{\caraT}[1]{%
+  \fill[ocreteo, opacity=0.38]
+  ({\ra*sin(#1)*cos(\pa)},{\ra*sin(#1)*sin(\pa)},{\ra*cos(#1)})
+  -- ({\rb*sin(#1)*cos(\pa)},{\rb*sin(#1)*sin(\pa)},{\rb*cos(#1)})
+  \foreach \k in {1,...,6}{ -- ({\rb*sin(#1)*cos(\pa+\k*(\pb-\pa)/6)},{\rb*sin(#1)*sin(\pa+\k*(\pb-\pa)/6)},{\rb*cos(#1)}) }
+  -- ({\ra*sin(#1)*cos(\pb)},{\ra*sin(#1)*sin(\pb)},{\ra*cos(#1)})
+  \foreach \k in {1,...,6}{ -- ({\ra*sin(#1)*cos(\pb-\k*(\pb-\pa)/6)},{\ra*sin(#1)*sin(\pb-\k*(\pb-\pa)/6)},{\ra*cos(#1)}) }
+  -- cycle;}
+% cara a phi fijo: #1 = phi
+\newcommand{\caraP}[1]{%
+  \fill[ocreteo, opacity=0.38]
+  ({\ra*sin(\ta)*cos(#1)},{\ra*sin(\ta)*sin(#1)},{\ra*cos(\ta)})
+  -- ({\rb*sin(\ta)*cos(#1)},{\rb*sin(\ta)*sin(#1)},{\rb*cos(\ta)})
+  \foreach \k in {1,...,6}{ -- ({\rb*sin(\ta+\k*(\tb-\ta)/6)*cos(#1)},{\rb*sin(\ta+\k*(\tb-\ta)/6)*sin(#1)},{\rb*cos(\ta+\k*(\tb-\ta)/6)}) }
+  -- ({\ra*sin(\tb)*cos(#1)},{\ra*sin(\tb)*sin(#1)},{\ra*cos(\tb)})
+  \foreach \k in {1,...,6}{ -- ({\ra*sin(\tb-\k*(\tb-\ta)/6)*cos(#1)},{\ra*sin(\tb-\k*(\tb-\ta)/6)*sin(#1)},{\ra*cos(\tb-\k*(\tb-\ta)/6)}) }
+  -- cycle;}
+% arista a (r,theta) fijos recorriendo phi, etc.
+\newcommand{\aristaP}[2]{\draw[rojoteo, dashed, line width=0.5pt]
+  ({#1*sin(#2)*cos(\pa)},{#1*sin(#2)*sin(\pa)},{#1*cos(#2)})
+  \foreach \k in {1,...,6}{ -- ({#1*sin(#2)*cos(\pa+\k*(\pb-\pa)/6)},{#1*sin(#2)*sin(\pa+\k*(\pb-\pa)/6)},{#1*cos(#2)}) };}
+\newcommand{\aristaT}[2]{\draw[rojoteo, dashed, line width=0.5pt]
+  ({#1*sin(\ta)*cos(#2)},{#1*sin(\ta)*sin(#2)},{#1*cos(\ta)})
+  \foreach \k in {1,...,6}{ -- ({#1*sin(\ta+\k*(\tb-\ta)/6)*cos(#2)},{#1*sin(\ta+\k*(\tb-\ta)/6)*sin(#2)},{#1*cos(\ta+\k*(\tb-\ta)/6)}) };}
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{66}{128}
+\begin{minipage}[t]{0.48\textwidth}\centering
+\begin{tikzpicture}[tdplot_main_coords, scale=0.78, baseline=(current bounding box.north)]
+  \draw[eje] (0,0,0) -- (3.3,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.3,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.3) node[above] {\small $z$};
+  % campo radial (malla gruesa, módulo ~ 1/r^0: flechas unitarias coloreadas por r)
+  \foreach \z in {-1.8,-0.6,0.6,1.8}{\foreach \y in {1.8,0.6,-0.6,-1.8}{\foreach \x in {-1.8,-0.6,0.6,1.8}{%
+    \pgfmathsetmacro{\fm}{sqrt(\x*\x+\y*\y+\z*\z)}%
+    \pgfmathsetmacro{\ft}{\fm/3.12}\mapcolor{\ft}%
+    \draw[-{Stealth[length=3.4pt,width=3.4pt]}, line width=0.7pt, mapc]
+      (\x,\y,\z) -- ++({0.36*\x/\fm*1.6},{0.36*\y/\fm*1.6},{0.36*\z/\fm*1.6});}}}
+  % elemento de volumen: r in [1.4,2.5], theta in [38,62], phi in [8,42]
+  \def\ra{1.4}\def\rb{2.5}\def\ta{38}\def\tb{62}\def\pa{8}\def\pb{42}
+  \caraR{\ra}\caraR{\rb}
+  \caraT{\ta}\caraT{\tb}
+  \caraP{\pa}\caraP{\pb}
+  \aristaP{\ra}{\ta}\aristaP{\ra}{\tb}\aristaP{\rb}{\ta}\aristaP{\rb}{\tb}
+  \aristaT{\ra}{\pa}\aristaT{\ra}{\pb}\aristaT{\rb}{\pa}\aristaT{\rb}{\pb}
+  \foreach \tt in {\ta,\tb}{\foreach \pp in {\pa,\pb}{\draw[rojoteo, dashed, line width=0.5pt]
+      \sph{\ra}{\tt}{\pp} -- \sph{\rb}{\tt}{\pp};}}
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm, baseline=(current bounding box.north)]
+  \foreach \a in {0,18,...,342}{%
+    \draw[-{Stealth[length=5pt,width=5pt]}, azulacero, line width=1pt]
+      (\a:0.55) -- (\a:1.65);
+    \draw[-{Stealth[length=5pt,width=5pt]}, azulacero, line width=1pt]
+      (\a:1.95) -- (\a:2.55);
+    \draw[-{Stealth[length=5pt,width=5pt]}, azulacero!70, line width=1pt]
+      (\a:2.85) -- (\a:3.2);}
+  \fill[azulprof] (0,0) circle (1.6pt);
+  % elemento de área (corte del elemento de volumen): sector anular
+  \draw[rojoteo, dashed, line width=0.9pt, fill=ocreteo, fill opacity=0.25]
+     (60:1.7) arc (60:84:1.7) -- (84:2.9) arc (84:60:2.9) -- cycle;
+  \draw[rojoteo, line width=0.4pt] (0,0) -- (60:1.7);
+  \node[font=\footnotesize, text=rojoteo] at (72:3.35) {$r\,\dif\theta$};
+  \node[font=\footnotesize, text=rojoteo, anchor=west] at (50:2.35) {$\dif r$};
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}\\[6pt]
+\begin{minipage}[t]{0.95\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm, baseline=(current bounding box.north)]
+  % elemento de volumen (paralelepípedo en proyección oblicua)
+  \def\ax{2.8}\def\ay{1.7}\def\ox{1.0}\def\oy{0.55}
+  \draw[rojoteo, dashed, line width=0.7pt] (\ox,\oy) -- (\ox+\ax,\oy) (\ox,\oy) -- (\ox,\oy+\ay) (\ox,\oy) -- (0,0);
+  \fill[ocreteo, opacity=0.28] (0,0) rectangle (\ax,\ay);
+  \draw[rojoteo, line width=0.9pt] (0,0) rectangle (\ax,\ay);
+  \fill[ocreteo, opacity=0.18] (0,\ay) -- (\ax,\ay) -- (\ax+\ox,\ay+\oy) -- (\ox,\ay+\oy) -- cycle;
+  \fill[ocreteo, opacity=0.40] (\ax,0) -- (\ax,\ay) -- (\ax+\ox,\ay+\oy) -- (\ax+\ox,\oy) -- cycle;
+  \draw[rojoteo, line width=0.9pt] (0,\ay) -- (\ox,\ay+\oy) -- (\ax+\ox,\ay+\oy) -- (\ax+\ox,\oy) -- (\ax,0)
+        (\ax,\ay) -- (\ax+\ox,\ay+\oy);
+  % terna de versores locales
+  \coordinate (T) at (-3.7,1.0);
+  \draw[->, line width=1.2pt, verdeteo] (T) -- ++(0.95,0.52) node[above right, font=\small] {$\ur$};
+  \draw[->, line width=1.2pt, verdeteo] (T) -- ++(0,-1.15) node[below, font=\small] {$\uth$};
+  \draw[->, line width=1.2pt, verdeteo] (T) -- ++(1.15,0) node[right, font=\small] {$\uph$};
+  \fill[verdeteo] (T) circle (1.3pt);
+  % cotas
+  \node[font=\small, text=rojoteo, anchor=north] at (\ax/2,-0.08) {$r\sin\theta\,\dif\varphi$};
+  \node[font=\small, text=rojoteo, anchor=east] at (-0.08,\ay/2) {$r\,\dif\theta$};
+  \node[font=\small, text=rojoteo, anchor=south west] at (\ax+0.45,\ay+0.5) {$\dif r$};
+  \node[font=\small, text=black!80, anchor=west] at (\ax+\ox+0.5,\ay/2+\oy/2) {$\dV=r^{2}\sin\theta\,\dif r\,\dif\theta\,\dif\varphi$};
+\end{tikzpicture}\\[2pt]{\small\scshape (c)}
+\end{minipage}
+\caption{Teorema de la divergencia con simetría radial. (a)~Campo radial
+$\vc{A}=A(r)\,\ur$ y un elemento de volumen $\dV$ limitado por
+$r,r+\dif r$; $\theta,\theta+\dif\theta$; $\varphi,\varphi+\dif\varphi$.
+(b)~Corte meridiano: el elemento es un sector anular de lados $\dif r$ y
+$r\,\dif\theta$. (c)~El elemento, ampliado: es un «ladrillo» curvilíneo de aristas
+$\dif r$, $r\,\dif\theta$ y $r\sin\theta\,\dif\varphi$ según la terna ortonormal
+$(\ur,\uth,\uph)$. El flujo neto por sus seis caras es $\nab\cdot\vc{A}\,\dV$.}
+\label{fig:gauss-vol}
+\end{figure}

@@ -1,0 +1,52 @@
+% Figuras: trabajo sobre una hélice y circulación sobre una circunferencia
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{72}{125}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.35]
+  \draw[eje] (0,0,0) -- (1.9,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,1.9,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.3) node[above] {\small $z$};
+  % hélice (eje z comprimido: se dibuja 0.28 t en lugar de t)
+  \draw[trayecto, domain=0:{3*pi}, samples=140, variable=\t, smooth]
+    plot ({cos(deg(\t))},{sin(deg(\t))},{0.28*\t});
+  \foreach \k in {0,1,...,6}{%
+    \pgfmathsetmacro{\tt}{\k*pi/2*1.0}%
+    \pgfmathsetmacro{\px}{cos(deg(\tt))}\pgfmathsetmacro{\py}{sin(deg(\tt))}\pgfmathsetmacro{\pz}{0.28*\tt}%
+    % tangente (azul) y campo (ámbar/carmín)
+    \draw[->, line width=1pt, azulprof] (\px,\py,\pz) -- ++({-0.55*sin(deg(\tt))},{0.55*cos(deg(\tt))},0.16);
+    \draw[->, line width=1pt, cm3] (\px,\py,\pz) -- ++({-0.42*\px},{-0.42*\py},0.30);
+    \fill (\px,\py,\pz) circle (1pt);}
+  \fill[rojoteo] (1,0,0) circle (2pt) node[below right, text=black] {\small$(1,0,0)$};
+  \fill[rojoteo] (-1,0,{0.28*3*pi}) circle (2pt) node[above left, text=black, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt] {\small$(-1,0,3\pi)$};
+  \node[font=\small, text=azulprof, anchor=west] at (1.55,0.35,2.7) {$\gamma'(t)$};
+  \node[font=\small, text=cm3, anchor=west] at (1.55,-0.75,2.2) {$\vc{F}$};
+  \node[font=\small, text=rojoteo, anchor=west] at (-0.2,1.5,0.7) {$C$};
+\end{tikzpicture}
+\caption{Hélice del \cref{ejer:helice}. La parte horizontal de
+$\vc{F}=-\tfrac12(x\,\ux+y\,\uy)+\tfrac14\,\uz$ es radial y, por tanto,
+perpendicular a la velocidad horizontal $\gamma'$ (tangente a la circunferencia):
+solo la componente vertical constante $F_z=\tfrac14$ trabaja. (El eje $z$ se
+dibuja comprimido.)}
+\label{fig:sem-helice}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1.0cm, y=1.0cm]
+  \shade[inner color=azulclaro!25, outer color=azulclaro!60] (0,0) circle (2.2);
+  \clipD{-2.9}{2.9}{-2.9}{2.9}{\flechas{-\y}{\x}{-2.0,-1.5,...,2.0}{-2.0,-1.5,...,2.0}{0.36}{2.9}}
+  \draw[trayecto] (0,0) circle (2.2);
+  \foreach \a in {20,110,200,290}{%
+    \draw[-{Stealth[length=7pt]}, rojoteo, line width=1.6pt] ({2.2*cos(\a)},{2.2*sin(\a)}) -- ++({-0.01*sin(\a)*40},{0.01*cos(\a)*40});}
+  \draw[->, line width=0.5pt, grispizarra] (0,0) -- (-1.55,-1.55) node[midway, below left, font=\small] {$R$};
+  \node[font=\small, text=rojoteo, anchor=west] at (2.3,1.9) {$C$};
+  \node[font=\small, text=azulprof] at (0,0.55) {$\nab\times\vc{F}=2\,\uz$};
+  \marcoD{-2.9}{2.9}{-2.9}{2.9}{-2,-1,0,1,2}{-2,-1,0,1,2}
+  \ejesD{-2.9}{2.9}{-2.9}{2.9}
+\end{tikzpicture}
+\caption{Circunferencia del \cref{ejer:circulo}. Sobre $C$, el campo de giro
+$\vc{F}=-y\,\ux+x\,\uy$ es tangente, de módulo $R$ y en el sentido de recorrido,
+de modo que $\oint\vc{F}\cdot\dl=R\cdot2\pi R=2\pi R^{2}$, el doble del área del
+disco, coherente con $\nab\times\vc{F}=2\,\uz$.}
+\label{fig:sem-circulo}
+\end{figure}

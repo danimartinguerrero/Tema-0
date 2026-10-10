@@ -1,0 +1,693 @@
+% =========================================================================
+\section{Seminarios prácticos}\label{sec:seminarios}
+% =========================================================================
+Esta sección reúne los ejercicios del tema resueltos con todo detalle. Cada
+ejercicio sigue la misma estructura: un \emph{enunciado}, la \emph{idea} que
+guía la resolución (qué estamos buscando y por qué el método funciona), la
+\emph{resolución} paso a paso y, cuando merece la pena, un breve comentario con
+la \emph{interpretación} geométrica o física del resultado. Los seminarios
+\ref{sem:pendiente}--\ref{sem:levi} trabajan con operadores diferenciales;
+los demás verifican, con campos concretos, los tres teoremas integrales de la
+\cref{sec:integral}.
+
+% =========================================================================
+\subsection{Seminario 1. Campos escalares: la pendiente máxima de una campana}\label{sem:pendiente}
+% =========================================================================
+\begin{ejercicio}[Pendiente máxima]\label{ejer:pendiente}
+Para el campo escalar $f(\vc{r})=\eul^{-(x^{2}+y^{2})}$, calcular a qué distancia
+del origen la pendiente es máxima.
+\end{ejercicio}
+
+\begin{resolucion}
+\textbf{Idea.} Imaginamos $f:\R^{2}\to\R$ como una superficie $z=f(x,y)$: una
+campana centrada en el origen. En un punto $P=(x,y)$ podemos movernos en
+cualquier dirección del plano y la derivada direccional nos dice cuál es la
+pendiente de la superficie en esa dirección. Por la \cref{prop:maximo}, la
+mayor de todas esas pendientes en $P$ es exactamente $\norm{\nab f(P)}$, y se
+alcanza al ir en la dirección del gradiente. La pregunta se transforma
+entonces en: \emph{¿dónde es máximo $\norm{\nab f}$?}
+
+\textbf{Paso 1: el gradiente.} Por la regla de la cadena
+$[g(f(x))]'=g'(f(x))\,f'(x)$,
+\[
+  \pd{f}{x}=-2x\,\eul^{-(x^{2}+y^{2})},\qquad
+  \pd{f}{y}=-2y\,\eul^{-(x^{2}+y^{2})},
+  \quad\Longrightarrow\quad
+  \nab f=-2\,\eul^{-(x^{2}+y^{2})}\,(x\,\ux+y\,\uy),
+\]
+cuyo módulo es $\norm{\nab f}=2\,\eul^{-(x^{2}+y^{2})}\sqrt{x^{2}+y^{2}}$.
+
+\textbf{Paso 2: aprovechar la simetría.} El módulo depende solo de la distancia
+al origen. Pasando a polares, $x=r\cos\varphi$, $y=r\sen\varphi$, con
+$r=\sqrt{x^{2}+y^{2}}$ ($x^{2}+y^{2}=r^{2}$), queda
+$\norm{\nab f(r,\varphi)}=\norm{\nab f(r)}=2r\,\eul^{-r^{2}}$. El problema
+bidimensional se ha convertido en uno unidimensional: maximizar
+\[
+  g(r)=2r\,\eul^{-r^{2}},\qquad r\ge0 .
+\]
+
+\textbf{Paso 3: puntos críticos.} Derivamos:
+$g'(r)=2\eul^{-r^{2}}+2r(-2r)\eul^{-r^{2}}=2\,\eul^{-r^{2}}(1-2r^{2})$. En un punto
+crítico $g'(r)=0$; como $\eul^{-r^{2}}>0$ para todo $r$, necesariamente
+$1-2r^{2}=0$, es decir,
+\[
+  \boxed{\,r=\frac{1}{\sqrt{2}}\approx0{,}707\,}
+\]
+(en unidades arbitrarias del problema).
+
+\textbf{Paso 4: comprobar que es un máximo.} La segunda derivada es
+$g''(r)=4r\,\eul^{-r^{2}}(2r^{2}-3)$ (se obtiene derivando
+$2\eul^{-r^{2}}(1-2r^{2})$ por el producto). En $r=1/\sqrt{2}$,
+$g''(1/\sqrt{2})=4\tfrac{1}{\sqrt{2}}\,\eul^{-1/2}(1-3)<0$, así que efectivamente
+es un máximo, de valor $g(1/\sqrt{2})=\sqrt{2}\,\eul^{-1/2}\approx0{,}858$.
+\end{resolucion}
+
+\begin{observacion}[Interpretación]
+El resultado es razonable. En el origen $\nab f(\vc{0})=\vc{0}$: la cima de la
+campana es plana, la pendiente es nula. Muy lejos, $\eul^{-r^{2}}\to0$ y la
+superficie vuelve a aplanarse. Por tanto, tiene que haber una zona intermedia
+donde la pendiente sea máxima: crece desde $0$, alcanza su máximo en
+$r=1/\sqrt{2}$ y vuelve a decrecer hasta anularse (\cref{fig:sem-pendiente}).
+Es, además, el \emph{punto de inflexión} del perfil $\eul^{-r^{2}}$: allí
+$f''(r)=(4r^{2}-2)\eul^{-r^{2}}=0$, como corresponde a un punto donde la
+pendiente $f'$ es extremal.
+\end{observacion}
+
+\input{figuras/fig_sem_pendiente}
+
+% =========================================================================
+\subsection{Seminario 2. Gradiente y divergencia: cartesianas frente a esféricas}\label{sem:inverso}
+% =========================================================================
+\begin{ejercicio}[El campo del inverso del cuadrado]\label{ejer:inverso}
+Sea $f(\vc{r})=1/r=(x^{2}+y^{2}+z^{2})^{-1/2}$ (a)~Calcular $\nab f$ en
+coordenadas cartesianas y en esféricas. (b)~Para el campo
+$\vc{A}(\vc{r})=\ur/r^{2}$ calcular su divergencia en ambos sistemas.
+\end{ejercicio}
+
+\begin{resolucion}
+\textbf{(a) Gradiente.} En cartesianas, $\partial_x(x^{2}+y^{2}+z^{2})^{-1/2}=-\tfrac12(x^{2}+y^{2}+z^{2})^{-3/2}\cdot2x=-x/r^{3}$, y lo mismo para $y,z$:
+\[
+  \nab f=\pd{f}{x}\,\ux+\pd{f}{y}\,\uy+\pd{f}{z}\,\uz
+  =-\frac{1}{r^{3}}\bigl(x\,\ux+y\,\uy+z\,\uz\bigr)=-\frac{\vc{r}}{r^{3}}=-\frac{\ur}{r^{2}},
+\]
+donde hemos usado $\vc{r}=r\,\ur$. En esféricas, como $f=f(r)$ solo depende de
+$r$, la fórmula del gradiente (\cref{eq:ops-esf}) conserva un único término:
+$\nab f=\pd{f}{r}\,\ur=-\dfrac{1}{r^{2}}\,\ur$. Mismo resultado, pero obtenido
+sin cálculos: ¡la simetría esférica hace que las esféricas sean el sistema
+natural!
+
+\textbf{(b) Divergencia.} El campo $\vc{A}=\ur/r^{2}=\vc{r}/r^{3}$ tiene
+componentes cartesianas
+$\vc{A}=\dfrac{x\,\ux+y\,\uy+z\,\uz}{(x^{2}+y^{2}+z^{2})^{3/2}}$ (es, salvo signo,
+el campo $\nab f$ anterior). En cartesianas,
+\[
+  \nab\cdot\vc{A}=\pd{A_x}{x}+\pd{A_y}{y}+\pd{A_z}{z},
+\]
+y cada sumando se calcula con la regla del cociente:
+\[
+  \pd{A_x}{x}=\pd{}{x}\Bigl[\frac{x}{(x^{2}+y^{2}+z^{2})^{3/2}}\Bigr]
+  =\frac{(x^{2}+y^{2}+z^{2})^{3/2}-x\cdot\frac{3}{2}(x^{2}+y^{2}+z^{2})^{1/2}\cdot2x}{(x^{2}+y^{2}+z^{2})^{3}}
+  =\frac{1}{r^{3}}-\frac{3x^{2}}{r^{5}} .
+\]
+Sumando las tres,
+\[
+  \nab\cdot\vc{A}=\frac{3}{r^{3}}-\frac{3\,(x^{2}+y^{2}+z^{2})}{r^{5}}=\frac{3}{r^{3}}-\frac{3}{r^{3}}=0 .
+\]
+En esféricas, con $A_r=1/r^{2}$ y $A_\theta=A_\varphi=0$,
+\[
+  \nab\cdot\vc{A}=\frac{1}{r^{2}}\pd{}{r}\Bigl(r^{2}\cdot\frac{1}{r^{2}}\Bigr)=\frac{1}{r^{2}}\pd{(1)}{r}=0 .
+\]
+\end{resolucion}
+
+\begin{observacion}[La singularidad del origen]
+La divergencia es nula \emph{en todo punto excepto en el origen}, donde el
+campo no está definido (diverge) y la divergencia tiene una contribución
+singular: una delta de Dirac. El hecho de que, a pesar de ello, el flujo por
+cualquier esfera centrada en el origen valga $4\pi$ (\cref{ej:flujo-r3}) y
+\emph{no dependa de su radio} es la huella de esa fuente puntual, como muestra
+la \cref{fig:sem-inverso} y se formaliza en el \cref{teo:delta}.
+\end{observacion}
+
+\input{figuras/fig_sem_inverso}
+
+% =========================================================================
+\subsection{Seminario 3. Cálculo con índices: el tensor de Levi-Civita}\label{sem:levi}\label{sec:levi-civita}
+% =========================================================================
+Varias identidades vectoriales de la \cref{prop:productos} y de la
+\cref{prop:fundamentales} son tediosas de comprobar componente a componente.
+La notación con índices las convierte en cálculos cortos y mecánicos. Para ello
+necesitamos una herramienta.
+
+\begin{definicion}[Tensor de Levi-Civita]\label{def:levi-civita}
+El \emph{tensor de Levi-Civita} (o símbolo de permutación) en tres dimensiones es
+\[
+  \varepsilon_{ijk}=\begin{cases}
+    +1 & \text{si }(i,j,k)\text{ es una permutación par de }(1,2,3),\\
+    -1 & \text{si }(i,j,k)\text{ es una permutación impar de }(1,2,3),\\
+    \ \ 0 & \text{si dos índices cualesquiera son iguales.}
+  \end{cases}
+\]
+Es decir, $\varepsilon_{123}=\varepsilon_{231}=\varepsilon_{312}=+1$ (permutaciones
+cíclicas) y $\varepsilon_{132}=\varepsilon_{213}=\varepsilon_{321}=-1$.
+\end{definicion}
+
+\input{figuras/fig_levi}
+
+Con el convenio de sumación de Einstein (\cref{not:convenios}), el producto
+vectorial, el rotacional, la divergencia y el gradiente se escriben
+\begin{equation}\label{eq:indices}
+  (\vc{A}\times\vc{B})_i=\varepsilon_{ijk}A_jB_k,\qquad
+  (\nab\times\vc{A})_i=\varepsilon_{ijk}\partial_jA_k,\qquad
+  \nab\cdot\vc{A}=\partial_iA_i,\qquad
+  (\nab f)_i=\partial_if ,
+\end{equation}
+donde $\partial_i\equiv\partial/\partial x_i$ (derivada \emph{espacial}). En la
+primera expresión, $c_i=\sum_{j,k=1}^{3}\varepsilon_{ijk}A_jB_k$ es la componente
+$i$-ésima, y los índices repetidos $j,k$ se suman.
+
+\begin{lema}[Propiedades del tensor de Levi-Civita]\label{lema:levi}
+\begin{enumerate}[label=(\alph*)]
+  \item \emph{Antisimetría:} intercambiar dos índices cualesquiera cambia el
+        signo, por ejemplo $\varepsilon_{ijk}=-\varepsilon_{jik}=-\varepsilon_{ikj}$.
+  \item \emph{Invariancia cíclica:} $\varepsilon_{ijk}=\varepsilon_{jki}=\varepsilon_{kij}$.
+  \item \emph{Constancia:} los valores de $\varepsilon_{ijk}$ son números fijos, así
+        que $\partial_l\varepsilon_{ijk}=0$ y puede sacarse de cualquier derivada.
+\end{enumerate}
+\end{lema}
+\begin{proof}
+(a) Intercambiar dos índices convierte una permutación par en impar y viceversa
+(una transposición cambia la paridad), y deja en cero las de índices repetidos.
+(b) Una permutación cíclica de tres elementos es par, luego no cambia el signo.
+(c) Es constante por definición.
+\end{proof}
+
+\begin{lema}[Identidad $\varepsilon$--$\delta$]\label{lema:eps-delta}
+Con $\delta_{ij}$ la delta de Kronecker,
+\[
+  \varepsilon_{ijk}\,\varepsilon_{ilm}=\delta_{jl}\,\delta_{km}-\delta_{jm}\,\delta_{kl}.
+\]
+\end{lema}
+\begin{proof}
+Para $j,k$ fijos, el producto $\varepsilon_{ijk}\varepsilon_{ilm}$ (sumado en $i$) solo
+es no nulo si $j\neq k$ y si $\{l,m\}=\{j,k\}$, pues entonces $i$ es el tercer
+valor distinto. Si $(l,m)=(j,k)$ ambos factores son iguales y el producto es
+$(\pm1)^{2}=+1$; si $(l,m)=(k,j)$ difieren en un intercambio y el producto es
+$-1$. Eso es exactamente lo que valen $\delta_{jl}\delta_{km}-\delta_{jm}\delta_{kl}$.
+\end{proof}
+
+\begin{lema}[Contracción de un tensor simétrico con otro antisimétrico]\label{lema:sim-anti}
+Sean $S_{ij}$ simétrico ($S_{ij}=S_{ji}$) y $T_{ij}$ antisimétrico
+($T_{ij}=-T_{ji}$). Entonces $C\equiv S_{ij}\,T_{ij}=\sum_{i,j}S_{ij}T_{ij}=0$.
+\end{lema}
+\begin{proof}
+Los índices sumados son «mudos»: podemos renombrarlos libremente sin alterar la
+suma ($i\leftrightarrow j$). Entonces
+$C=S_{ji}T_{ji}$. Por simetría y antisimetría, $S_{ji}=S_{ij}$ y $T_{ji}=-T_{ij}$, luego
+$C=-S_{ij}T_{ij}=-C$, y por tanto $C=0$.
+\end{proof}
+
+Además, para campos de clase $C^{2}$ las derivadas parciales conmutan
+(teorema de Schwarz), de modo que el operador $\partial_i\partial_j$ es
+\emph{simétrico} en $(i,j)$.
+
+\begin{ejercicio}[Divergencia de un producto vectorial]\label{ejer:div-prod-vect}
+Demostrar que $\nab\cdot(\vc{A}\times\vc{B})=\vc{B}\cdot(\nab\times\vc{A})-\vc{A}\cdot(\nab\times\vc{B})$.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Idea.} Escribimos todo con índices, aplicamos la regla del producto a la
+derivada (el símbolo $\varepsilon$ es constante) y reconocemos, en cada término,
+la componente de un rotacional.
+
+Por la \cref{eq:indices}, la divergencia es $\partial_i(\cdot)_i$ aplicada a
+$(\vc{A}\times\vc{B})_i=\varepsilon_{ijk}A_jB_k$:
+\[
+  \nab\cdot(\vc{A}\times\vc{B})=\partial_i\bigl(\varepsilon_{ijk}A_jB_k\bigr)
+  =\varepsilon_{ijk}\bigl[(\partial_iA_j)\,B_k+A_j\,(\partial_iB_k)\bigr].
+\]
+\emph{Primer sumando.} Por la invariancia cíclica, $\varepsilon_{ijk}=\varepsilon_{kij}$, así que
+$\varepsilon_{ijk}\,\partial_iA_j=\varepsilon_{kij}\,\partial_iA_j=(\nab\times\vc{A})_k$
+(la definición del rotacional, con $k$ como índice libre). Por tanto
+$\varepsilon_{ijk}(\partial_iA_j)B_k=(\nab\times\vc{A})_kB_k=\vc{B}\cdot(\nab\times\vc{A})$.
+
+\emph{Segundo sumando.} Usamos antisimetría para reordenar:
+$\varepsilon_{ijk}=-\varepsilon_{jik}$, luego
+$\varepsilon_{ijk}\,\partial_iB_k=-\varepsilon_{jik}\,\partial_iB_k=-(\nab\times\vc{B})_j$, y
+$\varepsilon_{ijk}A_j(\partial_iB_k)=-A_j(\nab\times\vc{B})_j=-\vc{A}\cdot(\nab\times\vc{B})$.
+
+Sumando ambos resultados se obtiene la identidad pedida.
+\end{resolucion}
+
+\begin{ejercicio}[Rotacional de un escalar por un vector]\label{ejer:rot-fA}
+Demostrar que $\nab\times(f\vc{A})=\nab f\times\vc{A}+f\,\nab\times\vc{A}$.
+\end{ejercicio}
+\begin{resolucion}
+Por la definición del rotacional en notación indicial y la regla del producto,
+\begin{align*}
+  \bigl[\nab\times(f\vc{A})\bigr]_i&=\varepsilon_{ijk}\,\partial_j(fA_k)
+  =\varepsilon_{ijk}\bigl[(\partial_jf)\,A_k+f\,(\partial_jA_k)\bigr]\\
+  &=\varepsilon_{ijk}(\partial_jf)\,A_k+f\,\varepsilon_{ijk}\,\partial_jA_k
+  =(\nab f\times\vc{A})_i+f\,(\nab\times\vc{A})_i,
+\end{align*}
+donde en el último paso reconocemos el producto vectorial
+$(\vc{u}\times\vc{A})_i=\varepsilon_{ijk}u_jA_k$ con $u_j=\partial_jf=(\nab f)_j$ y el
+rotacional $(\nab\times\vc{A})_i=\varepsilon_{ijk}\partial_jA_k$. Al valer para cada
+componente $i$, vale para el vector.
+\end{resolucion}
+
+\begin{ejercicio}[Divergencia de un rotacional]\label{ejer:div-rot}
+Demostrar que $\nab\cdot(\nab\times\vc{A})=0$ para todo campo $\vc{A}\in C^{2}$.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Idea.} Es la contracción de algo simétrico con algo antisimétrico.
+
+En notación indicial, $\nab\cdot(\nab\times\vc{A})=\partial_i\bigl(\varepsilon_{ijk}\partial_jA_k\bigr)$
+(la expresión entre paréntesis es la componente $i$-ésima del rotacional).
+Como $\varepsilon_{ijk}$ es constante (\cref{lema:levi}), sale de la derivada:
+\[
+  \nab\cdot(\nab\times\vc{A})=\varepsilon_{ijk}\,\partial_i\partial_jA_k .
+\]
+Para cada $k$ fijo, $T_{ij}=\varepsilon_{ijk}$ es antisimétrico en $(i,j)$
+(\cref{lema:levi}), mientras que $S_{ij}=\partial_i\partial_jA_k$ es simétrico
+en $(i,j)$ porque $\vc{A}\in C^{2}$ (teorema de Schwarz): $\partial_i\partial_j=\partial_j\partial_i$.
+Por el \cref{lema:sim-anti}, la contracción $S_{ij}T_{ij}$ es nula para cada $k$, y
+al sumar en $k$ sigue siendo nula:
+\[
+  \nab\cdot(\nab\times\vc{A})=\varepsilon_{ijk}\,\partial_i\partial_jA_k=0 .
+\]
+\end{resolucion}
+
+La misma técnica prueba la otra relación fundamental, y la identidad del doble
+rotacional.
+
+\begin{ejercicio}[Rotacional de un gradiente]\label{ejer:rot-grad}
+Demostrar que $\nab\times(\nab f)=\vc{0}$ para todo $f\in C^{2}$.
+\end{ejercicio}
+\begin{resolucion}
+$[\nab\times(\nab f)]_i=\varepsilon_{ijk}\,\partial_j(\partial_kf)=\varepsilon_{ijk}\,\partial_j\partial_kf$:
+antisimétrico en $(j,k)$ contra simétrico en $(j,k)$ (Schwarz). Por el
+\cref{lema:sim-anti}, es cero para cada $i$.
+\end{resolucion}
+
+\begin{ejercicio}[Rotacional del rotacional]\label{ejer:rotrot}
+Demostrar que $\nab\times(\nab\times\vc{A})=\nab(\nab\cdot\vc{A})-\Lap\vc{A}$.
+\end{ejercicio}
+\begin{resolucion}
+Aplicando dos veces la definición del rotacional,
+\[
+  [\nab\times(\nab\times\vc{A})]_i=\varepsilon_{ijk}\,\partial_j\bigl(\varepsilon_{klm}\,\partial_lA_m\bigr)
+  =\varepsilon_{ijk}\,\varepsilon_{klm}\,\partial_j\partial_lA_m .
+\]
+Por la invariancia cíclica, $\varepsilon_{ijk}=\varepsilon_{kij}$, y la identidad $\varepsilon$--$\delta$
+(\cref{lema:eps-delta}, con el índice contraído $k$ en primera posición),
+\[
+  \varepsilon_{kij}\,\varepsilon_{klm}=\delta_{il}\,\delta_{jm}-\delta_{im}\,\delta_{jl} .
+\]
+Por tanto
+\[
+  [\nab\times(\nab\times\vc{A})]_i=\partial_j\partial_iA_j-\partial_j\partial_jA_i
+  =\partial_i\bigl(\partial_jA_j\bigr)-\Lap A_i
+  =\bigl[\nab(\nab\cdot\vc{A})\bigr]_i-\bigl[\Lap\vc{A}\bigr]_i ,
+\]
+donde se han intercambiado $\partial_i$ y $\partial_j$ por Schwarz.
+\end{resolucion}
+
+% =========================================================================
+\subsection{Seminario 4. Integrales de línea}\label{sem:linea}
+% =========================================================================
+\begin{ejercicio}[Trabajo a lo largo de una hélice]\label{ejer:helice}
+Calcular el trabajo realizado por la fuerza
+$\vc{F}(x,y,z)=-\tfrac12x\,\ux-\tfrac12y\,\uy+\tfrac14\,\uz$ al mover una partícula a
+lo largo de la hélice $\vc{r}(t)=\cos t\,\ux+\sen t\,\uy+t\,\uz$ desde el punto
+$(1,0,0)$ al punto $(-1,0,3\pi)$.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Paso 1: parametrizar.} En coordenadas, $\gamma(t)=(\cos t,\sen t,t)$ con
+$t\in[0,3\pi]$: en $t=0$ estamos en $(1,0,0)$ y en $t=3\pi$, en
+$(\cos3\pi,\sen3\pi,3\pi)=(-1,0,3\pi)$. Es decir,
+$x(t)=\cos t$, $y(t)=\sen t$, $z(t)=t$.
+
+\textbf{Paso 2: derivar y restringir el campo.} El vector tangente es
+$\gamma'(t)=(-\sen t,\cos t,1)$, y sobre la hélice
+\[
+  \vc{F}(\gamma(t))=\Bigl(-\tfrac12\cos t,\,-\tfrac12\sen t,\,\tfrac14\Bigr).
+\]
+\textbf{Paso 3: producto escalar.}
+\[
+  \vc{F}(\gamma(t))\cdot\gamma'(t)=\tfrac12\sen t\cos t-\tfrac12\sen t\cos t+\tfrac14=\tfrac14 .
+\]
+\textbf{Paso 4: integrar.}
+\[
+  W=\int_{C}\vc{F}\cdot\dl=\int_{0}^{3\pi}\frac14\,\dif t=\boxed{\frac{3\pi}{4}} .
+\]
+\end{resolucion}
+
+\begin{observacion}[Comprobación cualitativa]
+Los términos con senos y cosenos se han cancelado, y es lo esperable: la parte
+horizontal del campo, $-\tfrac12(x\,\ux+y\,\uy)$, es radial (apunta hacia el eje),
+mientras que la velocidad horizontal de la partícula es tangente a la
+circunferencia, perpendicular a la radial; por tanto esa parte del campo no
+realiza trabajo. Solo cuenta la componente vertical, $F_z=\tfrac14$ constante,
+que actúa a lo largo de un ascenso total $\Delta z=3\pi$:
+$W=\tfrac14\cdot3\pi$ (\cref{fig:sem-helice}).
+\end{observacion}
+
+\begin{ejercicio}[Integral de línea sobre un segmento]\label{ejer:segmento}
+Calcular $\displaystyle\int_C(x^{2}-y+3z)\,\dif x$, donde $C$ es el segmento
+rectilíneo desde el origen hasta $(1,2,1)$.
+\end{ejercicio}
+\begin{resolucion}
+Usamos la parametrización estándar del segmento (\cref{ej:segmento}), con
+$\vc{p}=(0,0,0)$ y $\vc{q}=(1,2,1)$:
+$\sigma(t)=(1-t)(0,0,0)+t\,(1,2,1)=(t,2t,t)$, $t\in[0,1]$, $\sigma'(t)=(1,2,1)$.
+En notación diferencial,
+\[
+  x=t\Rightarrow\dif x=\dif t,\qquad y=2t\Rightarrow\dif y=2\,\dif t,\qquad
+  z=t\Rightarrow\dif z=\dif t .
+\]
+La 1-forma $(x^{2}-y+3z)\,\dif x$ solo tiene componente en $\dif x$ (equivale a
+integrar el campo $(x^{2}-y+3z,\,0,\,0)$), de modo que
+\[
+  \int_C(x^{2}-y+3z)\,\dif x=\int_{0}^{1}\bigl(t^{2}-2t+3t\bigr)\dif t
+  =\int_{0}^{1}(t^{2}+t)\,\dif t=\Bigl[\frac{t^{3}}{3}+\frac{t^{2}}{2}\Bigr]_{0}^{1}
+  =\frac13+\frac12=\boxed{\frac56}.
+\]
+\end{resolucion}
+
+\begin{ejercicio}[Una 1-forma sobre una circunferencia]\label{ejer:circulo}
+Calcular $\displaystyle\int_Cx\,\dif y-y\,\dif x$, donde $C$ es la circunferencia
+$x^{2}+y^{2}=R^{2}$ recorrida en sentido antihorario.
+\end{ejercicio}
+\begin{resolucion}
+Parametrizamos con el ángulo polar, que es el parámetro natural:
+$x=R\cos\varphi$, $y=R\sen\varphi$, $\varphi\in[0,2\pi]$. Entonces
+$\dif x=-R\sen\varphi\,\dif\varphi$ y $\dif y=R\cos\varphi\,\dif\varphi$, y componiendo
+directamente sobre el integrando diferencial,
+\[
+  x\,\dif y-y\,\dif x=(R\cos\varphi)(R\cos\varphi)\,\dif\varphi-(R\sen\varphi)(-R\sen\varphi)\,\dif\varphi
+  =R^{2}(\cos^{2}\varphi+\sen^{2}\varphi)\,\dif\varphi=R^{2}\,\dif\varphi ,
+\]
+de donde
+\[
+  \int_Cx\,\dif y-y\,\dif x=\int_{0}^{2\pi}R^{2}\,\dif\varphi=R^{2}\bigl[\varphi\bigr]_{0}^{2\pi}=\boxed{2\pi R^{2}} .
+\]
+\end{resolucion}
+
+\begin{observacion}[Interpretación geométrica]
+La 1-forma $x\,\dif y-y\,\dif x$ es la integral de línea del campo de giro
+$\vc{F}=-y\,\ux+x\,\uy$ (\cref{fig:campos_rot}), que sobre la circunferencia es
+tangente, de módulo $R$ y en el sentido de recorrido: $\vc{F}\cdot\dl=R\cdot R\,\dif\varphi$.
+Por eso la circulación es $R\cdot2\pi R=2\pi R^{2}$: el doble del área del círculo
+($=\pi R^{2}$), en acuerdo con el teorema de Green, pues
+$\nab\times\vc{F}=2\,\uz$ (\cref{ej:rot}) y $\oint\vc{F}\cdot\dl=\iint2\,\dif S=2\pi R^{2}$
+(\cref{fig:sem-circulo}). Que no se anule indica que $\vc{F}$ \emph{no} es un
+campo gradiente (\cref{cor:gradiente}).
+\end{observacion}
+
+\input{figuras/fig_sem_helice}
+
+% =========================================================================
+\subsection{Seminario 5. Verificación del teorema del gradiente}\label{sem:gradiente}
+% =========================================================================
+\begin{ejercicio}[Dos caminos, un mismo resultado]\label{ejer:verif-gradiente}
+Comprobar que se cumple el teorema del gradiente,
+$\int_{\vc{a}}^{\vc{b}}\nab f\cdot\dl=f(\vc{b})-f(\vc{a})$, para el campo escalar
+$f:\R^{3}\to\R$ definido por $f(x,y,z)=xy^{2}$ y los puntos
+$\vc{a}=(0,0,0)$ y $\vc{b}=(2,2,2)$. Hacer la integral por dos caminos
+distintos y comprobar que el resultado es el mismo para ambos.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{El gradiente y el lado derecho del teorema.} El gradiente de $f=xy^{2}$ es
+\[
+  \nab f=\pd{f}{x}\,\ux+\pd{f}{y}\,\uy+\pd{f}{z}\,\uz=y^{2}\,\ux+2xy\,\uy+0\,\uz .
+\]
+La diferencia de potencial entre los extremos es
+$f(\vc{b})-f(\vc{a})=f(2,2,2)-f(0,0,0)=(2)(2^{2})-0=8$. Este es el número que
+tienen que reproducir las dos integrales.
+
+\textbf{Camino 1: segmento rectilíneo $\gamma_1$.} La parametrización estándar
+del segmento $[\vc{a},\vc{b}]$ es
+$\gamma_1(t)=(1-t)\vc{a}+t\vc{b}=(2t,2t,2t)$, $t\in[0,1]$, de modo que
+$\dl_1=\gamma_1'(t)\,\dif t=(2,2,2)\,\dif t$. Evaluamos el gradiente sobre la curva:
+\[
+  \nab f(\gamma_1(t))=\bigl((2t)^{2},\,2(2t)(2t),\,0\bigr)=(4t^{2},\,8t^{2},\,0).
+\]
+El producto escalar es $\nab f(\gamma_1)\cdot\gamma_1'=4t^{2}\cdot2+8t^{2}\cdot2+0\cdot2=24t^{2}$, y
+\[
+  \int_{\gamma_1}\nab f\cdot\dl=\int_{0}^{1}24t^{2}\,\dif t=\Bigl[\frac{24}{3}t^{3}\Bigr]_{0}^{1}=8 .
+\]
+Coincide con $f(\vc{b})-f(\vc{a})$, como asegura el teorema.
+
+\textbf{Camino 2: ruta ortogonal por los ejes $\gamma_2$.} Ahora elegimos una
+trayectoria escalonada, paralela a los ejes cartesianos y dividida en tres
+subsegmentos $C_x$, $C_y$, $C_z$ (\cref{fig:sem-trayectorias}), y sumamos sus
+contribuciones por aditividad (\cref{prop:prop-linea}):
+$\gamma_2=C_x\uplus C_y\uplus C_z$.
+\begin{itemize}
+  \item \emph{Tramo $C_x$ (recorrido en $x$)}, de $\vc{a}=(0,0,0)$ a $(2,0,0)$:
+        $\gamma_{2,x}(t)=(2t,0,0)$, $t\in[0,1]$, $\dl_x=(2,0,0)\,\dif t$. Aquí
+        $y=0$, de modo que $\nab f=(y^{2},2xy,0)=(0,0,0)$ y
+        $\int_{C_x}\nab f\cdot\dl_x=0$.
+  \item \emph{Tramo $C_y$ (recorrido en $y$)}, de $(2,0,0)$ a $(2,2,0)$:
+        $\gamma_{2,y}(t)=(2,t,0)$, $t\in[0,2]$, $\dl_y=(0,1,0)\,\dif t$. El
+        gradiente sobre el tramo es $\nab f=(t^{2},\,2\cdot2\cdot t,\,0)=(t^{2},4t,0)$,
+        y el producto escalar con $\dl_y$ vale $4t\,\dif t$:
+        \[
+          \int_{C_y}\nab f\cdot\dl_y=\int_{0}^{2}4t\,\dif t=\bigl[2t^{2}\bigr]_{0}^{2}=8 .
+        \]
+  \item \emph{Tramo $C_z$ (recorrido en $z$)}, de $(2,2,0)$ a $(2,2,2)$:
+        $\gamma_{2,z}(t)=(2,2,t)$, $t\in[0,2]$, $\dl_z=(0,0,1)\,\dif t$. El gradiente
+        es $\nab f=(4,8,0)$, perpendicular a $\dl_z$:
+        $\nab f\cdot\dl_z=0$ y $\int_{C_z}\nab f\cdot\dl_z=0$.
+\end{itemize}
+Sumando, $\int_{\gamma_2}\nab f\cdot\dl=0+8+0=8=f(\vc{b})-f(\vc{a})$.
+\end{resolucion}
+
+\begin{observacion}[Qué hemos comprobado]
+Las dos integrales dan $8$ aunque los caminos son muy distintos: es la
+\emph{independencia del camino} (\cref{cor:gradiente}). Los tramos tienen
+sentido físico: $f=xy^{2}$ no depende de $z$, así que el tramo vertical no
+cambia $f$; y mientras $y=0$ la función vale $0$ y no cambia, por lo que todo el
+incremento $f:0\to8$ ocurre en el tramo $C_y$, donde $f=2y^{2}$ pasa de $0$ a $8$. Además,
+al recorrer $\gamma_1$ y volver por $\gamma_2$ en sentido inverso se obtiene un
+circuito cerrado con circulación $8-8=0$ (\cref{eq:circulacion-nula}).
+\end{observacion}
+
+\input{figuras/fig_sem_trayectorias}
+
+% =========================================================================
+\subsection{Seminario 6. Divergencia y teorema de Gauss}\label{sem:gauss}
+% =========================================================================
+\begin{ejercicio}[Divergencia de $R^{n}\uR$]\label{ejer:div-Rn}
+Demostrar que $\nab\cdot(R^{n}\,\uR)=(n+2)\,R^{n-1}$ para $R\neq0$
+(con $n\neq-2$ para que el resultado no sea idénticamente nulo), donde
+$\vc{R}=\vc{r}-\vc{r}\,'$.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Idea.} Ya lo demostramos con reglas de derivación del producto
+(\cref{prop:div-rot-Rn}); ahora lo hacemos a mano, componente a componente,
+para ver el mecanismo.
+
+Escribimos $R^{n}\uR=R^{n-1}\vc{R}=R^{n-1}\bigl(R_x\,\ux+R_y\,\uy+R_z\,\uz\bigr)$ con
+$R_x=x-x'$, etc. La divergencia es la suma de tres derivadas parciales; la primera
+requiere la regla del producto:
+\[
+  \pd{}{x}\bigl[R^{n-1}(x-x')\bigr]=(x-x')\,\pd{R^{n-1}}{x}+R^{n-1}\,\pd{(x-x')}{x} .
+\]
+Como $\partial R/\partial x=(x-x')/R$ (\cref{eq:dR}), la regla de la cadena da
+\[
+  \pd{R^{n-1}}{x}=\pd{R^{n-1}}{R}\,\pd{R}{x}=(n-1)R^{n-2}\,\frac{x-x'}{R}
+  =(n-1)\,R^{n-3}(x-x') .
+\]
+Por tanto
+$\pd{}{x}\bigl[R^{n-1}(x-x')\bigr]=(n-1)R^{n-3}(x-x')^{2}+R^{n-1}$, y análogamente para
+$y$ y $z$:
+\[
+  \pd{}{y}\bigl[R^{n-1}(y-y')\bigr]=(n-1)R^{n-3}(y-y')^{2}+R^{n-1},\qquad
+  \pd{}{z}\bigl[R^{n-1}(z-z')\bigr]=(n-1)R^{n-3}(z-z')^{2}+R^{n-1}.
+\]
+Sumando los tres, y usando $(x-x')^{2}+(y-y')^{2}+(z-z')^{2}=R^{2}$,
+\[
+  \nab\cdot\bigl(R^{n}\uR\bigr)=(n-1)\,R^{n-3}R^{2}+3R^{n-1}=(n-1)R^{n-1}+3R^{n-1}=\boxed{(n+2)\,R^{n-1}} .
+\]
+Este resultado vale para $R\neq0$, es decir, $\vc{r}\neq\vc{r}\,'$. Para $n=-2$,
+$\nab\cdot(R^{-2}\uR)=(-2+2)R^{-3}=0$: la divergencia de $\uR/R^{2}$ es nula en todo
+punto distinto de la fuente (con la contribución singular de \cref{teo:delta}
+en $R=0$).
+\end{resolucion}
+
+\begin{ejercicio}[Jacobiano de las coordenadas esféricas]\label{ejer:jacobiano}
+Calcular el determinante jacobiano $\partial(x,y,z)/\partial(r,\theta,\varphi)$ del
+cambio a coordenadas esféricas.
+\end{ejercicio}
+\begin{resolucion}
+Con $x=r\sen\theta\cos\varphi$, $y=r\sen\theta\sen\varphi$, $z=r\cos\theta$, la
+matriz de las derivadas parciales respecto de $(r,\theta,\varphi)$ es
+\[
+  \frac{\partial(x,y,z)}{\partial(r,\theta,\varphi)}=
+  \begin{pmatrix}
+    \sen\theta\cos\varphi & r\cos\theta\cos\varphi & -r\sen\theta\sen\varphi\\
+    \sen\theta\sen\varphi & r\cos\theta\sen\varphi & \ r\sen\theta\cos\varphi\\
+    \cos\theta & -r\sen\theta & 0
+  \end{pmatrix}.
+\]
+Desarrollamos el determinante por la tercera fila (la que tiene un cero):
+\begin{align*}
+  \det&=\cos\theta\begin{vmatrix}r\cos\theta\cos\varphi & -r\sen\theta\sen\varphi\\ r\cos\theta\sen\varphi & r\sen\theta\cos\varphi\end{vmatrix}
+  -(-r\sen\theta)\begin{vmatrix}\sen\theta\cos\varphi & -r\sen\theta\sen\varphi\\ \sen\theta\sen\varphi & r\sen\theta\cos\varphi\end{vmatrix}+0.
+\end{align*}
+El primer menor vale
+$r^{2}\cos\theta\sen\theta\cos^{2}\varphi+r^{2}\cos\theta\sen\theta\sen^{2}\varphi=r^{2}\sen\theta\cos\theta$,
+y el segundo
+$r\sen^{2}\theta\cos^{2}\varphi+r\sen^{2}\theta\sen^{2}\varphi=r\sen^{2}\theta$
+(en ambos, $\cos^{2}\varphi+\sen^{2}\varphi=1$). Entonces
+\[
+  \det=\cos\theta\,(r^{2}\sen\theta\cos\theta)+r\sen\theta\,(r\sen^{2}\theta)
+  =r^{2}\sen\theta\,(\cos^{2}\theta+\sen^{2}\theta)=r^{2}\sen\theta .
+\]
+El jacobiano (valor absoluto) es $J=|r^{2}\sen\theta|=r^{2}\sen\theta$, porque
+$\theta\in[0,\pi]$ implica $\sen\theta\ge0$. Concuerda con el producto de
+factores de escala $h_1h_2h_3=1\cdot r\cdot r\sen\theta$ (\cref{prop:elementos}).
+\end{resolucion}
+
+\begin{ejercicio}[Teorema de Gauss en una esfera]\label{ejer:gauss-esfera}
+Comprobar que se cumple el teorema de la divergencia,
+$\int_V\nab\cdot\vc{A}\,\dV=\oint_S\vc{A}\cdot\dS$, siendo $\vc{A}(\vc{r})=r^{2}\,\ur$
+(en coordenadas esféricas) y $V$ una esfera de radio $R$ centrada en el origen.
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Idea.} El campo es radial, crece como $r^{2}$ y «sale» de la esfera por
+todas partes. Calculamos por separado el lado de volumen y el lado de superficie
+y comprobamos que coinciden.
+
+\textbf{Lado del volumen.} La divergencia del campo $\vc{A}=(A_r,A_\theta,A_\varphi)=(r^{2},0,0)$ en esféricas
+(\cref{eq:ops-esf}) solo conserva el primer término, pues $A_\theta=A_\varphi=0$:
+\[
+  \nab\cdot\vc{A}=\frac{1}{r^{2}}\pd{}{r}\bigl(r^{2}A_r\bigr)=\frac{1}{r^{2}}\pd{}{r}\bigl(r^{4}\bigr)=\frac{4r^{3}}{r^{2}}=4r .
+\]
+La esfera sólida es
+$V=\{(x,y,z):x^{2}+y^{2}+z^{2}\le R^{2}\}=\{(r,\theta,\varphi):0\le r\le R,\ 0\le\theta\le\pi,\ 0\le\varphi\le2\pi\}$,
+y con el elemento de volumen $\dV=r^{2}\sen\theta\,\dif r\,\dif\theta\,\dif\varphi$
+(\cref{ejer:jacobiano}),
+\[
+  \iiint_V\nab\cdot\vc{A}\,\dV=\int_{0}^{2\pi}\!\!\int_{0}^{\pi}\!\!\int_{0}^{R}(4r)\,(r^{2}\sen\theta)\,\dif r\,\dif\theta\,\dif\varphi .
+\]
+El integrando es un producto de funciones de una sola variable y los límites son
+constantes: por el teorema de Fubini, la integral se factoriza,
+\begin{align*}
+  &=\Bigl(\int_0^{2\pi}\dif\varphi\Bigr)\Bigl(\int_0^{\pi}\sen\theta\,\dif\theta\Bigr)\Bigl(\int_0^{R}4r^{3}\,\dif r\Bigr)
+  =\bigl[\varphi\bigr]_0^{2\pi}\cdot\bigl[-\cos\theta\bigr]_0^{\pi}\cdot\bigl[r^{4}\bigr]_0^{R}\\
+  &=2\pi\cdot\bigl[-\cos\pi+\cos0\bigr]\cdot R^{4}=2\pi\cdot2\cdot R^{4}=4\pi R^{4}.
+\end{align*}
+
+\textbf{Lado de la superficie.} Sobre la esfera cerrada $S=\partial V$ el radio es
+constante, $r=R$, y el campo es $\vc{A}=R^{2}\ur$, de módulo constante y radial. La
+normal unitaria exterior de la esfera es $\un=\ur$ (el radio normalizado), de modo
+que $\vc{A}\cdot\un=R^{2}\,\ur\cdot\ur=R^{2}$ (producto de dos versores de una base
+ortonormal: $\langle\uh{i},\uh{j}\rangle=\delta_{ij}$). El elemento de área en esféricas a $r=R$ es
+$\dsc=R^{2}\sen\theta\,\dif\theta\,\dif\varphi$ (\cref{sec:esfericas}), por lo que
+\[
+  \oiint_S\vc{A}\cdot\un\,\dsc=\int_0^{2\pi}\!\!\int_0^{\pi}R^{2}\cdot R^{2}\sen\theta\,\dif\theta\,\dif\varphi
+  =R^{4}\Bigl(\int_0^{2\pi}\dif\varphi\Bigr)\Bigl(\int_0^{\pi}\sen\theta\,\dif\theta\Bigr)
+  =R^{4}\cdot2\pi\cdot2=4\pi R^{4}.
+\]
+
+\textbf{Conclusión.} Ambos lados valen $4\pi R^{4}$, así que
+$\iiint_V\nab\cdot\vc{A}\,\dV=\oiint_S\vc{A}\cdot\dS=4\pi R^{4}$ y el teorema de Gauss se
+verifica para este campo radial y geometría esférica.
+\end{resolucion}
+
+\begin{observacion}
+Es instructivo ver por qué sale así. El campo crece hacia fuera ($A_r=r^{2}$) y
+cada capa esférica «deja pasar» más flujo hacia fuera de la que recibe de
+dentro; esa diferencia es lo que mide la divergencia ($4r>0$ en todo punto,
+fuente distribuida). La suma de todas esas contribuciones infinitesimales,
+ponderadas por el volumen de cada capa, reproduce el flujo total que atraviesa
+la superficie exterior (\cref{fig:sem-esfera}).
+\end{observacion}
+
+\input{figuras/fig_sem_esfera}
+
+% =========================================================================
+\subsection{Seminario 7. Verificación del teorema de Stokes}\label{sem:stokes}
+% =========================================================================
+\begin{ejercicio}[Stokes en un triángulo]\label{ejer:stokes-triangulo}
+Comprobar que se cumple el teorema del rotacional,
+$\iint_S(\nab\times\vc{A})\cdot\dS=\oint_{\partial S}\vc{A}\cdot\dl$, siendo
+$\vc{A}(\vc{r})=xy\,\ux+2yz\,\uy+3zx\,\uz$ y $S$ el área encerrada por el triángulo
+rectángulo de vértices $\vc{a}=(0,0,0)$, $\vc{b}=(2,0,0)$ y $\vc{c}=(0,2,0)$ (en el
+plano $z=0$).
+\end{ejercicio}
+\begin{resolucion}
+\textbf{Idea.} Calculamos el flujo del rotacional por el triángulo y la
+circulación del campo por sus tres lados, y comprobamos que coinciden. Antes de
+empezar fijamos la orientación: recorremos el borde $L=\partial S$ en el orden
+$\vc{a}\to\vc{b}\to\vc{c}\to\vc{a}$ (sentido antihorario visto desde $+z$); por la
+regla de la mano derecha, la normal compatible es $+\uz$ (\cref{fig:sem-stokes}).
+
+\textbf{1. Integral de superficie.} \emph{El rotacional:}
+\[
+  \nab\times\vc{A}=
+  \begin{vmatrix}
+    \ux & \uy & \uz\\
+    \partial_x & \partial_y & \partial_z\\
+    xy & 2yz & 3zx
+  \end{vmatrix}
+  =(0-2y)\,\ux-(3z-0)\,\uy+(0-x)\,\uz=-2y\,\ux-3z\,\uy-x\,\uz .
+\]
+\emph{La superficie:} $S$ está en el plano $z=0$; la parametrizamos con
+$\sigma(x,y)=(x,y,0)$, con $(x,y)\in S^{*}$ la región plana limitada por los catetos y la
+hipotenusa $y=-x+2$:
+\[
+  S^{*}=\{(x,y):0\le x\le2,\ 0\le y\le-x+2\}.
+\]
+Las derivadas parciales son $\partial_x\sigma=(1,0,0)=\ux$ y
+$\partial_y\sigma=(0,1,0)=\uy$, y el vector normal asociado es
+$\vc{n}_\sigma=\partial_x\sigma\times\partial_y\sigma=\ux\times\uy=\uz$, compatible con la orientación
+elegida. \emph{El integrando:} evaluado sobre la superficie ($z=0$),
+$(\nab\times\vc{A})(\sigma(x,y))=(-2y,\,0,\,-x)$, y su producto escalar con la normal
+es $(\nab\times\vc{A})\cdot\uz=-x$. Por tanto
+\[
+  \iint_S(\nab\times\vc{A})\cdot\dS=\int_0^2\!\!\int_0^{-x+2}(-x)\,\dif y\,\dif x
+  =\int_0^2-x\bigl[y\bigr]_0^{-x+2}\dif x=\int_0^2(x^{2}-2x)\,\dif x
+  =\Bigl[\frac{x^{3}}{3}-x^{2}\Bigr]_0^2=\frac83-4=-\frac43 .
+\]
+
+\textbf{2. Integral de línea (circulación).} Dividimos el contorno en tres tramos,
+$L=\Gamma_1\uplus\Gamma_2\uplus\Gamma_3$:
+\begin{itemize}
+  \item \emph{Tramo $\Gamma_1$} ($\vc{a}\to\vc{b}$, a lo largo del eje $x$): $\gamma_1(t)=(t,0,0)$, $t\in[0,2]$,
+        $\dl=(1,0,0)\,\dif t$. Aquí $y=z=0$, luego $\vc{A}=(xy,2yz,3zx)=\vc{0}$ y $\int_{\Gamma_1}\vc{A}\cdot\dl=0$.
+  \item \emph{Tramo $\Gamma_2$} ($\vc{b}\to\vc{c}$, la hipotenusa): $z=0$, $y=-x+2$, y por
+        tanto $\dif y=-\dif x$. Parametrizamos con $t\in[0,2]$ mediante
+        $\gamma_2(t)=(2-t,\,t,\,0)$ (es el segmento $(1-s)\vc{b}+s\,\vc{c}$ con $s=t/2$), de modo que
+        $\gamma_2'(t)=(-1,1,0)$ y $\dl=(-1,1,0)\,\dif t$. Sobre el tramo, $\vc{A}=\bigl((2-t)t,\,0,\,0\bigr)$ (porque $z=0$), y
+        $\vc{A}\cdot\gamma_2'=-(2-t)t=t^{2}-2t$, así que
+        \[
+          \int_{\Gamma_2}\vc{A}\cdot\dl=\int_0^2(t^{2}-2t)\,\dif t=\Bigl[\frac{t^{3}}{3}-t^{2}\Bigr]_0^2=\frac83-4=-\frac43 .
+        \]
+  \item \emph{Tramo $\Gamma_3$} ($\vc{c}\to\vc{a}$, a lo largo del eje $y$): $\gamma_3(t)=(0,2-t,0)$, $t\in[0,2]$,
+        $\dl=(0,-1,0)\,\dif t$. Aquí $x=z=0$, luego $\vc{A}=\vc{0}$ y la integral es nula.
+\end{itemize}
+Sumando,
+\[
+  \oint_{\partial S}\vc{A}\cdot\dl=0-\frac43+0=-\frac43 .
+\]
+
+\textbf{Conclusión.} Ambos lados valen $-4/3$:
+\[
+  \iint_S(\nab\times\vc{A})\cdot\dS=\oint_{\partial S}\vc{A}\cdot\dl=-\frac43 ,
+\]
+y el teorema de Stokes se verifica formalmente.
+\end{resolucion}
+
+\begin{observacion}[Lectura geométrica]
+Solo el lado $\Gamma_2$ contribuye a la circulación, pues sobre los ejes
+coordenados ($y=0$ o $x=0$, con $z=0$) el campo se anula. En el interior del
+triángulo, la componente que cuenta del rotacional, $(\nab\times\vc{A})\cdot\uz=-x$, es
+negativa y más intensa hacia el vértice $\vc{b}$ (donde $x$ es mayor) (\cref{fig:sem-stokes}):
+el campo tiende a hacer girar una rueda en sentido \emph{horario} visto desde
+$+z$, justo al contrario del sentido en que recorremos el borde, por eso el
+resultado es negativo.
+\end{observacion}
+
+\input{figuras/fig_sem_stokes}

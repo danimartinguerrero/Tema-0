@@ -1,0 +1,29 @@
+% Figura: campo del inverso del cuadrado y flujo constante
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.47\textwidth}\centering
+\begin{tikzpicture}[x=0.84cm, y=0.84cm, baseline=(current bounding box.north)]
+  \marcoD{-2.7}{2.7}{-2.7}{2.7}{-2,-1,0,1,2}{-2,-1,0,1,2}
+  \ejesD{-2.7}{2.7}{-2.7}{2.7}
+  \clipD{-2.7}{2.7}{-2.7}{2.7}{\flechas{\x/((\x*\x+\y*\y)^1.5)}{\y/((\x*\x+\y*\y)^1.5)}%
+     {-2.4,-1.8,-1.2,-0.6,0.6,1.2,1.8,2.4}{-2.4,-1.8,-1.2,-0.6,0.6,1.2,1.8,2.4}{0.42}{1.4}}
+  \fill[azulprof] (0,0) circle (2pt);
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}\ $\vc{A}=\ur/r^{2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.50\textwidth}\centering
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+  \begin{axis}[tema, width=\textwidth, height=5.4cm, xlabel={$r$}, xmin=0, xmax=3, ymin=0, ymax=22,
+      samples=150, domain=0.26:3, legend style={at={(0.97,0.97)}, anchor=north east}]
+    \addplot[azulacero, line width=1.1pt] {1/x^2};
+    \addplot[rojoteo, line width=1.1pt, domain=0.26:3] {4*pi};
+    \legend{$\norm{\vc{A}}=1/r^{2}$, $\Phi(r)=\oiint_{S_r}\vc{A}\cdot\dS=4\pi$}
+  \end{axis}
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}
+\caption{El campo $\vc{A}=\ur/r^{2}$. (a)~Flechas radiales cuyo módulo cae como
+$1/r^{2}$ al alejarse de la fuente (el origen). (b)~El módulo decrece, pero el
+flujo por una esfera de radio $r$, $\Phi=\norm{\vc{A}}\cdot4\pi r^{2}$, es constante
+e igual a $4\pi$: el campo «se diluye» exactamente al ritmo en que crece la
+superficie, de modo que no hay fuentes salvo la del origen.}
+\label{fig:sem-inverso}
+\end{figure}

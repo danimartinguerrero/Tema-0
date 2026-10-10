@@ -1,0 +1,20 @@
+% Figura: aproximaciones de la delta de Dirac por gaussianas de área unidad.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[tema, width=0.62\textwidth, height=5.6cm, xlabel={$x$}, ylabel={$\delta_\sigma(x)$},
+      xmin=-2.2, xmax=2.2, ymin=0, ymax=3.6, samples=200, domain=-2.2:2.2,
+      legend pos=north east, legend cell align=left, grid=major]
+    \addplot[azulclaro!80!azulacero, line width=1.1pt] {1/(1*sqrt(2*pi))*exp(-x^2/(2*1^2))};
+    \addplot[azulacero, line width=1.1pt] {1/(0.5*sqrt(2*pi))*exp(-x^2/(2*0.5^2))};
+    \addplot[azulprof, line width=1.1pt] {1/(0.25*sqrt(2*pi))*exp(-x^2/(2*0.25^2))};
+    \addplot[rojoteo, line width=1.1pt, samples=400] {1/(0.12*sqrt(2*pi))*exp(-x^2/(2*0.12^2))};
+    \legend{$\sigma=1$, $\sigma=0{,}5$, $\sigma=0{,}25$, $\sigma=0{,}12$}
+  \end{axis}
+\end{tikzpicture}
+\caption{La delta de Dirac como límite de picos cada vez más estrechos y altos
+con área unidad: $\delta_\sigma(x)=\frac{1}{\sigma\sqrt{2\pi}}\,\eul^{-x^{2}/2\sigma^{2}}$.
+Cuando $\sigma\to0$, $\int\delta_\sigma\,\dif x=1$ se conserva y el pico se
+concentra en $x=0$.}
+\label{fig:delta}
+\end{figure}

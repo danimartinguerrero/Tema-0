@@ -1,0 +1,32 @@
+\begin{figure}[ht]
+\centering
+\tdplotsetmaincoords{72}{120}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.45]
+  \def\rh{2.3}\def\ph{38}\def\pz{1.7}
+  \pgfmathsetmacro{\px}{\rh*cos(\ph)}\pgfmathsetmacro{\py}{\rh*sin(\ph)}
+  \draw[eje] (0,0,0) -- (3.3,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.6,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.2) node[above] {\small $z$};
+  % pared cilíndrica
+  \fill[ocreteo, opacity=0.20]
+    plot[variable=\t, domain=-15:105, samples=14] ({\rh*cos(\t)},{\rh*sin(\t)},-0.3)
+    -- plot[variable=\t, domain=105:-15, samples=14] ({\rh*cos(\t)},{\rh*sin(\t)},2.6) -- cycle;
+  \draw[ocreteo!70, line width=0.4pt] plot[variable=\t, domain=-15:105, samples=14] ({\rh*cos(\t)},{\rh*sin(\t)},\pz);
+  \draw[punteado] (0,0,0) -- (\px,\py,0) -- (\px,\py,\pz);
+  \draw[->, line width=1.5pt, azulprof] (0,0,0) -- (\px,\py,\pz);
+  \node[azulprof, font=\small] at (0.35,0.1,1.45) {$\vc{r}$};
+  \draw[grispizarra, line width=0.5pt] plot[variable=\t, domain=0:\ph, samples=8] ({0.9*cos(\t)},{0.9*sin(\t)},0);
+  \node[font=\scriptsize] at ({1.25*cos(\ph/2)},{1.25*sin(\ph/2)},0) {$\varphi$};
+  \node[font=\scriptsize] at ({0.72*\rh*cos(\ph)+0.30*sin(\ph)},{0.72*\rh*sin(\ph)-0.30*cos(\ph)},0) {$\rho$};
+  \node[font=\scriptsize] at (\px+0.05,\py+0.25,0.5*\pz) {$z$};
+  \uvect{\px}{\py}{\pz}{({0.95*cos(\ph)},{0.95*sin(\ph)},0)}{right}
+  \uvect{\px}{\py}{\pz}{({-0.95*sin(\ph)},{0.95*cos(\ph)},0)}{above}
+  \uvect{\px}{\py}{\pz}{(0,0,0.95)}{above}
+  \node[rojoteo, font=\scriptsize] at ({\px+1.25*cos(\ph)},{\py+1.25*sin(\ph)},\pz-0.1) {$\urho$};
+  \node[rojoteo, font=\scriptsize] at ({\px-1.2*sin(\ph)},{\py+1.2*cos(\ph)},\pz+0.05) {$\uph$};
+  \node[rojoteo, font=\scriptsize] at (\px,\py,\pz+1.25) {$\uz$};
+  \fill[azulprof] (\px,\py,\pz) circle (1.8pt);
+\end{tikzpicture}
+\caption{Coordenadas cilíndricas $(\rho,\varphi,z)$. El versor $\urho$ apunta alejándose del eje $z$ y $\uph$ es tangente a la circunferencia de radio $\rho$ (en el sentido en que crece $\varphi$); $\uz$ es el mismo que en cartesianas. La pared cilíndrica es la superficie $\rho=\text{cte}$. Al cambiar de punto, $\urho$ y $\uph$ giran.}
+\label{fig:coord-cil}
+\end{figure}

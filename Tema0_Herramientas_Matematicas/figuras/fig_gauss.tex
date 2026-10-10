@@ -1,0 +1,59 @@
+% Figura: f(x,y)=exp(-(x^2+y^2)) y su gradiente (mapa de calor + curvas de
+% nivel, superficie 3D, y el campo gradiente en ambas representaciones).
+% Los mapas planos se dibujan con anillos concéntricos (f solo depende de r).
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1.15cm, y=1.15cm]
+  % (a) mapa de calor con curvas de nivel
+  \begin{scope}
+    \mapaGauss{%
+      \foreach \lv/\px/\py in {0.9/0.111/0.305, 0.7/0.561/0.204, 0.5/0.721/-0.416,
+                               0.3/0.190/-1.081, 0.2/-0.815/0.972, 0.1/-1.494/-0.264}{%
+        \node[font=\tiny, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt]
+          at (\px,\py) {\pgfmathprintnumber[fixed,precision=1,use comma]{\lv}};}}
+    \node[font=\small\scshape, anchor=south] at (0,2.15) {(a)\; $f(x,y)=\eul^{-(x^{2}+y^{2})}$};
+  \end{scope}
+  % (c) gradiente sobre el mapa
+  \begin{scope}[shift={(0,-5.4)}]
+    \mapaGauss{%
+      \flechas{-2*exp(-(\x*\x+\y*\y))*\x}{-2*exp(-(\x*\x+\y*\y))*\y}%
+        {-2,-1.6,...,2}{-2,-1.6,...,2}{0.75}{0.86}}
+    \node[font=\small\scshape, anchor=south] at (0,2.15) {(c)\; campo $\nab f$};
+  \end{scope}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+  % (b) superficie
+  \begin{axis}[superficie, width=0.56\textwidth, height=0.46\textwidth, name=B,
+      xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
+      xmin=-2, xmax=2, ymin=-2, ymax=2, zmin=0, zmax=1,
+      xtick={-2,0,2}, ytick={-2,0,2}, ztick={0,0.5,1},
+      view={-38}{26}, point meta min=0, point meta max=1,
+      title={\small\scshape (b)\; superficie $z=f(x,y)$}]
+    \addplot3[surf, shader=interp, samples=34, domain=-2:2, opacity=0.97] {exp(-(x^2+y^2))};
+  \end{axis}
+  % (d) gradiente sobre la superficie
+  \begin{axis}[superficie, width=0.56\textwidth, height=0.46\textwidth, at={(B.south)},
+      anchor=north, yshift=-1.4cm,
+      xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
+      xmin=-2, xmax=2, ymin=-2, ymax=2, zmin=0, zmax=1,
+      xtick={-2,0,2}, ytick={-2,0,2}, ztick={0,0.5,1},
+      view={-38}{26}, point meta min=0, point meta max=1,
+      title={\small\scshape (d)\; $\nab f$ sobre la superficie}]
+    \addplot3[surf, shader=interp, samples=34, domain=-2:2, opacity=0.55] {exp(-(x^2+y^2))};
+    \addplot3[quiver={u={-1.1*x*exp(-(x^2+y^2))}, v={-1.1*y*exp(-(x^2+y^2))},
+                      w={1.1*2*(x^2+y^2)*exp(-2*(x^2+y^2))}, colored=mapped color},
+              -{Stealth[length=3pt]}, line width=0.6pt, point meta={2*sqrt(x^2+y^2)*exp(-(x^2+y^2))},
+              domain=-1.8:1.8, samples=8, samples y=8] {exp(-(x^2+y^2))+0.015};
+  \end{axis}
+\end{tikzpicture}
+\caption{Campo escalar $f(x,y)=\eul^{-(x^{2}+y^{2})}$ y su gradiente
+$\nab f=-2\,\eul^{-(x^{2}+y^{2})}(x\,\ux+y\,\uy)$. (a)~Mapa de calor con
+curvas de nivel $f=0{,}1,\,0{,}2,\ldots,0{,}9$ (equipotenciales).
+(b)~La misma función vista como superficie $z=f(x,y)$.
+(c)~El gradiente apunta hacia el máximo, es ortogonal a las curvas de nivel y
+su módulo se anula en el origen y decae a grandes distancias; el color
+codifica $\norm{\nab f}$ (de índigo a ámbar). (d)~Sobre la superficie, los
+vectores son tangentes a ella y señalan la dirección de máxima pendiente.}
+\label{fig:gauss}
+\end{figure}

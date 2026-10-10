@@ -1,0 +1,111 @@
+% =========================================================================
+\section{Introducción}\label{sec:introduccion}
+% =========================================================================
+El electromagnetismo clásico es, en esencia, una teoría de \emph{campos}: a
+cada punto del espacio se le asigna una magnitud (un número, un vector) que
+varía de un punto a otro y, en general, también con el tiempo. El campo
+eléctrico $\vc{E}(\vc{r})$ y el campo magnético $\vc{B}(\vc{r})$ son campos
+vectoriales; el potencial electrostático $V(\vc{r})$ y la densidad de carga
+$\rho(\vc{r})$ son campos escalares. Para hablar de cómo cambian esos campos
+(\emph{derivadas}), de cuánto «atraviesan» una superficie o «circulan» a lo
+largo de un circuito (\emph{integrales}), y de cómo conectar ambas ideas,
+necesitamos un pequeño conjunto de herramientas matemáticas, que son las que
+reúne este tema~\cite{NAVAS,GRIFFITHS,ARFKEN}. Las figuras reproducen, ahora como
+diagramas vectoriales en TikZ y gráficas en pgfplots, las del material de
+figuras del curso~\cite{FIGURAS-T0}, que se prepararon con Mathematica, y las completan con
+diagramas propios de los ejercicios de verificación.
+
+Estas herramientas se pueden agrupar en tres bloques que se apoyan unos en
+otros:
+\begin{itemize}
+  \item \textbf{Cálculo diferencial vectorial} (\cref{sec:campos,sec:operadores}):
+        el gradiente de un campo escalar, y la divergencia y el rotacional de un
+        campo vectorial, con sus reglas de derivación y las identidades que
+        satisfacen entre sí.
+  \item \textbf{Cálculo integral vectorial} (\cref{sec:integral}): las integrales
+        de línea y de flujo, y los tres teoremas integrales fundamentales
+        (del gradiente, de Stokes y de Gauss), todos ellos generalizaciones del
+        teorema fundamental del cálculo.
+  \item \textbf{Geometría de las coordenadas} (\cref{sec:coordenadas,sec:posicion}):
+        los sistemas cartesiano, cilíndrico y esférico con sus operadores
+        diferenciales, y las funciones de la posición relativa
+        $\vc{R}=\vc{r}-\vc{r}\,'$ que aparecen siempre que una distribución
+        de fuentes genera un campo, junto con la delta de Dirac.
+\end{itemize}
+El documento termina con unos \emph{seminarios prácticos} (\cref{sec:seminarios})
+donde se resuelven, con todo detalle, los ejercicios de verificación de los
+teoremas y las demostraciones de identidades vectoriales con el tensor de
+Levi-Civita. Los resultados se enuncian con el rigor de un artículo, pero
+procuramos acompañar cada fórmula de una explicación geométrica o física que
+permita \emph{ver} por qué es cierta.
+
+% -------------------------------------------------------------------------
+\subsection{Notación y convenios}\label{sec:notacion}
+% -------------------------------------------------------------------------
+Seguimos la notación vectorial de L.~Navas~\cite{NAVAS} y las expresiones del
+formulario del curso~\cite{FORMULARIO}. Las flechas distinguen los
+vectores de los escalares, y los versores (vectores unitarios) se escriben con
+sombrero.
+
+\begin{table}[ht]
+\centering
+\caption{Resumen de la notación empleada.}
+\label{tab:notacion}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{4.6cm}p{9.2cm}@{}}
+\toprule
+Símbolo & Significado\\
+\midrule
+$\vc{r}=x\,\ux+y\,\uy+z\,\uz$ & Vector de posición del \emph{punto campo};
+  $\vc{r}\,'$ es el del \emph{punto fuente}.\\
+$\ux,\uy,\uz$;\ $\ur,\uth,\uph$ & Versores de las bases cartesiana y esférica
+  (en la base cilíndrica, $\urho,\uph,\uz$).\\
+$f,\,g,\,V$ & Campos escalares, $f:W\subseteq\R^{n}\to\R$.\\
+$\vc{F},\,\vc{A},\,\vc{B}$ & Campos vectoriales, $\vc{F}:W\subseteq\R^{n}\to\R^{n}$,
+  con componentes $(F_x,F_y,F_z)$.\\
+$\nab=\ux\,\partial_x+\uy\,\partial_y+\uz\,\partial_z$ & Operador «nabla»
+  (o «del»), un operador diferencial; $\nab'$ actúa sobre las coordenadas fuente.\\
+$\nab f,\ \nab\cdot\vc{F},\ \nab\times\vc{F},\ \Lap f$ & Gradiente, divergencia,
+  rotacional y laplaciano.\\
+$\dl,\ \dS,\ \dV$ & Elemento de línea dirigido, de área dirigido
+  ($\dS=\un\,\dsc$) y de volumen.\\
+$\partial S,\ \partial V$ & Borde (orientado) de una superficie $S$ y de un
+  volumen $V$.\\
+$\displaystyle\int_{C}\!,\ \oint_{C},\ \iint_{S},\ \oiint_{S},\ \iiint_{V}$ &
+  Integrales sobre curvas abiertas y cerradas, sobre superficies abiertas y
+  cerradas, y sobre volúmenes.\\
+$\varepsilon_{ijk},\ \delta_{ij}$ & Tensor de Levi-Civita y delta de Kronecker.\\
+$\delta^{3}(\vc{r})$ & Delta de Dirac tridimensional.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{notacion}[Convenios generales]\label{not:convenios}
+Fijamos los siguientes convenios.\begin{enumerate}[label=(\alph*)]
+  \item Salvo mención en contrario, los campos son de clase $C^{1}$ en la región
+        considerada (de clase $C^{2}$ cuando intervienen derivadas segundas), y
+        las curvas y superficies son regulares a trozos.
+  \item Las \emph{regiones} $W\subseteq\R^{n}$ son abiertos conexos.
+  \item Las curvas y las superficies están \emph{orientadas}. El borde de una
+        superficie lleva la orientación compatible con la de la superficie
+        según la regla de la mano derecha (\cref{sec:stokes}), y el borde de
+        un sólido se orienta con el vector normal exterior.
+  \item En los desarrollos con índices se aplica el convenio de sumación de
+        Einstein: todo índice repetido en un mismo monomio se suma de $1$ a $3$,
+        y $\partial_i\equiv\partial/\partial x_i$ con
+        $(x_1,x_2,x_3)=(x,y,z)$.
+  \item Escribimos $\sen$ para el seno y $\tan^{-1}$ para la función arcotangente.
+\end{enumerate}
+\end{notacion}
+
+\begin{observacion}[Sobre el símbolo $\nab$]\label{obs:nabla}
+El símbolo $\nab$ se manipula como si fuese un vector de componentes
+$(\partial_x,\partial_y,\partial_z)$, y esa analogía es muy útil para recordar
+fórmulas: $\nab f$ «es» el vector $\nab$ multiplicado por el escalar $f$,
+$\nab\cdot\vc{F}$ su producto escalar con $\vc{F}$, y $\nab\times\vc{F}$ su
+producto vectorial. Pero conviene no olvidar que $\nab$ \emph{no es un vector}
+hasta que opera sobre un campo: es un operador diferencial, y en particular no
+conmuta con los campos ($\nab\cdot\vc{A}\neq\vc{A}\cdot\nab$). La analogía
+sugiere fórmulas, pero no las demuestra.
+\end{observacion}

@@ -1,0 +1,63 @@
+% Figura: verificación del teorema de la divergencia en una esfera
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.52\textwidth}\centering
+\tdplotsetmaincoords{70}{125}
+\begin{tikzpicture}[tdplot_main_coords, scale=1.05, baseline=(current bounding box.north)]
+  \def\RR{2.1}
+  \draw[eje] (0,0,0) -- (3.0,0,0) node[below left] {\small $x$};
+  \draw[eje] (0,0,0) -- (0,3.1,0) node[right] {\small $y$};
+  \draw[eje] (0,0,0) -- (0,0,3.1) node[above] {\small $z$};
+  % esfera: contorno aparente y círculos máximos
+  \begin{scope}[tdplot_screen_coords]
+    \shade[ball color=azulclaro!55, opacity=0.35] (0,0) circle (\RR);
+    \draw[azulprof!60, line width=0.6pt] (0,0) circle (\RR);
+  \end{scope}
+  \draw[azulprof!45, line width=0.4pt, domain=0:360, samples=72] plot ({\RR*cos(\x)},{\RR*sin(\x)},0);
+  \foreach \ph in {0,45,90,135}{\draw[azulprof!35, line width=0.4pt, domain=0:360, samples=72]
+     plot ({\RR*sin(\x)*cos(\ph)},{\RR*sin(\x)*sin(\ph)},{\RR*cos(\x)});}
+  % campo radial A = R^2 u_r (flechas salientes, módulo constante)
+  \foreach \th/\ph in {30/20,30/110,30/200,30/290,65/60,65/150,65/240,65/330,100/20,100/110,100/200,100/290,140/60,140/150,140/240,140/330}{%
+    \pgfmathsetmacro{\px}{\RR*sin(\th)*cos(\ph)}\pgfmathsetmacro{\py}{\RR*sin(\th)*sin(\ph)}\pgfmathsetmacro{\pz}{\RR*cos(\th)}%
+    \draw[-{Stealth[length=4pt]}, line width=1pt, cm3] (\px,\py,\pz) -- ++({0.55*sin(\th)*cos(\ph)},{0.55*sin(\th)*sin(\ph)},{0.55*cos(\th)});}
+  % elemento de superficie y normal
+  \def\ta{48}\def\tb{62}\def\pa{28}\def\pb{46}
+  \fill[ocreteo, opacity=0.7]
+    ({\RR*sin(\ta)*cos(\pa)},{\RR*sin(\ta)*sin(\pa)},{\RR*cos(\ta)}) --
+    ({\RR*sin(\tb)*cos(\pa)},{\RR*sin(\tb)*sin(\pa)},{\RR*cos(\tb)}) --
+    ({\RR*sin(\tb)*cos(\pb)},{\RR*sin(\tb)*sin(\pb)},{\RR*cos(\tb)}) --
+    ({\RR*sin(\ta)*cos(\pb)},{\RR*sin(\ta)*sin(\pb)},{\RR*cos(\ta)}) -- cycle;
+  \draw[-{Stealth[length=5pt]}, line width=1.5pt, azulacero]
+    ({\RR*sin(55)*cos(37)},{\RR*sin(55)*sin(37)},{\RR*cos(55)}) --
+    ({(\RR+1.0)*sin(55)*cos(37)},{(\RR+1.0)*sin(55)*sin(37)},{(\RR+1.0)*cos(55)});
+  \node[font=\small, text=azulacero] at ({(\RR+1.35)*sin(55)*cos(37)},{(\RR+1.35)*sin(55)*sin(37)},{(\RR+1.35)*cos(55)}) {$\dS=\ur\,\dsc$};
+  \draw[line width=0.6pt, grispizarra] (0,0,0) -- ({\RR*sin(125)*cos(300)},{\RR*sin(125)*sin(300)},{\RR*cos(125)});
+  \node[font=\small, text=black!80] at ({0.55*\RR*sin(125)*cos(300)+0.15},{0.55*\RR*sin(125)*sin(300)-0.2},{0.55*\RR*cos(125)}) {$R$};
+  \fill (0,0,0) circle (1.2pt);
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.44\textwidth}\centering
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+  \begin{axis}[tema, width=\textwidth, height=6.3cm, xlabel={$r$}, xmin=0, xmax=1.6, ymin=0, ymax=42,
+      samples=100, domain=0:1.6, xtick={0,0.5,1,1.5}, xticklabels={0,0{,}5,$R$,1{,}5},
+      xtick={0,0.5,1.0,1.5}, legend style={at={(0.03,0.97)}, anchor=north west}]
+    \addplot[azulacero, line width=1.1pt] {4*pi*x^4};
+    \addplot[rojoteo, line width=1.1pt] {16*pi*x^3};
+    \addplot[name path=curva, rojoteo, draw=none, domain=0:1] {16*pi*x^3};
+    \path[name path=eje] (axis cs:0,0) -- (axis cs:1,0);
+    \addplot[rojoteo!25] fill between[of=curva and eje];
+    \addplot[grispizarra, densely dashed] coordinates {(1,0) (1,12.57)};
+    \node[font=\scriptsize, text=azulacero, anchor=west] at (axis cs:1.02,12.0) {$4\pi R^{4}$};
+    \legend{$\Phi(r)=4\pi r^{4}$, $16\pi r^{3}=\nab\cdot\vc{A}\,\cdot4\pi r^{2}$}
+  \end{axis}
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}
+\caption{Teorema de Gauss para $\vc{A}=r^{2}\,\ur$ en una esfera de radio
+$R$. (a)~El campo es radial y de módulo constante sobre la esfera; la normal
+exterior es $\ur$, de modo que $\vc{A}\cdot\un=R^{2}$ y el flujo es
+$R^{2}\cdot4\pi R^{2}$. (b)~Visión «capa a capa»: cada cáscara de radio $r$ y
+espesor $\dif r$ aporta $\nab\cdot\vc{A}\,\dV=4r\cdot4\pi r^{2}\,\dif r$; el área
+bajo $16\pi r^{3}$ (sombreada) hasta $R=1$ es el flujo total
+$\Phi(R)=4\pi R^{4}$.}
+\label{fig:sem-esfera}
+\end{figure}

@@ -1,0 +1,96 @@
+% =========================================================================
+\appendix
+\section{Fórmulas de referencia}\label{sec:apendice}
+% =========================================================================
+Se recogen aquí las expresiones del formulario del curso~\cite{FORMULARIO} que
+no han aparecido todavía de forma explícita, con una breve justificación.
+
+% -------------------------------------------------------------------------
+\subsection{Doble producto de vectores}\label{sec:doble-producto}
+% -------------------------------------------------------------------------
+\begin{proposicion}\label{prop:doble-producto}
+Para tres vectores $\vc{A},\vc{B},\vc{C}$ de $\R^{3}$,
+\begin{align}
+  \vc{A}\cdot(\vc{B}\times\vc{C})&=\vc{B}\cdot(\vc{C}\times\vc{A})=\vc{C}\cdot(\vc{A}\times\vc{B}), \label{eq:triple-escalar}\\
+  \vc{A}\times(\vc{B}\times\vc{C})&=(\vc{A}\cdot\vc{C})\,\vc{B}-(\vc{A}\cdot\vc{B})\,\vc{C}. \label{eq:bac-cab}
+\end{align}
+\end{proposicion}
+\begin{proof}
+Con el tensor de Levi-Civita, $\vc{A}\cdot(\vc{B}\times\vc{C})=\varepsilon_{ijk}A_iB_jC_k$, y la
+invariancia cíclica $\varepsilon_{ijk}=\varepsilon_{jki}=\varepsilon_{kij}$ da
+\eqref{eq:triple-escalar} (el triple producto es el volumen orientado del
+paralelepípedo, y no cambia al permutar cíclicamente). Para la segunda,
+\[
+  [\vc{A}\times(\vc{B}\times\vc{C})]_i=\varepsilon_{ijk}A_j\,\varepsilon_{klm}B_lC_m
+  =(\delta_{il}\delta_{jm}-\delta_{im}\delta_{jl})A_jB_lC_m
+  =B_i\,(\vc{A}\cdot\vc{C})-C_i\,(\vc{A}\cdot\vc{B}),
+\]
+donde se ha usado $\varepsilon_{ijk}=\varepsilon_{kij}$ y el \cref{lema:eps-delta}.
+\end{proof}
+
+% -------------------------------------------------------------------------
+\subsection{Cuadro de derivadas vectoriales}\label{sec:cuadro-derivadas}
+% -------------------------------------------------------------------------
+Reunimos, para consulta, las identidades de las \cref{prop:productos,prop:fundamentales,prop:rotrot}:
+\begin{center}
+\renewcommand{\arraystretch}{1.55}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+\multicolumn{2}{c}{Derivadas de productos}\\
+\midrule
+$\nab(fg)=f\,\nab g+g\,\nab f$ & $\nab\cdot(f\vc{A})=f\,\nab\cdot\vc{A}+\vc{A}\cdot\nab f$\\
+$\nab\times(f\vc{A})=\nab f\times\vc{A}+f\,\nab\times\vc{A}$ & $\nab\cdot(\vc{A}\times\vc{B})=\vc{B}\cdot(\nab\times\vc{A})-\vc{A}\cdot(\nab\times\vc{B})$\\
+\multicolumn{2}{@{}l}{$\nab(\vc{A}\cdot\vc{B})=\vc{A}\times(\nab\times\vc{B})+\vc{B}\times(\nab\times\vc{A})+(\vc{A}\cdot\nab)\vc{B}+(\vc{B}\cdot\nab)\vc{A}$}\\
+\multicolumn{2}{@{}l}{$\nab\times(\vc{A}\times\vc{B})=(\nab\cdot\vc{B})\vc{A}-(\nab\cdot\vc{A})\vc{B}+(\vc{B}\cdot\nab)\vc{A}-(\vc{A}\cdot\nab)\vc{B}$}\\
+\midrule
+\multicolumn{2}{c}{Derivadas segundas}\\
+\midrule
+$\nab\cdot(\nab f)=\Lap f=\pdd{f}{x}+\pdd{f}{y}+\pdd{f}{z}$ & $\nab\cdot(\nab\times\vc{A})=0$\\
+$\nab\times(\nab f)=\vc{0}$ & $\nab\times(\nab\times\vc{A})=\nab(\nab\cdot\vc{A})-\Lap\vc{A}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% -------------------------------------------------------------------------
+\subsection{Integrales que aparecen con frecuencia}\label{sec:integrales-frecuentes}
+% -------------------------------------------------------------------------
+En el cálculo de campos de distribuciones de carga aparecen una y otra vez las
+siguientes primitivas, con $a>0$ constante:
+\begin{align}
+  \int\frac{\dif x}{(x^{2}+a^{2})^{1/2}}&=\ln\Bigl(x+\sqrt{x^{2}+a^{2}}\Bigr), &
+  \int\frac{x\,\dif x}{(x^{2}+a^{2})^{1/2}}&=\sqrt{x^{2}+a^{2}},\label{eq:int-1}\\
+  \int\frac{\dif x}{x^{2}+a^{2}}&=\frac{1}{a}\tan^{-1}\frac{x}{a}, &
+  \int\frac{x\,\dif x}{x^{2}+a^{2}}&=\frac{1}{2}\ln\bigl(x^{2}+a^{2}\bigr),\label{eq:int-2}\\
+  \int\frac{\dif x}{(x^{2}+a^{2})^{3/2}}&=\frac{x}{a^{2}\sqrt{x^{2}+a^{2}}}, &
+  \int\frac{x\,\dif x}{(x^{2}+a^{2})^{3/2}}&=-\frac{1}{\sqrt{x^{2}+a^{2}}}.\label{eq:int-3}
+\end{align}
+Todas se comprueban derivando el segundo miembro. Por ejemplo, para la primera,
+$\frac{\dif}{\dif x}\ln\bigl(x+\sqrt{x^{2}+a^{2}}\bigr)=\frac{1+x/\sqrt{x^{2}+a^{2}}}{x+\sqrt{x^{2}+a^{2}}}=\frac{1}{\sqrt{x^{2}+a^{2}}}$,
+y para la quinta,
+$\frac{\dif}{\dif x}\frac{x}{a^{2}\sqrt{x^{2}+a^{2}}}=\frac{(x^{2}+a^{2})-x^{2}}{a^{2}(x^{2}+a^{2})^{3/2}}=\frac{1}{(x^{2}+a^{2})^{3/2}}$.
+
+% -------------------------------------------------------------------------
+\subsection{Resumen de la delta de Dirac y de los polinomios de Legendre}\label{sec:resumen-delta}
+% -------------------------------------------------------------------------
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\multicolumn{3}{c}{Delta de Dirac}\\
+\midrule
+$\displaystyle\delta(x)=\begin{cases}0,&x\neq0\\ \infty,&x=0\end{cases}$ &
+$\displaystyle\int_{-\infty}^{\infty}\delta(x)\,\dif x=1$ &
+$\displaystyle\int_{-\infty}^{\infty}f(x)\,\delta(x-a)\,\dif x=f(a)$\\
+$\displaystyle\delta^{3}(\vc{r})=\begin{cases}0,&\vc{r}\neq\vc{0}\\ \infty,&\vc{r}=\vc{0}\end{cases}$ &
+$\displaystyle\int_{V_\infty}\delta^{3}(\vc{r})\,\dV=1$ &
+$\displaystyle\int_{V_\infty}f(\vc{r})\,\delta^{3}(\vc{r}-\vc{a})\,\dV=f(\vc{a})$\\
+\midrule
+\multicolumn{3}{c}{Polinomios de Legendre y desarrollo de $1/\abs{\vc{r}-\vc{r}\,'}$}\\
+\midrule
+\multicolumn{3}{c}{$\displaystyle\frac{1}{\abs{\vc{r}-\vc{r}\,'}}=\frac{1}{r}\sum_{n=0}^{\infty}\Bigl(\frac{r'}{r}\Bigr)^{n}P_n(\cos\theta')\quad(r'<r)$}\\
+$P_0(x)=1$, $\ P_1(x)=x$ & $P_2(x)=\tfrac12(3x^{2}-1)$ & $P_3(x)=\tfrac12(5x^{3}-3x)$\\
+\bottomrule
+\end{tabular}
+\end{center}

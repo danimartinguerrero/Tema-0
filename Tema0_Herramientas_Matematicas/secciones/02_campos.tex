@@ -1,0 +1,253 @@
+% =========================================================================
+\section{Campos escalares, diferencial y gradiente}\label{sec:campos}
+% =========================================================================
+
+% -------------------------------------------------------------------------
+\subsection{Campos escalares y su diferencial}\label{sec:escalares}
+% -------------------------------------------------------------------------
+\begin{definicion}[Campo escalar]\label{def:escalar}
+Sea $W\subseteq\R^{n}$ una región. Un \emph{campo escalar} es una función
+$f:W\to\R$ que asigna a cada punto $\vc{r}=(x,y,z)\in W$ un número
+$f(\vc{r})=f(x,y,z)$.
+\end{definicion}
+
+Son campos escalares la temperatura $T(\vc{r})$ en el interior de una
+habitación, la altura $h(x,y)$ sobre el nivel del mar en un mapa topográfico
+(aquí $n=2$) o el potencial electrostático $V(\vc{r})$. En una sola
+variable, la diferencial de $f$ recoge cuánto cambia la función cuando la
+variable cambia en una cantidad infinitesimal:
+\begin{equation}\label{eq:df1d}
+  \dif f=\frac{\dif f}{\dif x}\,\dif x
+\end{equation}
+(\cref{fig:diferencial1d}): es el incremento a lo largo de la \emph{recta
+tangente}, de pendiente $\tan\alpha=f'(x)$. Para un campo escalar de tres
+variables hay tres direcciones independientes en las que moverse y la
+diferencial total es la suma de las tres contribuciones,
+\begin{equation}\label{eq:df3d}
+  \dif f=\pd{f}{x}\,\dif x+\pd{f}{y}\,\dif y+\pd{f}{z}\,\dif z .
+\end{equation}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm]
+  % ejes
+  \draw[eje] (-0.3,0) -- (7.6,0) node[right, text=black] {$x$};
+  \draw[eje] (0,-0.3) -- (0,4.6) node[above, text=black] {$f$};
+  % curva
+  \draw[azulprof, line width=1.2pt, domain=0.4:7.2, samples=100, smooth]
+    plot (\x, {0.55+3.6/(1+exp(-1.35*(\x-3.7)))});
+  % punto, tangente y triángulo diferencial
+  \def\xo{3.2}
+  \pgfmathsetmacro{\yo}{0.55+3.6/(1+exp(-1.35*(\xo-3.7)))}
+  \pgfmathsetmacro{\sl}{3.6*1.35*exp(-1.35*(\xo-3.7))/(1+exp(-1.35*(\xo-3.7)))^2}
+  \draw[azulacero, dashed, line width=0.7pt, domain=\xo-1.7:\xo+2.4]
+    plot (\x, {\yo+\sl*(\x-\xo)});
+  \fill[azulprof] (\xo,\yo) circle (2pt);
+  \draw[grispizarra, densely dashed] (\xo,0) -- (\xo,\yo) -- (0,\yo);
+  \draw[rojoteo, line width=0.9pt] (\xo,\yo) -- node[below, text=rojoteo] {$\dif x$} (\xo+1.3,\yo);
+  \draw[rojoteo, line width=0.9pt] (\xo+1.3,\yo) -- node[right, text=rojoteo] {$\dif f$}
+        (\xo+1.3,{\yo+1.3*\sl});
+  \draw[grispizarra, densely dashed] (\xo+1.3,0) -- (\xo+1.3,\yo);
+  \node[below, font=\small] at (\xo,0) {$x$};
+  \node[below, font=\small] at (\xo+1.3,0) {$x+\dif x$};
+  \draw[grispizarra, thick] (\xo+0.75,\yo) arc (0:{atan(\sl)}:0.75);
+  \node[font=\small, text=black!80] at (\xo+1.18,\yo+0.25) {$\alpha$};
+  \node[azulacero, font=\small, anchor=north east] at (\xo-0.55,{\yo-0.55*\sl-0.1}) {$\tan\alpha=f'(x)$};
+  \node[azulprof, font=\small, anchor=south] at (6.7,4.3) {$f(x)$};
+\end{tikzpicture}
+\caption{Diferencial de una función de una variable: $\dif f=f'(x)\,\dif x$
+es el incremento a lo largo de la tangente, y coincide con el incremento real
+de $f$ salvo infinitésimos de orden superior.}
+\label{fig:diferencial1d}
+\end{figure}
+
+Si escribimos el desplazamiento infinitesimal
+$\dl=\dif x\,\ux+\dif y\,\uy+\dif z\,\uz$ (el \emph{elemento de línea}, un
+vector), la \cref{eq:df3d} puede leerse como un producto escalar:
+\begin{equation}\label{eq:df-gradiente}
+  \dif f=\Bigl(\pd{f}{x}\,\ux+\pd{f}{y}\,\uy+\pd{f}{z}\,\uz\Bigr)\cdot
+         \bigl(\dif x\,\ux+\dif y\,\uy+\dif z\,\uz\bigr).
+\end{equation}
+El primer factor es el protagonista de esta sección.
+
+\begin{definicion}[Gradiente]\label{def:gradiente}
+Sea $f:W\subseteq\R^{3}\to\R$ un campo escalar derivable. Su \emph{gradiente}
+es el campo vectorial
+\[
+  \nab f\equiv\grad f=\pd{f}{x}\,\ux+\pd{f}{y}\,\uy+\pd{f}{z}\,\uz,
+\]
+y la diferencial se escribe, de forma compacta e independiente de la
+descripción por componentes,
+\begin{equation}\label{eq:df-compacta}
+  \boxed{\;\dif f=\nab f\cdot\dl\;}
+\end{equation}
+\end{definicion}
+
+\begin{observacion}[El gradiente no depende de las coordenadas]\label{obs:grad-intrinseco}
+La fórmula de la \cref{def:gradiente} parece depender de los ejes elegidos, pero
+no es así: el gradiente es el único vector que satisface, para todo vector
+$\vc{v}$, la relación $\nab f(P)\cdot\vc{v}=D_{\vc{v}}f(P)$ con la derivada
+direccional que definimos a continuación~\cite{NAVAS}. En
+física se acostumbra a escribir los campos conservativos como $\vc{F}=-\nab f$
+cuando $f$ es una energía potencial; aquí no cambiamos el signo.
+\end{observacion}
+
+% -------------------------------------------------------------------------
+\subsection{Derivada direccional y significado geométrico}\label{sec:direccional}
+% -------------------------------------------------------------------------
+Necesitamos primero una versión de la regla de la cadena: cómo cambia $f$ si
+nos movemos a lo largo de una curva.
+
+\begin{proposicion}[Derivada de un campo escalar a lo largo de una curva]\label{prop:cadena}
+Sea $f$ un campo escalar de clase $C^{1}$ y $\gamma:[a,b]\to W$ una curva
+derivable. Entonces
+\begin{equation}\label{eq:cadena}
+  (f\circ\gamma)'(t)=\nab f\bigl(\gamma(t)\bigr)\cdot\gamma'(t).
+\end{equation}
+\end{proposicion}
+\begin{proof}
+La matriz jacobiana de $f$ es la matriz fila $\bigl(\partial_xf,\partial_yf,\partial_zf\bigr)$,
+la de $\gamma$ es la columna $\bigl(x'(t),y'(t),z'(t)\bigr)^{\!\top}$ y la de la
+composición $f\circ\gamma$ es la matriz $1\times1$ formada por su derivada
+ordinaria. La regla de la cadena multivariable dice que la jacobiana de la
+composición es el producto de las dos primeras, es decir,
+$(f\circ\gamma)'=\partial_xf\,x'+\partial_yf\,y'+\partial_zf\,z'$, que es
+$\nab f\cdot\gamma'$.
+\end{proof}
+
+\begin{definicion}[Derivada direccional]\label{def:direccional}
+Sea $\hat u$ un vector unitario. La \emph{derivada direccional} de $f$ en el
+punto $P$ en la dirección $\hat u$ es el ritmo de variación de $f$ al avanzar
+sobre la recta que pasa por $P$ con dirección $\hat u$:
+\[
+  D_{\hat u}f(P)\defeq\lim_{h\to0}\frac{f(P+h\,\hat u)-f(P)}{h}.
+\]
+\end{definicion}
+
+\begin{proposicion}\label{prop:direccional}
+$D_{\hat u}f(P)=\nab f(P)\cdot\hat u=\norm{\nab f(P)}\cos\epsilon$, donde
+$\epsilon$ es el ángulo que forman $\nab f(P)$ y $\hat u$.
+\end{proposicion}
+\begin{proof}
+Aplicamos la \cref{prop:cadena} a la recta $\gamma(t)=P+t\,\hat u$, cuya
+velocidad es $\gamma'(t)=\hat u$: $D_{\hat u}f(P)=(f\circ\gamma)'(0)=\nab f(P)\cdot\hat u$.
+La segunda igualdad es la definición geométrica del producto escalar con
+$\norm{\hat u}=1$.
+\end{proof}
+
+\begin{proposicion}[Dirección de máximo crecimiento]\label{prop:maximo}
+Sea $\nab f(P)\neq\vc{0}$. Entre todas las direcciones unitarias,
+\[
+  \max_{\norm{\hat u}=1}D_{\hat u}f(P)=\norm{\nab f(P)}
+  \qquad\text{y se alcanza si y solo si}\qquad
+  \hat u=\frac{\nab f(P)}{\norm{\nab f(P)}}.
+\]
+\end{proposicion}
+\begin{proof}
+Por la desigualdad de Cauchy--Schwarz,
+$D_{\hat u}f(P)=\nab f(P)\cdot\hat u\le\norm{\nab f(P)}\,\norm{\hat u}=\norm{\nab f(P)}$,
+con igualdad exactamente cuando $\hat u$ es paralelo y del mismo sentido que
+$\nab f(P)$, es decir, cuando $\cos\epsilon=\cos0=1$.
+\end{proof}
+
+\begin{observacion}[Las dos preguntas que responde el gradiente]\label{obs:dos-preguntas}
+La \cref{prop:maximo} dice que en cada punto el gradiente contesta a dos
+preguntas a la vez:
+\[
+  \nab f\;\longrightarrow\;
+  \begin{cases}
+    \text{\emph{dirección} en la que $f$ crece más deprisa,}\\[2pt]
+    \norm{\nab f}=\text{\emph{valor} de esa tasa máxima de crecimiento.}
+  \end{cases}
+\]
+En la dirección opuesta, $-\nab f$, la función decrece lo más rápido posible,
+y en las direcciones perpendiculares a $\nab f$ no cambia (a primer orden).
+En términos de la \cref{eq:df-compacta}: $\dif f=\norm{\nab f}\,\norm{\dl}\cos\theta$ (con $\theta$ el ángulo entre $\nab f$ y $\dl$),
+y por tanto, para un desplazamiento de módulo fijo, $\dif f$ es máximo cuando
+$\theta=0$, esto es, cuando $\dl$ es paralelo a $\nab f$ y entonces
+$\dif f=\norm{\nab f}\,\dif\ell$.
+\end{observacion}
+
+\begin{proposicion}[El gradiente es ortogonal a las superficies de nivel]\label{prop:ortogonal}
+Sea $c\in\R$ y $\Sigma_c=\{\vc{r}\in W: f(\vc{r})=c\}$ la superficie de nivel
+(\emph{equipotencial}, o curva de nivel si $n=2$). Si $\gamma$ es una curva
+contenida en $\Sigma_c$ con $\gamma(t_0)=P$, entonces
+$\nab f(P)\cdot\gamma'(t_0)=0$: el gradiente es perpendicular a $\Sigma_c$ en $P$.
+\end{proposicion}
+\begin{proof}
+Como $f(\gamma(t))=c$ para todo $t$, su derivada es nula. Por la
+\cref{prop:cadena}, $0=(f\circ\gamma)'(t_0)=\nab f(P)\cdot\gamma'(t_0)$, y
+$\gamma'(t_0)$ recorre todos los vectores tangentes a $\Sigma_c$ en $P$.
+\end{proof}
+
+Geométricamente (\cref{fig:gradiente-geo}): si $h(x,y)$ es la altura de un
+terreno, sus curvas de nivel son las líneas de «misma cota» del mapa
+topográfico, y el gradiente apunta cuesta arriba, cortando a esas curvas en
+ángulo recto. Es la línea de máxima pendiente: la que seguiría una gota de agua
+(en sentido opuesto) al deslizarse por la ladera.
+
+\input{figuras/fig_gradiente_geo}
+
+\begin{ejemplo}[Una campana gaussiana]\label{ej:gaussiana}
+Sea $f(x,y)=\eul^{-(x^{2}+y^{2})}$, que se parece a una gaussiana. Con la regla
+de la cadena $[g(f(x))]'=g'(f(x))f'(x)$, cada derivada parcial produce
+un factor $\eul^{-(x^{2}+y^{2})}$ por la derivada del exponente:
+\[
+  \nab f=\pd{f}{x}\,\ux+\pd{f}{y}\,\uy
+  =-2x\,\eul^{-(x^{2}+y^{2})}\,\ux-2y\,\eul^{-(x^{2}+y^{2})}\,\uy
+  =-2\,\eul^{-(x^{2}+y^{2})}\,(x\,\ux+y\,\uy).
+\]
+Es una función con un máximo $f(0,0)=1$ en el origen que decae al alejarnos de
+él (\cref{fig:gauss}). Sus curvas de nivel son circunferencias
+$x^{2}+y^{2}=-\ln c$, y el gradiente apunta radialmente hacia dentro, hacia el
+máximo, perpendicular a esas circunferencias, como exige la
+\cref{prop:ortogonal}. Obsérvese además que $\nab f(0,0)=\vc{0}$ (en la cima la
+pendiente es nula) y que $\norm{\nab f}\to0$ lejos del origen (la función se
+aplana): la pendiente máxima ha de estar en algún punto intermedio, que se
+calcula en el \cref{ejer:pendiente}.
+\end{ejemplo}
+
+\input{figuras/fig_gauss}
+
+% -------------------------------------------------------------------------
+\subsection{Campos vectoriales y campos gradiente}\label{sec:vectoriales}
+% -------------------------------------------------------------------------
+\begin{definicion}[Campo vectorial]\label{def:vectorial}
+Un \emph{campo vectorial} en una región $W\subseteq\R^{n}$ es una función
+$\vc{F}:W\to\R^{n}$ que asigna a cada punto un vector,
+\[
+  \vc{F}(\vc{r})=F_x(\vc{r})\,\ux+F_y(\vc{r})\,\uy+F_z(\vc{r})\,\uz ,
+\]
+donde las componentes $F_x,F_y,F_z$ son campos escalares.
+\end{definicion}
+
+Se visualizan dibujando en cada punto una flecha cuya longitud (y, a menudo, su
+color) es proporcional al módulo del campo; esa es la convención que usamos en
+todas las figuras de este documento, con una escala cromática de índigo
+(módulo pequeño) a ámbar (módulo grande). El campo de velocidades de un fluido,
+el campo eléctrico y el gravitatorio son ejemplos físicos. El gradiente de un
+campo escalar es siempre un campo vectorial, pero no todo campo vectorial es un
+gradiente, lo que motiva la siguiente definición.
+
+\begin{definicion}[Campo gradiente y potencial]\label{def:campo-gradiente}
+Un campo vectorial $\vc{F}:W\to\R^{n}$ es un \emph{campo gradiente}
+(o \emph{conservativo}) si existe un campo escalar $f:W\to\R$ tal que
+$\vc{F}(\vc{r})=\nab f(\vc{r})$ para todo $\vc{r}\in W$. En ese caso $f$ es un
+\emph{potencial} (escalar) de $\vc{F}$ en $W$.
+\end{definicion}
+
+Los potenciales generalizan la noción de antiderivada de una variable. Hay una
+diferencia esencial: toda función continua de una variable en un intervalo
+tiene antiderivada, pero para $n\ge2$ existen campos vectoriales continuos
+\emph{sin} potencial. Ahora bien, cuando existe, el potencial es esencialmente
+único.
+
+\begin{proposicion}[Unicidad del potencial salvo constante]\label{prop:unicidad-potencial}
+Si $\vc{F}=\nab f=\nab g$ en una región conexa $W$, entonces $g=f+k$ con $k$
+constante.
+\end{proposicion}
+\begin{proof}
+En un dominio conexo, una función $h$ de clase $C^{1}$ tiene gradiente nulo si y
+solo si es constante. Como $\nab(f-g)=\vc{0}$, la diferencia $f-g$ es
+constante en $W$.
+\end{proof}

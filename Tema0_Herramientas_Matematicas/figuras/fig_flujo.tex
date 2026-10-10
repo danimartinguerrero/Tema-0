@@ -1,0 +1,52 @@
+% Figura: flujo de un campo a través de una superficie. (a) superficie
+% ondulada inmersa en un campo; (b) elemento de área dirigido y componente normal.
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.56\textwidth}\centering
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+  \begin{axis}[hide axis, width=1.12\textwidth, height=0.95\textwidth, view={-28}{40},
+      xmin=-3.2, xmax=3.2, ymin=-2.4, ymax=2.4, zmin=-1.6, zmax=2.2,
+      colormap name=verdeamarillo, point meta min=-0.9, point meta max=0.9,
+      /pgf/number format/use comma, clip=false]
+    % campo por debajo de la superficie
+    \addplot3[quiver={u=0.34, v=0.18, w=0.80}, -{Stealth[length=3pt]}, line width=0.7pt,
+              rojoteo!80!black, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
+      {-1.2};
+    % superficie
+    \addplot3[surf, shader=interp, samples=28, samples y=22, domain=-2.5:2.5, domain y=-1.8:1.8,
+              opacity=0.93, mesh/ordering=x varies]
+      {0.85*sin(deg(1.25*x))*cos(deg(0.5*y))+0.12*y};
+    % campo por encima de la superficie
+    \addplot3[quiver={u=0.34, v=0.18, w=0.80}, -{Stealth[length=3pt]}, line width=0.7pt,
+              rojoteo!80!black, domain=-3.0:3.0, domain y=-2.2:2.2, samples=6, samples y=5]
+      {1.0};
+    \node[font=\small, text=rojoteo!80!black] at (axis cs:2.6,0.3,1.9) {$\vc{A}$};
+    \node[font=\small, text=black!80, fill=white, fill opacity=0.7, text opacity=1, inner sep=1pt] at (axis cs:-2.0,-1.2,-0.5) {$S$};
+  \end{axis}
+\end{tikzpicture}\\[2pt]{\small\scshape (a)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.40\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm, baseline=(current bounding box.north)]
+  \shade[top color=green!55!lime!85, bottom color=yellow!70!orange!70, shading angle=0]
+    (0,0) -- (3.4,0) -- (2.7,1.1) -- (-0.7,1.1) -- cycle;
+  \draw[grispizarra!70, line width=0.4pt] (0,0) -- (3.4,0) -- (2.7,1.1) -- (-0.7,1.1) -- cycle;
+  \coordinate (O) at (1.35,0.55);
+  \draw[->, line width=1.6pt, azulacero] (O) -- ++(0,2.1) node[left, text=azulacero] {$\dS$};
+  \draw[->, line width=1.6pt, rojoteo] (O) -- ++(2.0,1.55) node[right, text=rojoteo] {$\vc{A}$};
+  % componente normal
+  \draw[densely dashed, grispizarra] (3.35,2.1) -- (1.35,2.1);
+  \draw[line width=3pt, azulclaro, opacity=0.9] (O) -- ++(0,1.55);
+  \node[font=\footnotesize, text=azulprof, anchor=east] at (1.25,1.5) {$\vc{A}\cdot\un$};
+  \draw[grispizarra, line width=0.5pt] (1.35,1.15) arc (90:37.8:0.6);
+  \node[font=\small] at (1.85,1.25) {$\theta$};
+  \fill (O) circle (1.4pt);
+\end{tikzpicture}\\[2pt]{\small\scshape (b)}
+\end{minipage}
+\caption{Flujo de un campo vectorial $\vc{A}$ a través de una superficie $S$.
+(a)~Un campo (flechas rojas) atraviesa una superficie curva; el flujo
+contabiliza solo la parte del campo que corta a la superficie. (b)~En un
+entorno de cada punto la superficie es plana: $\dS=\un\,\dsc$ es un vector de
+módulo igual al área del parche y perpendicular a él, y el flujo
+elemental es $\vc{A}\cdot\dS=(\vc{A}\cdot\un)\,\dsc=\norm{\vc{A}}\cos\theta\,\dsc$.}
+\label{fig:flujo}
+\end{figure}

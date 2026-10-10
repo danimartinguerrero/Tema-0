@@ -1,0 +1,54 @@
+% Figura: interpretación geométrica del gradiente
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.47\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, baseline=(current bounding box.north)]
+  \coordinate (P) at (0,0);
+  \draw[vect, line width=1.4pt, rojoteo] (P) -- (4.0,1.6) node[above right, text=rojoteo] {$\nab f$};
+  \draw[vect, line width=1.2pt, azulprof] (P) -- (2.2,-0.9) node[right, text=azulprof] {$\dl$};
+  % ángulo
+  \draw[grispizarra, line width=0.5pt] (1.1,{1.1*1.6/4.0}) arc (21.8:-22.2:1.1);
+  \node[font=\small] at (1.45,0.0) {$\theta$};
+  % proyección de dl sobre grad f
+  \pgfmathsetmacro{\pr}{(2.2*4.0-0.9*1.6)/(4.0*4.0+1.6*1.6)}
+  \draw[densely dashed, grispizarra] (2.2,-0.9) -- ({\pr*4.0},{\pr*1.6});
+  \draw[line width=2.4pt, azulclaro] (P) -- ({\pr*4.0},{\pr*1.6});
+  \node[font=\footnotesize, text=azulacero, rotate=21.8, anchor=south] at ({\pr*2.0},{\pr*0.8}) {$\dl\cos\theta$};
+  \draw[grispizarra, line width=0.5pt] ({\pr*4.0-0.18*0.928},{\pr*1.6-0.18*0.371})
+     -- ++(0.371*0.18,-0.928*0.18) -- ++(0.928*0.18,0.371*0.18);
+  \fill (P) circle (1.6pt);
+\end{tikzpicture}\\[4pt]{\small\scshape (a)}\; $\dif f=\norm{\nab f}\,\norm{\dl}\cos\theta$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, baseline=(current bounding box.north)]
+  \foreach \c/\pc in {1/100,2/65,3/35}{%
+    \draw[azulprof!\pc!azulclaro, line width=0.9pt] (0,0) ellipse ({1.0*\c} and {0.5*\c});}
+  \fill[azulprof] (0,0) circle (1.4pt);
+  \node[font=\scriptsize, text=azulprof] at (0,-0.22) {máx.};
+  % gradientes en puntos de las elipses (apuntan hacia el centro)
+  \foreach \c/\t in {1/35,1/155,1/265, 2/80,2/200,2/320, 3/20,3/130,3/245}{%
+    \pgfmathsetmacro{\px}{1.0*\c*cos(\t)}\pgfmathsetmacro{\py}{0.5*\c*sin(\t)}%
+    \pgfmathsetmacro{\gx}{-\px/1.0}\pgfmathsetmacro{\gy}{-4*\py/1.0}% -grad(x^2/1+4y^2)/... (dir. al centro)
+    \pgfmathsetmacro{\gn}{sqrt(\gx*\gx+\gy*\gy)}%
+    \pgfmathsetmacro{\ux}{0.62*\gx/\gn}\pgfmathsetmacro{\uy}{0.62*\gy/\gn}%
+    \draw[vect, rojoteo, line width=1pt] (\px,\py) -- ++(\ux,\uy);
+    \fill (\px,\py) circle (1pt);}
+  % tangente y ángulo recto en un punto
+  \def\tt{35}
+  \pgfmathsetmacro{\px}{cos(\tt)}\pgfmathsetmacro{\py}{0.5*sin(\tt)}
+  \pgfmathsetmacro{\tx}{-1.0*sin(\tt)}\pgfmathsetmacro{\ty}{0.5*cos(\tt)}
+  \pgfmathsetmacro{\tn}{sqrt(\tx*\tx+\ty*\ty)}
+  \draw[grispizarra, densely dashed] ({\px-0.9*\tx/\tn},{\py-0.9*\ty/\tn}) -- ({\px+0.9*\tx/\tn},{\py+0.9*\ty/\tn});
+  \node[font=\footnotesize, text=black!80] at (3.65,1.1) {curvas de nivel};
+  \node[font=\footnotesize, text=rojoteo] at (3.25,-1.1) {$\nab h$};
+  \node[font=\footnotesize, text=azulprof, anchor=west] at (2.42,-0.52) {$h_3<h_2<h_1$};
+\end{tikzpicture}\\[4pt]{\small\scshape (b)}\; $\nab h\perp\{h=\text{cte}\}$
+\end{minipage}
+\caption{Interpretación geométrica del gradiente. (a)~El incremento
+$\dif f$ es el producto de $\norm{\nab f}$ por la proyección del desplazamiento
+sobre la dirección del gradiente: es máximo si $\dl\parallel\nab f$ y nulo si
+$\dl\perp\nab f$. (b)~Mapa topográfico de una colina: el gradiente de la altura
+$h$ es perpendicular a las curvas de nivel y apunta hacia la cumbre (máxima
+pendiente).}
+\label{fig:gradiente-geo}
+\end{figure}

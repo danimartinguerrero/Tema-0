@@ -1,0 +1,225 @@
+% =========================================================================
+\section{Funciones de la posición relativa, delta de Dirac y desarrollo multipolar}\label{sec:posicion}
+% =========================================================================
+En electromagnetismo los campos suelen producirlos \emph{fuentes} (cargas,
+corrientes) situadas en puntos $\vc{r}\,'$, y se evalúan en otros puntos
+$\vc{r}$ donde queremos conocer el campo. Toda la dependencia aparece a través
+del vector que une ambos puntos~\cite{FORMULARIO,GRIFFITHS}.
+
+% -------------------------------------------------------------------------
+\subsection{Punto fuente, punto campo y vector relativo}\label{sec:relativa}
+% -------------------------------------------------------------------------
+\begin{definicion}[Posición relativa]\label{def:relativa}
+El \emph{punto fuente} es $\vc{r}\,'=(x',y',z')$ y el \emph{punto campo} es
+$\vc{r}=(x,y,z)$. El vector que va de la fuente al punto campo, su módulo y su
+versor son
+\begin{align}
+  \vc{R}&=\vc{r}-\vc{r}\,'=(x-x')\,\ux+(y-y')\,\uy+(z-z')\,\uz=R_x\,\ux+R_y\,\uy+R_z\,\uz,\label{eq:R-vec}\\
+  R&=\norm{\vc{R}}=\bigl[(x-x')^{2}+(y-y')^{2}+(z-z')^{2}\bigr]^{1/2},\qquad
+  \uR=\frac{\vc{R}}{R}\quad\Bigl(\vc{R}=R\,\uR\Bigr).\label{eq:R-mod}
+\end{align}
+\end{definicion}
+
+\input{figuras/fig_posicion_relativa}
+
+Interesan campos escalares $f(\vc{R})$ y vectoriales $\vc{A}(\vc{R})$ que dependen
+de $\vc{r}$ y $\vc{r}\,'$ \emph{solo} a través de $\vc{R}$. Hay ahora dos
+operadores nabla, que actúan sobre variables distintas:
+\begin{equation}\label{eq:nabla-nabla-prima}
+  \nab=\pd{}{x}\,\ux+\pd{}{y}\,\uy+\pd{}{z}\,\uz
+  \qquad\text{y}\qquad
+  \nab'=\pd{}{x'}\,\ux+\pd{}{y'}\,\uy+\pd{}{z'}\,\uz ,
+\end{equation}
+las derivadas respecto de las coordenadas del punto campo y del punto fuente,
+respectivamente. Se diferencian en el signo, como se aprecia ya en la primera
+derivada parcial:
+\begin{equation}\label{eq:dR}
+  \pd{R}{x}=\frac{1}{2}\,\frac{2(x-x')}{R}=\frac{R_x}{R},
+  \qquad\text{mientras que}\qquad
+  \pd{R}{x'}=-\frac{R_x}{R}.
+\end{equation}
+
+\begin{lema}[$\nab$ y $\nab'$ difieren en un signo]\label{lema:nabla-prima}
+Si $g$ depende de $\vc{r}$ y $\vc{r}\,'$ solo a través de $\vc{R}=\vc{r}-\vc{r}\,'$,
+entonces $\nab g=-\nab'g$ (y análogamente para la divergencia y el rotacional de
+campos vectoriales de $\vc{R}$).
+\end{lema}
+\begin{proof}
+Como $g$ es función de $x-x'$, la regla de la cadena da
+$\partial g/\partial x'=-\partial g/\partial x$, y lo mismo para $y$ y $z$.
+\end{proof}
+
+% -------------------------------------------------------------------------
+\subsection{Derivadas de potencias de $R$}\label{sec:derivadas-R}
+% -------------------------------------------------------------------------
+\begin{proposicion}[Gradiente de $R^{n}$]\label{prop:grad-Rn}
+Para cualquier $n$ y $R\neq0$,
+\begin{equation}\label{eq:grad-Rn}
+  \nab(R^{n})=-\nab'(R^{n})=n\,R^{n-1}\,\uR=n\,R^{n-2}\,\vc{R}.
+\end{equation}
+\end{proposicion}
+\begin{proof}
+Por la regla de la cadena y la \cref{eq:dR}, cada componente es
+\[
+  \pd{R^{n}}{x}=\pd{R^{n}}{R}\,\pd{R}{x}=n\,R^{n-1}\,\frac{R_x}{R}=n\,R^{n-2}\,R_x ,
+\]
+y análogamente para $y,z$. Agrupando, $\nab(R^{n})=nR^{n-2}\bigl(R_x\,\ux+R_y\,\uy+R_z\,\uz\bigr)=nR^{n-2}\vc{R}=nR^{n-1}\uR$.
+La igualdad con $-\nab'$ es el \cref{lema:nabla-prima}.
+\end{proof}
+
+\begin{proposicion}[Divergencia y rotacional de $R^{n}\uR$]\label{prop:div-rot-Rn}
+Para $R\neq0$ y cualquier $n$ real (en particular entero),
+\begin{equation}\label{eq:div-rot-Rn}
+  \nab\cdot\bigl(R^{n}\,\uR\bigr)=-\nab'\cdot\bigl(R^{n}\,\uR\bigr)=(n+2)\,R^{n-1},
+  \qquad
+  \nab\times\bigl(R^{n}\,\uR\bigr)=-\nab'\times\bigl(R^{n}\,\uR\bigr)=\vc{0}.
+\end{equation}
+En particular, para $n=-2$: $\nab\cdot(\uR/R^{2})=0$ si $R\neq0$.
+\end{proposicion}
+\begin{proof}
+Escribimos $R^{n}\uR=R^{n-1}\vc{R}$. Como $\nab\cdot\vc{R}=\partial_x(x-x')+\partial_y(y-y')+\partial_z(z-z')=3$ y
+$\nab\times\vc{R}=\vc{0}$ (cada componente de $\vc{R}$ solo depende de su propia
+coordenada), las reglas del producto \eqref{eq:prod-c} y \eqref{eq:prod-e} y la
+\cref{prop:grad-Rn} dan
+\begin{align*}
+  \nab\cdot\bigl(R^{n-1}\vc{R}\bigr)&=R^{n-1}\,\nab\cdot\vc{R}+\vc{R}\cdot\nab R^{n-1}
+    =3R^{n-1}+(n-1)R^{n-2}\,\vc{R}\cdot\uR=(n+2)\,R^{n-1},\\
+  \nab\times\bigl(R^{n-1}\vc{R}\bigr)&=\nab R^{n-1}\times\vc{R}+R^{n-1}\,\nab\times\vc{R}
+    =(n-1)R^{n-2}\,\uR\times\vc{R}+\vc{0}=\vc{0},
+\end{align*}
+pues $\uR\parallel\vc{R}$. Las igualdades con $\nab'$ son el \cref{lema:nabla-prima}.
+En el \cref{ejer:div-Rn} se repite el cálculo de la divergencia componente a
+componente.
+\end{proof}
+
+\begin{observacion}[Comprobaciones y el caso $n=-2$]\label{obs:casos-n}
+Para $n=1$, $R\,\uR=\vc{R}$ y $\nab\cdot\vc{R}=3$, como en el \cref{ej:div}; para
+$n=0$, $\nab\cdot\uR=2/R$; y para $n=-2$ el factor $(n+2)$ se anula. Pero
+atención: el campo $\uR/R^{2}$ \emph{no está definido} en $R=0$ y su divergencia,
+nula en todo punto $R\neq0$, tiene una contribución \emph{singular} concentrada
+en el origen que la \cref{eq:div-rot-Rn} no recoge. Esa contribución es una delta de
+Dirac (\cref{teo:delta}).
+\end{observacion}
+
+% -------------------------------------------------------------------------
+\subsection{La delta de Dirac}\label{sec:delta}
+% -------------------------------------------------------------------------
+\begin{definicion}[Delta de Dirac]\label{def:delta}
+La \emph{delta de Dirac} unidimensional $\delta(x)$ es el objeto que cumple
+\begin{equation}\label{eq:delta1d}
+  \delta(x)=\begin{cases}0,&x\neq0\\ \infty,&x=0\end{cases},
+  \qquad
+  \int_{-\infty}^{\infty}\delta(x)\,\dif x=1,
+  \qquad
+  \int_{-\infty}^{\infty}f(x)\,\delta(x-a)\,\dif x=f(a)
+\end{equation}
+para toda función continua $f$ (propiedad de selección o «muestreo»). En tres
+dimensiones, $\delta^{3}(\vc{r})=\delta(x)\,\delta(y)\,\delta(z)$ cumple
+\begin{equation}\label{eq:delta3d}
+  \delta^{3}(\vc{r})=\begin{cases}0,&\vc{r}\neq\vc{0}\\ \infty,&\vc{r}=\vc{0}\end{cases},
+  \qquad
+  \int_{V_\infty}\delta^{3}(\vc{r})\,\dV=1,
+  \qquad
+  \int_{V_\infty}f(\vc{r})\,\delta^{3}(\vc{r}-\vc{a})\,\dV=f(\vc{a}),
+\end{equation}
+donde $V_\infty$ es todo el espacio (o cualquier región que contenga a
+$\vc{a}$; si no lo contiene, la integral es nula).
+\end{definicion}
+
+\begin{observacion}[Qué es en realidad]\label{obs:delta}
+La delta no es una función en el sentido usual (ninguna función es nula salvo
+en un punto y tiene integral~$1$), sino una \emph{distribución}: un objeto que
+solo tiene sentido dentro de una integral, donde actúa como un «detector» de
+valores puntuales. Intuitivamente es el límite de picos cada vez más estrechos y
+altos de área unidad, por ejemplo gaussianas
+$\delta_\sigma(x)=\tfrac{1}{\sigma\sqrt{2\pi}}\,\eul^{-x^{2}/2\sigma^{2}}$ con
+$\sigma\to0$ (\cref{fig:delta}). Representa matemáticamente una carga (o masa)
+puntual: densidad nula en todas partes menos en un punto, y carga total finita.
+\end{observacion}
+
+\input{figuras/fig_delta}
+
+\begin{teorema}[Divergencia del campo coulombiano y laplaciano de $1/R$]\label{teo:delta}
+En el sentido de distribuciones,
+\begin{equation}\label{eq:delta-div}
+  \nab\cdot\Bigl(\frac{\uR}{R^{2}}\Bigr)=-\nab'\cdot\Bigl(\frac{\uR}{R^{2}}\Bigr)=4\pi\,\delta^{3}(\vc{R}),
+  \qquad
+  \Lap\Bigl(\frac{1}{R}\Bigr)=\Lapp\Bigl(\frac{1}{R}\Bigr)=-4\pi\,\delta^{3}(\vc{R}).
+\end{equation}
+\end{teorema}
+\begin{proof}
+\emph{Primera igualdad.} Por la \cref{prop:div-rot-Rn}, $\nab\cdot(\uR/R^{2})=0$ para
+$R\neq0$: la distribución, si no es nula, está concentrada en $R=0$. Calculemos
+su integral sobre una región $V$ que contenga a la fuente. Quitamos una bola
+pequeña $B_\varepsilon$ de radio $\varepsilon$ alrededor de $\vc{r}\,'$; en
+$V\setminus B_\varepsilon$ el campo es de clase $C^{1}$ y de divergencia nula, así
+que por el teorema de Gauss (\cref{teo:gauss})
+\[
+  0=\iiint_{V\setminus B_\varepsilon}\nab\cdot\frac{\uR}{R^{2}}\,\dV
+   =\oiint_{\partial V}\frac{\uR}{R^{2}}\cdot\dS-\oiint_{\partial B_\varepsilon}\frac{\uR}{R^{2}}\cdot\dS ,
+\]
+donde la normal exterior de la bola es $\uR$ (con el signo $-$ porque, para
+$V\setminus B_\varepsilon$, la normal es la interior a la bola). Sobre
+$\partial B_\varepsilon$, $\uR\cdot\uR/\varepsilon^{2}=1/\varepsilon^{2}$ es constante y
+el flujo vale $\tfrac{1}{\varepsilon^{2}}\cdot4\pi\varepsilon^{2}=4\pi$. Por tanto
+el flujo del campo por \emph{cualquier} superficie cerrada que rodee la fuente
+es $4\pi$, esto es, la integral de su divergencia sobre cualquier región que
+contenga a $\vc{r}\,'$ vale $4\pi$, independientemente del tamaño y la forma: es
+exactamente la propiedad $\int\delta^{3}\,\dV=1$ multiplicada por $4\pi$.
+Si $\varphi$ es una función continua cualquiera, el mismo argumento con
+$\varepsilon\to0$ da $\int\varphi\,\nab\cdot(\uR/R^{2})\,\dV=4\pi\varphi(\vc{r}\,')$, que es
+\eqref{eq:delta3d}.
+
+\emph{Segunda igualdad.} Por la \cref{prop:grad-Rn} con $n=-1$,
+$\nab(1/R)=-\uR/R^{2}$, de modo que $\Lap(1/R)=\nab\cdot\nab(1/R)=-\nab\cdot(\uR/R^{2})=-4\pi\,\delta^{3}(\vc{R})$.
+Finalmente $\Lapp(1/R)=\nab'\cdot\nab'(1/R)=(-\nab)\cdot(-\nab)(1/R)=\Lap(1/R)$.
+\end{proof}
+
+En electrostática esta identidad es la ley de Gauss en forma local: el campo de
+una carga puntual es proporcional a $\uR/R^{2}$ y su divergencia es una delta
+centrada en la carga.
+
+% -------------------------------------------------------------------------
+\subsection{Polinomios de Legendre y desarrollo de $1/|\vc{r}-\vc{r}\,'|$}\label{sec:legendre}
+% -------------------------------------------------------------------------
+El desarrollo del inverso de la distancia en serie de potencias de
+$r'/r$ es la base de la expansión multipolar. Sus coeficientes son los
+polinomios de Legendre.
+
+\begin{definicion}[Polinomios de Legendre]\label{def:legendre}
+Los polinomios de Legendre $P_n(x)$, $x\in[-1,1]$, vienen dados por la fórmula de
+Rodrigues $P_n(x)=\frac{1}{2^{n}n!}\frac{\dif^{n}}{\dif x^{n}}(x^{2}-1)^{n}$. Los
+primeros son
+\[
+  P_0(x)=1,\qquad P_1(x)=x,\qquad P_2(x)=\tfrac{1}{2}(3x^{2}-1),\qquad P_3(x)=\tfrac{1}{2}(5x^{3}-3x),
+\]
+y cumplen $P_n(1)=1$ y la recurrencia
+$(n+1)P_{n+1}=(2n+1)\,x\,P_n-n\,P_{n-1}$.
+\end{definicion}
+
+\begin{teorema}[Desarrollo en polinomios de Legendre]\label{teo:legendre}
+Si $r'<r$ y $\theta'$ es el ángulo que forman $\vc{r}$ y $\vc{r}\,'$,
+\begin{equation}\label{eq:legendre}
+  \frac{1}{\abs{\vc{r}-\vc{r}\,'}}=\frac{1}{r}\sum_{n=0}^{\infty}\Bigl(\frac{r'}{r}\Bigr)^{n}P_n(\cos\theta').
+\end{equation}
+\end{teorema}
+\begin{proof}
+Por el teorema del coseno,
+$\abs{\vc{r}-\vc{r}\,'}^{2}=r^{2}+r'^{2}-2rr'\cos\theta'=r^{2}\bigl(1-2xt+t^{2}\bigr)$
+con $t=r'/r<1$ y $x=\cos\theta'$. Por tanto
+$\frac{1}{\abs{\vc{r}-\vc{r}\,'}}=\frac{1}{r}(1+u)^{-1/2}$ con $u=t^{2}-2xt$ pequeño,
+y el desarrollo binomial $(1+u)^{-1/2}=1-\tfrac{u}{2}+\tfrac{3u^{2}}{8}-\tfrac{5u^{3}}{16}+\cdots$
+ordenado por potencias de $t$ da
+\[
+  1+x\,t+\tfrac{1}{2}(3x^{2}-1)\,t^{2}+\tfrac{1}{2}(5x^{3}-3x)\,t^{3}+\cdots
+  =P_0+P_1\,t+P_2\,t^{2}+P_3\,t^{3}+\cdots ,
+\]
+es decir, la función generatriz $(1-2xt+t^{2})^{-1/2}=\sum_nP_n(x)\,t^{n}$ de los
+polinomios de Legendre~\cite{ARFKEN}.
+\end{proof}
+
+\input{figuras/fig_legendre}
+
+Cada término tiene un significado físico: $n=0$ es el campo de un monopolo
+($\propto1/r$); $n=1$, un dipolo ($\propto r'\cos\theta'/r^{2}$), etc. Si $r'>r$
+basta intercambiar los papeles de $r$ y $r'$.

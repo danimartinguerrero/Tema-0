@@ -1,0 +1,551 @@
+% =========================================================================
+\section{Cálculo integral vectorial: los teoremas integrales fundamentales}\label{sec:integral}
+% =========================================================================
+
+% -------------------------------------------------------------------------
+\subsection{Del teorema fundamental del cálculo a los teoremas vectoriales}\label{sec:tfc}
+% -------------------------------------------------------------------------
+Recordemos el teorema fundamental del cálculo en una variable: para una
+función $f$ derivable en $[a,b]$,
+\begin{equation}\label{eq:tfc}
+  \int_{a}^{b}\frac{\dif f}{\dif x}\,\dif x=f(b)-f(a).
+\end{equation}
+La idea es la de una \emph{suma de variaciones}: si dividimos $[a,b]$ en
+intervalitos de longitud $\dif x$, en cada uno de ellos la función cambia en
+$\dif f$; al sumar todos los cambios infinitesimales, las contribuciones
+intermedias se cancelan por parejas y solo queda la diferencia entre lo que
+vale la función en los extremos (\cref{fig:tfc}). Es la primera instancia de un
+principio que se repite en todo el cálculo vectorial:
+
+\begin{quote}\itshape
+La integral de una «derivada» sobre una región es igual a la integral de la
+función sobre el borde de esa región.
+\end{quote}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth, x=1cm, y=1cm]
+  \draw[eje] (-0.3,0) -- (8.6,0) node[right, text=black] {$x$};
+  \draw[eje] (0,-0.3) -- (0,4.4) node[above, text=black] {$f(x)$};
+  \def\fx#1{0.9+0.55*(#1)+0.9*sin(deg(0.55*(#1)))}
+  % barras de variación
+  \foreach \xx in {1.0,1.6,...,7.0}{%
+    \pgfmathsetmacro{\ya}{\fx{\xx}}\pgfmathsetmacro{\yb}{\fx{\xx+0.6}}%
+    \draw[azulclaro, line width=0.7pt] (\xx,\ya) -- (\xx+0.6,\ya);
+    \draw[rojoteo!70, line width=1.0pt] (\xx+0.6,\ya) -- (\xx+0.6,\yb);}
+  \draw[azulprof, line width=1.3pt, domain=1.0:7.6, samples=120, smooth]
+    plot (\x, {\fx{\x}});
+  \foreach \xx/\lab in {1.0/a,7.6/b}{%
+    \pgfmathsetmacro{\yy}{\fx{\xx}}%
+    \draw[densely dashed, grispizarra] (\xx,0) -- (\xx,\yy);
+    \fill[azulprof] (\xx,\yy) circle (2pt);
+    \node[below] at (\xx,0) {$\lab$};}
+  \node[font=\small, text=rojoteo, anchor=west] at (3.3,3.5) {$\dif f$};
+  \draw[->, rojoteo, line width=0.5pt] (3.3,3.45) -- (2.55,2.85);
+  \node[font=\small, text=azulacero, anchor=north] at (3.9,0.35) {$\dif x$};
+  \draw[|<->|, azulacero, line width=0.5pt] (3.4,0.3) -- (4.0,0.3);
+  \node[font=\small, text=azulprof, rotate=90, anchor=south] at (8.45,{(\fx{1.0}+\fx{7.6})/2}) {$f(b)-f(a)=\textstyle\sum\dif f$};
+  \draw[|<->|, grispizarra, line width=0.5pt] (8.3,{\fx{1.0}}) -- (8.3,{\fx{7.6}});
+  \draw[densely dashed, grispizarra] (7.6,{\fx{7.6}}) -- (8.35,{\fx{7.6}});
+  \draw[densely dashed, grispizarra] (1.0,{\fx{1.0}}) -- (8.35,{\fx{1.0}});
+\end{tikzpicture}
+\caption{Teorema fundamental del cálculo como suma de variaciones: la suma de
+los incrementos $\dif f$ (en rojo) sobre una partición de $[a,b]$ es el
+incremento total $f(b)-f(a)$.}
+\label{fig:tfc}
+\end{figure}
+
+El «borde» de un intervalo $[a,b]$ son sus dos extremos, a los que se asigna una
+orientación: $b$ cuenta con signo $+$ (punto de salida) y $a$ con signo $-$
+(punto de entrada). Al aumentar la dimensión del dominio de integración se
+obtienen tres generalizaciones, que son los teoremas de este apartado:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Dominio $\Omega$ & Dimensión & «Derivada» & Borde $\partial\Omega$\\
+\midrule
+curva $C$ & 1 & gradiente $\nab f$ & dos puntos $\{\vc{a}^{-},\vc{b}^{+}\}$\\
+superficie $S$ & 2 & rotacional $\nab\times\vc{A}$ & curva cerrada $L=\partial S$\\
+sólido $V$ & 3 & divergencia $\nab\cdot\vc{A}$ & superficie cerrada $S=\partial V$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% -------------------------------------------------------------------------
+\subsection{Integral de línea}\label{sec:linea}
+% -------------------------------------------------------------------------
+\begin{definicion}[Integral de línea]\label{def:linea}
+Sean
+\begin{itemize}
+  \item $C\subseteq\R^{n}$ una curva regular parametrizada por una aplicación
+        $\gamma:[a,b]\to\R^{n}$ de clase $C^{1}$ con $\gamma'(t)\neq\vc{0}$, y
+  \item $\vc{F}:C\to\R^{n}$ un campo vectorial continuo sobre la curva.
+\end{itemize}
+Se define la \emph{integral de línea} (o \emph{de camino}, o \emph{de trabajo})
+de $\vc{F}$ a lo largo de $C$ como la integral ordinaria
+\begin{equation}\label{eq:linea}
+  \int_{C}\vc{F}\cdot\dl\defeq\int_{a}^{b}\bigl\langle\vc{F}(\gamma(t)),\gamma'(t)\bigr\rangle\,\dif t
+  =\int_{a}^{b}\bigl[(\vc{F}\circ\gamma)\cdot\gamma'\bigr](t)\,\dif t .
+\end{equation}
+El símbolo $\dl\defeq\gamma'(t)\,\dif t$ es el \emph{elemento de longitud
+dirigido}: un desplazamiento infinitesimal tangente a la curva,
+$\dl=\sum_i\dif x_i\,\uh{i}$ con $\dif x_i=x_i'(t)\,\dif t$. Si $C$ es cerrada se
+escribe $\oint_C$ y se habla de \emph{circulación}.
+\end{definicion}
+
+Físicamente, $\int_C\vc{F}\cdot\dl$ es el \emph{trabajo} que realiza el campo de
+fuerzas $\vc{F}$ sobre una partícula que recorre $C$: en cada tramo infinitesimal
+solo cuenta la componente de $\vc{F}$ a lo largo del desplazamiento.
+
+\begin{notacion}[Procedimiento para calcular una integral de línea]\label{not:procedimiento-linea}
+Se procede en cinco pasos.\begin{enumerate}[label=\textbf{\arabic*.}, itemsep=1pt]
+  \item \emph{Parametrizar} la curva: $\vc{r}=\gamma(t)=(x_1(t),\ldots,x_n(t))$, $t\in[a,b]$.
+  \item \emph{Derivar}: calcular el vector tangente $\gamma'(t)=(x_1'(t),\ldots,x_n'(t))$.
+  \item \emph{Restringir} el campo a la trayectoria: $(\vc{F}\circ\gamma)(t)=\vc{F}(\gamma(t))$.
+  \item \emph{Proyectar}: producto escalar $\vc{F}(\gamma(t))\cdot\gamma'(t)$, que es una función de una sola variable.
+  \item \emph{Integrar} esa función de $t$ sobre $[a,b]$.
+\end{enumerate}
+\end{notacion}
+
+\paragraph{En coordenadas.} Si $\vc{F}=(f_1,\ldots,f_n)$, la integral de línea es
+la suma de $n$ integrales ordinarias:
+\begin{equation}\label{eq:linea-coord}
+  \int_{C}\vc{F}\cdot\dl=\int_{a}^{b}\sum_{k=1}^{n}(f_k\circ\gamma)(t)\,x_k'(t)\,\dif t
+  =\sum_{k=1}^{n}\int_{a}^{b}f_k\bigl(\gamma(t)\bigr)\,x_k'(t)\,\dif t
+\end{equation}
+(aditividad de la integral).
+
+\begin{definicion}[Notación diferencial y 1-formas]\label{def:diferencial-linea}
+Con el cambio de variable $\dif x_k=x_k'(t)\,\dif t$ se tiene
+$f_k(\vc{r})\,\dif x_k=f_k(x_1(t),\ldots,x_n(t))\,x_k'(t)\,\dif t$ y la integral de
+línea queda
+\[
+  \int_{C}\vc{F}\cdot\dl=\int_{C}f_1\,\dif x_1+f_2\,\dif x_2+\cdots+f_n\,\dif x_n ,
+\]
+donde cada sumando se integra por separado. A una expresión de este tipo,
+$\omega=f_1\,\dif x_1+\cdots+f_n\,\dif x_n=\sum_i f_i\,\dif x_i$ con $f_k$
+campos escalares, se le llama \emph{1-forma diferencial}.
+\end{definicion}
+
+En dos y tres dimensiones, con $\vc{F}=(P,Q)$ y $\vc{F}=(P,Q,R)$ respectivamente,
+\begin{equation}\label{eq:linea-2d3d}
+  \int_{C}\vc{F}\cdot\dl=\int_{C}P\,\dif x+Q\,\dif y
+  \qquad\text{y}\qquad
+  \int_{C}\vc{F}\cdot\dl=\int_{C}P\,\dif x+Q\,\dif y+R\,\dif z,
+\end{equation}
+donde, por ejemplo, $\int_{C}P\,\dif x=\int_a^bP\bigl(x(t),y(t),z(t)\bigr)\,x'(t)\,\dif t$.
+
+\begin{ejemplo}[Segmento rectilíneo]\label{ej:segmento}
+Sea $C=[\vc{p},\vc{q}]$ el segmento que une dos puntos de $\R^{n}$. Su
+parametrización estándar es $\sigma(t)=\vc{p}+t\,\vc{h}$ con
+$\vc{h}=\vc{q}-\vc{p}$ y $t\in[0,1]$: cumple $\sigma(0)=\vc{p}$,
+$\sigma(1)=\vc{q}$ y $\sigma'(t)=\vc{h}$ constante. Para cualquier campo
+continuo,
+\[
+  \int_{[\vc{p},\vc{q}]}\vc{F}\cdot\dl
+  =\int_{0}^{1}\vc{F}(\vc{p}+t\,\vc{h})\cdot\vc{h}\,\dif t
+  =\int_{0}^{1}\vc{F}\bigl(\vc{p}+t(\vc{q}-\vc{p})\bigr)\cdot(\vc{q}-\vc{p})\,\dif t .
+\]
+\end{ejemplo}
+
+\begin{proposicion}[Propiedades de la integral de línea]\label{prop:prop-linea}
+\begin{enumerate}[label=(\alph*)]
+  \item \emph{Linealidad:} $\int_C(\alpha\vc{F}+\beta\vc{G})\cdot\dl=\alpha\int_C\vc{F}\cdot\dl+\beta\int_C\vc{G}\cdot\dl$.
+  \item \emph{Aditividad:} si $C=C_1\uplus C_2$ (la segunda curva empieza donde acaba la primera), $\int_C=\int_{C_1}+\int_{C_2}$.
+  \item \emph{Cambio de orientación:} si $C^{\mathrm{op}}$ es la misma curva recorrida en sentido contrario, $\int_{C^{\mathrm{op}}}\vc{F}\cdot\dl=-\int_C\vc{F}\cdot\dl$.
+  \item \emph{Invariancia por reparametrización:} si $\alpha:[a,b]\to C$ y
+        $\beta:[A,B]\to C$ son dos parametrizaciones regulares de la misma curva y
+        recorren $C$ en el mismo sentido, las integrales \eqref{eq:linea}
+        coinciden.
+\end{enumerate}
+\end{proposicion}
+\begin{proof}
+Las tres primeras se siguen de las propiedades de la integral de Riemann.
+Para (d), sea $\varphi=\beta^{-1}\circ\alpha:[a,b]\to[A,B]$, un cambio de
+variable de clase $C^{1}$ y biyectivo, de modo que $\alpha=\beta\circ\varphi$ y
+$\alpha'(t)=\beta'(\varphi(t))\,\varphi'(t)$. Entonces
+\[
+  \int_a^b\vc{F}(\alpha(t))\cdot\alpha'(t)\,\dif t
+  =\int_a^b\vc{F}\bigl(\beta(\varphi(t))\bigr)\cdot\beta'(\varphi(t))\,\varphi'(t)\,\dif t
+  =\int_A^B\vc{F}(\beta(s))\cdot\beta'(s)\,\dif s ,
+\]
+con $s=\varphi(t)$, siempre que $\varphi'>0$ (mismo sentido). Si $\varphi'<0$, los
+límites de integración se invierten y la integral cambia de signo, que es (c).
+\end{proof}
+
+La integral de línea está bien definida: depende de la curva y de su
+orientación, pero no de cómo se parametrice.
+
+% -------------------------------------------------------------------------
+\subsection{El teorema del gradiente}\label{sec:teorema-gradiente}
+% -------------------------------------------------------------------------
+\begin{teorema}[Teorema del gradiente o fundamental de las integrales de línea]\label{teo:gradiente}
+Sea $f$ un campo escalar de clase $C^{1}$ en una región $W\subseteq\R^{n}$ y sea
+$C\subset W$ un arco regular orientado cuyo borde es $\partial C=\{\vc{a}^{-},\vc{b}^{+}\}$
+(punto de partida $\vc{a}$, punto de llegada $\vc{b}$). Entonces
+\begin{equation}\label{eq:teo-gradiente}
+  \boxed{\;\int_{C}\nab f\cdot\dl=f(\vc{b})-f(\vc{a})\;}
+\end{equation}
+\end{teorema}
+\begin{proof}
+Sea $\gamma:[a,b]\to C$ una parametrización compatible con la orientación, con
+$\gamma(a)=\vc{a}$ y $\gamma(b)=\vc{b}$. Por la \cref{prop:cadena},
+$\nab f(\gamma(t))\cdot\gamma'(t)=(f\circ\gamma)'(t)$, y por el teorema
+fundamental del cálculo en una variable, \eqref{eq:tfc},
+\[
+  \int_C\nab f\cdot\dl=\int_a^b\nab f(\gamma(t))\cdot\gamma'(t)\,\dif t
+  =\int_a^b(f\circ\gamma)'(t)\,\dif t=f(\gamma(b))-f(\gamma(a))=f(\vc{b})-f(\vc{a}).\qedhere
+\]
+\end{proof}
+
+El valor de la integral queda determinado única y exclusivamente por la
+diferencia de potencial en los extremos del camino. Con la notación de la
+\cref{sec:tfc}: la integral de la «derivada» $\nab f$ sobre $C$ es igual a $f$
+evaluada en el borde $\partial C$, contando $+f(\vc{b})$ y $-f(\vc{a})$. Dos
+consecuencias inmediatas son de gran importancia en física.
+
+\begin{corolario}[Independencia del camino y circulación nula]\label{cor:gradiente}
+Sea $\vc{F}=\nab f$ un campo gradiente en $W$.
+\begin{enumerate}[label=(\alph*)]
+  \item El trabajo de $\vc{F}$ entre dos puntos es el mismo sobre cualquier curva
+        que los una: depende solo de los extremos, no del camino.
+  \item Para toda curva cerrada $C\subset W$ (con $\vc{r}(a)=\vc{r}(b)$),
+        \begin{equation}\label{eq:circulacion-nula}
+          \oint_C\nab f\cdot\dl=0 .
+        \end{equation}
+\end{enumerate}
+\end{corolario}
+\begin{proof}
+(a) Es inmediato de la \cref{eq:teo-gradiente}. (b) Si la curva es cerrada,
+$\vc{b}=\vc{a}$ y $f(\vc{b})-f(\vc{a})=0$.
+\end{proof}
+
+\begin{definicion}[Independencia del camino y circulación nula]\label{def:indep-camino}
+Un campo $\vc{F}$ en $W$ tiene la propiedad de \emph{independencia del camino}
+si $\int_\alpha\vc{F}\cdot\dl=\int_\beta\vc{F}\cdot\dl$ para cualquier par de
+curvas $\alpha,\beta\subset W$ con los mismos extremos orientados; y tiene
+\emph{circulación nula} si $\oint_C\vc{F}\cdot\dl=0$ para toda curva cerrada
+$C\subset W$.
+\end{definicion}
+
+\begin{proposicion}\label{prop:equiv-indep}
+Un campo continuo tiene independencia del camino en $W$ si y solo si tiene
+circulación nula en $W$.
+\end{proposicion}
+\begin{proof}
+($\Leftarrow$) Si $A$ y $B$ unen los mismos extremos, $C=A\uplus B^{\mathrm{op}}$ es
+un circuito, y por la \cref{prop:prop-linea},
+$0=\oint_C\vc{F}\cdot\dl=\int_A\vc{F}\cdot\dl-\int_B\vc{F}\cdot\dl$.
+($\Rightarrow$) Si $C$ es cerrada, elegimos dos puntos distintos de $C$, que la
+dividen en dos arcos $A$ y $B$ con los mismos extremos y $C=A\uplus B^{\mathrm{op}}$;
+entonces $\oint_C\vc{F}\cdot\dl=\int_A\vc{F}\cdot\dl-\int_B\vc{F}\cdot\dl=0$.
+\end{proof}
+
+\begin{proposicion}[Recíproco del teorema del gradiente]\label{prop:reciproco}
+Un campo continuo $\vc{F}$ en una región $W$ con independencia del camino es un
+campo gradiente: fijado $\vc{p}\in W$, la función
+$f(\vc{r})=\int_{\vc{p}}^{\vc{r}}\vc{F}\cdot\dl$ (calculada sobre cualquier
+curva de $W$ que una $\vc{p}$ con $\vc{r}$) cumple $\nab f=\vc{F}$.
+\end{proposicion}
+\begin{proof}
+Por independencia del camino, $f$ está bien definida. Para $h$ pequeño,
+$f(\vc{r}+h\,\uh{i})-f(\vc{r})$ es la integral de $\vc{F}$ sobre el segmento que
+une $\vc{r}$ con $\vc{r}+h\,\uh{i}$, es decir,
+$\int_0^hF_i(\vc{r}+t\,\uh{i})\,\dif t$. Dividiendo por $h$ y haciendo
+$h\to0$, la continuidad de $F_i$ da $\partial_if(\vc{r})=F_i(\vc{r})$.
+\end{proof}
+
+Reuniendo todo: para campos continuos, \emph{ser gradiente $\Leftrightarrow$
+independencia del camino $\Leftrightarrow$ circulación nula}; y ser irrotacional es
+condición necesaria (\cref{cor:grad-irrot}), y suficiente en regiones
+estrelladas.
+
+\input{figuras/fig_teorema_gradiente}
+
+% -------------------------------------------------------------------------
+\subsection{Integral de flujo}\label{sec:flujo}
+% -------------------------------------------------------------------------
+Pasamos a la integral que formaliza la noción de \emph{flujo} de un campo a
+través de una superficie en $\R^{3}$. Ahora el vector relevante es la normal.
+
+\begin{definicion}[Superficie parametrizada y vector normal]\label{def:superficie}
+Una \emph{superficie parametrizada} $S\subset\R^{3}$ es la imagen de una
+aplicación $\sigma:S^{*}\subseteq\R^{2}\to\R^{3}$, $\sigma(u,v)=(x(u,v),y(u,v),z(u,v))$,
+de clase $C^{1}$ y regular ($\sigma_u\times\sigma_v\neq\vc{0}$). Su \emph{vector
+normal asociado}, su normal unitaria y sus elementos de área son
+\[
+  \vc{n}_\sigma=\frac{\partial\sigma}{\partial u}\times\frac{\partial\sigma}{\partial v},
+  \qquad
+  \un=\frac{\vc{n}_\sigma}{\norm{\vc{n}_\sigma}},
+  \qquad
+  \dsc=\norm{\vc{n}_\sigma}\,\dif u\,\dif v,
+  \qquad
+  \dS=\un\,\dsc=\vc{n}_\sigma\,\dif u\,\dif v .
+\]
+La elección de $\un$ (de entre sus dos posibles sentidos) es una
+\emph{orientación} de $S$.
+\end{definicion}
+
+\begin{definicion}[Integral de flujo]\label{def:flujo}
+Dado un campo vectorial $\vc{F}$ continuo sobre una superficie orientada
+$S=\sigma(S^{*})$, el \emph{flujo} de $\vc{F}$ a través de $S$ es
+\begin{equation}\label{eq:flujo}
+  \iint_{S}\vc{F}\cdot\dS\defeq\iint_{S^{*}}\vc{F}\bigl(\sigma(u,v)\bigr)\cdot\vc{n}_\sigma(u,v)\,\dif u\,\dif v
+  =\iint_{S}\vc{F}\cdot\un\,\dsc ,
+\end{equation}
+donde la segunda igualdad (con $\un\,\dsc=\dS$) dice que el flujo es la integral
+de \emph{área} de la componente \emph{normal} de $\vc{F}$. Para una superficie
+cerrada se escribe $\oiint_S\vc{F}\cdot\dS$ y, por convenio, se toma la normal
+exterior.
+\end{definicion}
+
+Solo la componente normal contribuye: un campo que corre \emph{a lo largo} de la
+superficie, sin atravesarla, no aporta flujo (\cref{fig:flujo}). Ahora bien,
+\emph{cualquier superficie es localmente plana}: en un entorno infinitesimal de
+cada punto, el área orientada $\dS$ es un pequeño parche plano de normal $\un$,
+y el flujo infinitesimal es $\vc{F}\cdot\dS=\norm{\vc{F}}\,\dsc\cos\theta$.
+
+\begin{notacion}[Procedimiento para calcular un flujo]\label{not:procedimiento-flujo}
+Se procede en seis pasos.\begin{enumerate}[label=\textbf{\arabic*.}, itemsep=1pt]
+  \item \emph{Parametrizar} la superficie: $\sigma(u,v)=(x(u,v),y(u,v),z(u,v))$.
+  \item \emph{Derivar}: $\sigma_u=\partial\sigma/\partial u$ y $\sigma_v=\partial\sigma/\partial v$.
+  \item \emph{Normal}: $\vc{n}_\sigma=\sigma_u\times\sigma_v$ (comprobar la orientación).
+  \item \emph{Restringir} el campo: $\vc{F}\circ\sigma$.
+  \item \emph{Proyectar}: $(\vc{F}\circ\sigma)\cdot\vc{n}_\sigma$, en función de $u,v$.
+  \item \emph{Integrar} sobre la región plana $(u,v)\in S^{*}$.
+\end{enumerate}
+\end{notacion}
+
+\begin{observacion}[Notación diferencial: $2$-formas]\label{obs:2formas}
+En coordenadas, $\vc{n}_\sigma=\bigl(\tfrac{\partial(y,z)}{\partial(u,v)},
+\tfrac{\partial(z,x)}{\partial(u,v)},\tfrac{\partial(x,y)}{\partial(u,v)}\bigr)$,
+donde $\tfrac{\partial(x,y)}{\partial(u,v)}=x_uy_v-x_vy_u$ son subdeterminantes
+jacobianos. Escribiendo $\dif y\wedge\dif z\defeq\tfrac{\partial(y,z)}{\partial(u,v)}\,\dif u\,\dif v$
+(y cíclicamente, $x\to y\to z\to x$), con $\vc{F}=(P,Q,R)$ queda
+$\iint_S\vc{F}\cdot\dS=\iint_SP\,\dif y\wedge\dif z+Q\,\dif z\wedge\dif x+R\,\dif x\wedge\dif y$,
+una \emph{2-forma diferencial}; de momento $\wedge$ es solo una notación para
+estos determinantes~\cite{NAVAS}.
+\end{observacion}
+
+\begin{ejemplo}[Flujo del campo inverso del cuadrado]\label{ej:flujo-r3}
+Sea $\vc{F}=\rho\,\vc{r}/r^{3}$ ($\rho$ constante, $r=\norm{\vc{r}}$) y
+$S_R:x^{2}+y^{2}+z^{2}=R^{2}$. La normal unitaria a una esfera es el radio
+normalizado, $\un=\vc{r}/r$, de modo que $\vc{F}\cdot\un=\rho\,r^{2}/r^{4}=\rho/R^{2}$
+es constante sobre $S_R$ y
+\[
+  \oiint_{S_R}\vc{F}\cdot\un\,\dsc=\frac{\rho}{R^{2}}\cdot4\pi R^{2}=4\pi\rho ,
+\]
+independiente de $R$. Para un campo eléctrico ($\rho\propto q$) es la ley de
+Gauss; su explicación profunda (la divergencia de este campo es una delta de
+Dirac en el origen) se verá en la \cref{sec:delta}.
+\end{ejemplo}
+
+\input{figuras/fig_flujo}
+
+% -------------------------------------------------------------------------
+\subsection{El teorema de Stokes (del rotacional)}\label{sec:stokes}
+% -------------------------------------------------------------------------
+Una superficie $S$ con borde y su borde $\partial S$ son objetos orientados, y
+sus orientaciones no son independientes.
+
+\begin{definicion}[Orientación compatible del borde: regla de la mano derecha]\label{def:orientacion-compatible}
+Dada una superficie orientada por el vector normal unitario continuo $\un$, la
+\emph{orientación compatible} de su borde $\partial S$ es la del sentido de
+circulación que, al acercarnos al borde, induce $\un$ según la \emph{regla del
+pulgar}: con la mano derecha, el pulgar apunta según $\un$ y los demás dedos se
+curvan en el sentido en que se recorre $\partial S$.
+\end{definicion}
+
+En la práctica: \emph{eligiendo el sentido en que se recorre la curva frontera
+(cómo se orienta su parametrización) queda determinado el sentido de la normal}, y
+viceversa.
+
+\begin{teorema}[Teorema de Stokes]\label{teo:stokes}
+Sea $\vc{A}$ un campo vectorial de clase $C^{1}$ en un entorno de una superficie
+acotada y regular $S\subset\R^{3}$ cuyo borde $L=\partial S$ es una o varias
+curvas cerradas. Si las orientaciones de $S$ y de $\partial S$ son compatibles,
+\begin{equation}\label{eq:stokes}
+  \boxed{\;\iint_{S}(\nab\times\vc{A})\cdot\dS=\oint_{\partial S}\vc{A}\cdot\dl\;}
+\end{equation}
+Es decir, el flujo del rotacional a través de $S$ es igual a la circulación del
+campo a lo largo de su borde.
+\end{teorema}
+\begin{proof}[Idea de la demostración]
+Sea primero $\Delta S=\Delta x\,\Delta y$ un pequeño rectángulo del plano $xy$ con
+normal $\uz$ y borde recorrido en sentido antihorario. La circulación de
+$\vc{A}$ alrededor de él es, a primer orden,
+\begin{align*}
+  \oint\vc{A}\cdot\dl&\approx A_x(x,y)\,\Delta x+A_y(x+\Delta x,y)\,\Delta y
+     -A_x(x,y+\Delta y)\,\Delta x-A_y(x,y)\,\Delta y\\
+  &\approx\Bigl(\pd{A_y}{x}-\pd{A_x}{y}\Bigr)\Delta x\,\Delta y
+   =(\nab\times\vc{A})\cdot\uz\,\Delta S .
+\end{align*}
+Es decir, \emph{la circulación por unidad de área es la componente normal del
+rotacional}. Una superficie cualquiera se subdivide en muchos de estos parches
+infinitesimales orientados (\cref{fig:stokes}); como cada lado interior aparece
+dos veces, con orientaciones opuestas, las circulaciones sobre las paredes
+interiores se cancelan por parejas y solo sobrevive la circulación sobre el borde
+exterior $\partial S$. Para parches curvos se cambia de variable mediante la
+parametrización $\sigma$, que transforma $\uz$ en $\un$ (este es el teorema de
+Green en el plano, llevado a la superficie)~\cite{NAVAS}.
+\end{proof}
+
+Para una región plana en el plano $xy$ (con $\un=\uz$), \cref{eq:stokes} se
+reduce al \emph{teorema de Green}:
+$\oint_{\partial S}P\,\dif x+Q\,\dif y=\iint_S\bigl(\partial_xQ-\partial_yP\bigr)\dif x\,\dif y$.
+
+\begin{corolario}[Superficies cerradas]\label{cor:stokes-cerrada}
+Si $S$ es una superficie cerrada ($\partial S=\varnothing$), el flujo del
+rotacional de cualquier campo $\vc{A}$ a través de ella es nulo:
+\begin{equation}\label{eq:flujo-rot-nulo}
+  \oiint_{S}(\nab\times\vc{A})\cdot\dS=0 .
+\end{equation}
+\end{corolario}
+\begin{proof}
+Con $\partial S=\varnothing$ no hay circulación sobre el borde, y
+\cref{eq:stokes} da $0$. El resultado es coherente con el teorema de Gauss
+(\cref{teo:gauss}): si $S=\partial V$, entonces
+$\oiint_S(\nab\times\vc{A})\cdot\dS=\iiint_V\nab\cdot(\nab\times\vc{A})\,\dV=0$ por
+la \cref{prop:fundamentales}.
+\end{proof}
+
+Obsérvese qué ocurre en la frontera cuando $\partial S\neq\varnothing$: allí los
+vórtices infinitesimales de los parches no tienen «vecino» con el que
+cancelarse, por eso \emph{sí} queda la circulación sobre $L=\partial S$.
+
+\begin{proposicion}[Rotacional y vorticidad]\label{prop:vorticidad}
+La componente del rotacional según un eje unitario $\un$ en un punto $\vc{p}$ es
+la circulación por unidad de área (\emph{vorticidad}) alrededor de ese eje:
+\begin{equation}\label{eq:vorticidad}
+  (\nab\times\vc{F})\cdot\un\,(\vc{p})=\lim_{G\to\{\vc{p}\}}\frac{1}{a(G)}\oint_{\partial G}\vc{F}\cdot\dl ,
+\end{equation}
+donde $G$ es un disco (o superficie similar) de área $a(G)$ contenido en un plano
+ortogonal a $\un$ y que se contrae al punto $\vc{p}$.
+\end{proposicion}
+\begin{proof}
+Por la \cref{eq:stokes}, $\frac{1}{a(G)}\oint_{\partial G}\vc{F}\cdot\dl=\frac{1}{a(G)}\iint_G(\nab\times\vc{F})\cdot\un\,\dsc$,
+el valor medio de la componente normal del rotacional sobre $G$, que tiende a su
+valor en $\vc{p}$ cuando $G$ se encoge a un punto (por la continuidad del
+integrando).
+\end{proof}
+
+La \cref{eq:vorticidad} proporciona una definición del rotacional independiente
+del sistema de coordenadas: tomando $\un=\ux,\uy,\uz$ se recuperan las tres
+componentes. Con la ruedecita de paletas: la vorticidad alrededor de su eje es
+proporcional a su velocidad angular de giro.
+
+\input{figuras/fig_stokes}
+
+% -------------------------------------------------------------------------
+\subsection{El teorema de la divergencia (de Gauss)}\label{sec:gauss}
+% -------------------------------------------------------------------------
+\begin{definicion}[Borde de un sólido y su orientación]\label{def:borde-solido}
+El borde $\partial V$ de un sólido regular $V\subset\R^{3}$ es una o varias
+superficies cerradas. La orientación positiva de $\partial V$ es la determinada
+por el campo normal unitario \emph{exterior} (el que apunta fuera de $V$). Si $V$
+tiene huecos o «burbujas», la normal exterior respecto a $V$ es la normal
+\emph{interior} respecto a la burbuja.
+\end{definicion}
+
+\begin{teorema}[Teorema de la divergencia o de Gauss]\label{teo:gauss}
+Sea $\vc{A}$ un campo vectorial de clase $C^{1}$ en un entorno de un sólido
+acotado $V\subset\R^{3}$ cuyo borde $S=\partial V$ es una o varias superficies
+cerradas orientadas con la normal exterior. Entonces
+\begin{equation}\label{eq:gauss}
+  \boxed{\;\iiint_{V}\nab\cdot\vc{A}\,\dV=\oiint_{\partial V}\vc{A}\cdot\dS\;}
+\end{equation}
+El flujo de $\vc{A}$ a través de la superficie cerrada que limita a $V$ es la
+integral de su divergencia en el interior.
+\end{teorema}
+\begin{proof}[Idea de la demostración]
+La fórmula es lineal en $\vc{A}$, así que basta probarla para campos paralelos
+a los ejes: sea $\vc{A}=R\,\uz$. Para el cubo unidad $V=[0,1]^{3}$, solo las
+tapas $z=1$ (normal $+\uz$) y $z=0$ (normal $-\uz$) contribuyen, pues en las
+otras cuatro caras $\vc{A}\cdot\un=0$:
+\[
+  \oiint_{\partial V}\vc{A}\cdot\dS=\int_0^1\!\!\int_0^1\bigl[R(x,y,1)-R(x,y,0)\bigr]\dif x\,\dif y
+  =\int_0^1\!\!\int_0^1\!\!\int_0^1\pd{R}{z}\,\dif z\,\dif x\,\dif y=\iiint_V\nab\cdot(R\,\uz)\,\dV ,
+\]
+donde se ha usado el teorema fundamental del cálculo en $z$. Para un sólido
+general se pega una malla de cubitos (o se cambia de variable): cada cara
+interior aparece dos veces con normales opuestas, y los flujos interiores se
+cancelan, de modo que solo queda el flujo a través del borde exterior
+(\cref{fig:gauss-vol}).
+\end{proof}
+
+\begin{proposicion}[La divergencia como densidad de flujo]\label{prop:div-intrinseca}
+Para un campo $\vc{F}$ de clase $C^{1}$ y un punto $\vc{p}$,
+\begin{equation}\label{eq:div-intrinseca}
+  (\nab\cdot\vc{F})(\vc{p})=\lim_{V\to\{\vc{p}\}}\frac{1}{v(V)}\oiint_{\partial V}\vc{F}\cdot\un\,\dsc ,
+\end{equation}
+siendo $V$ un pequeño sólido (por ejemplo una bola centrada en $\vc{p}$) de volumen
+$v(V)$ que se contrae a $\vc{p}$.
+\end{proposicion}
+\begin{proof}
+Por el \cref{teo:gauss}, $\frac{1}{v(V)}\oiint_{\partial V}\vc{F}\cdot\un\,\dsc=\frac{1}{v(V)}\iiint_V\nab\cdot\vc{F}\,\dV$,
+que es el valor medio de la divergencia sobre $V$ y converge a $(\nab\cdot\vc{F})(\vc{p})$
+al contraer $V$ (continuidad).
+\end{proof}
+
+La \cref{eq:div-intrinseca} es la definición general de la divergencia,
+independiente del sistema de coordenadas, y explica su nombre y su
+interpretación: es el flujo neto que sale por unidad de volumen. El teorema de
+Gauss es entonces la expresión matemática de las cancelaciones de flujo en las
+paredes interiores: la integral de la divergencia es la «suma» de todas las
+fuentes y sumideros del interior, y solo sobrevive el flujo por el borde. Un
+campo de divergencia nula (solenoidal, o incompresible) tiene flujo neto nulo a
+través de toda superficie cerrada.
+
+\input{figuras/fig_gauss_vol}
+
+% -------------------------------------------------------------------------
+\subsection{Resumen y comprobación en campos sencillos}\label{sec:resumen-teoremas}
+% -------------------------------------------------------------------------
+Los tres teoremas, en la notación que se empleará en el resto del curso, son:
+\begin{align}
+  \int_{\vc{a}}^{\vc{b}}\nab f\cdot\dl&=f(\vc{b})-f(\vc{a}) &&\text{(teorema del gradiente)},\label{eq:resumen-grad}\\
+  \int_{V}\nab\cdot\vc{A}\,\dV&=\oint_{S}\vc{A}\cdot\dS &&\text{(teorema de la divergencia, Gauss)},\label{eq:resumen-gauss}\\
+  \int_{S}(\nab\times\vc{A})\cdot\dS&=\oint_{L}\vc{A}\cdot\dl &&\text{(teorema del rotacional, Stokes)},\label{eq:resumen-stokes}
+\end{align}
+con $S=\partial V$ en la segunda y $L=\partial S$ en la tercera. Se reconoce en
+todos ellos la estructura «integral de la derivada $=$ integral sobre el borde».
+
+\begin{ejemplo}[Comprobación en los campos de referencia]\label{ej:comprobacion-campos}
+Tomamos los campos de la \cref{fig:campos_div} y los dos objetos de la
+\cref{fig:campos_int}: un cubo unidad $V=[1,2]\times[1{,}5,2{,}5]\times[0,1]$ y un
+circuito rectangular $C=\partial S$ en el plano $z=0$ con
+$S=[1,2]\times[0{,}5,1]$, recorrido en sentido horario (normal $-\uz$, de
+área $0{,}5$).
+\begin{itemize}
+  \item $\vc{F}_2=x\,\ux$ ($\nab\cdot\vc{F}_2=1$, $\nab\times\vc{F}_2=\vc{0}$).
+        Flujo por las tapas $x=2$ y $x=1$: $(2-1)\cdot1=1=\iiint_V1\,\dV$;
+        el resto de caras no contribuye. Circulación: los lados horizontales
+        se cancelan y los verticales son perpendiculares al campo, luego es
+        nula, de acuerdo con $\nab\times\vc{F}_2=\vc{0}$.
+  \item $\vc{F}_3=y\,\ux$ ($\nab\cdot\vc{F}_3=0$, $\nab\times\vc{F}_3=-\uz$).
+        El flujo por el cubo es nulo (lo que entra por una cara sale por la
+        opuesta), y la circulación horaria es
+        $\oint\vc{F}_3\cdot\dl=(1-0{,}5)\cdot1=0{,}5=\iint_S(-\uz)\cdot(-\uz)\,\dsc$
+        (el lado superior, a $y=1$, está a favor del campo, el inferior, a
+        $y=0{,}5$, en contra y más débil).
+\end{itemize}
+\end{ejemplo}
+
+\input{figuras/fig_campos_int}
+
+\begin{ejemplo}[Rotacional uniforme: la circulación solo depende del área]\label{ej:rot-uniforme}
+Los campos $\vc{F}=y\,\ux-x\,\uy$ y $\vc{F}=y\,\ux$ tienen rotacional
+\emph{uniforme} (el mismo en todos los puntos): $-2\,\uz$ y $-\uz$,
+respectivamente. Por el teorema de Stokes, la circulación horaria (normal $-\uz$)
+alrededor de un circuito de área $a$ vale $\oint\vc{F}\cdot\dl=\iint(\nab\times\vc{F})\cdot(-\uz)\,\dsc=2a$
+(resp. $a$), \emph{sin importar dónde esté colocado el circuito}. En la
+\cref{fig:campos_circ}, los dos rectángulos de área $a=1{,}4$ dan $2{,}8$ (resp.
+$1{,}4$) aunque el campo valga cosas muy distintas sobre cada uno. Se comprueba
+directamente en el segundo caso: el campo es horizontal, los lados verticales
+no aportan, y los horizontales dan $(y_{\mathrm{sup}}-y_{\mathrm{inf}})\cdot1{,}4=1\cdot1{,}4=1{,}4$,
+con independencia de la altura $y$ a la que esté el rectángulo.
+\end{ejemplo}
+
+\input{figuras/fig_campos_circ}
+
