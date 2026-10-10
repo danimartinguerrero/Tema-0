@@ -40,10 +40,12 @@ función sobre el borde de esa región.
     \draw[densely dashed, grispizarra] (\xx,0) -- (\xx,\yy);
     \fill[azulprof] (\xx,\yy) circle (2pt);
     \node[below] at (\xx,0) {$\lab$};}
-  \node[font=\small, text=rojoteo, anchor=west] at (3.0,3.7) {$\dif f$};
-  \draw[->, rojoteo, line width=0.5pt] (3.0,3.65) -- (2.55,3.0);
-  \node[font=\small, text=azulacero, anchor=north] at (3.9,0.35) {$\dif x$};
-  \draw[|<->|, azulacero, line width=0.5pt] (3.4,0.3) -- (4.0,0.3);
+  % anotaciones del escalón (2.2 -> 2.8): dx bajo el tramo azul, df junto al tramo ocre
+  \pgfmathsetmacro{\ya}{\fx{2.2}}\pgfmathsetmacro{\yb}{\fx{2.8}}
+  \draw[|<->|, azulacero, line width=0.5pt] (2.2,{\ya-0.28}) -- (2.8,{\ya-0.28});
+  \node[font=\small, text=azulacero, anchor=north] at (2.5,{\ya-0.34}) {$\dif x$};
+  \node[font=\small, text=rojoteo, anchor=west] at (3.25,{(\ya+\yb)/2-0.45}) {$\dif f$};
+  \draw[->, rojoteo, line width=0.5pt] (3.2,{(\ya+\yb)/2-0.4}) -- (2.84,{(\ya+\yb)/2-0.04});
   \node[font=\small, text=azulprof, rotate=90, anchor=south] at (9.1,{(\fx{1.0}+\fx{7.6})/2}) {$f(b)-f(a)=\textstyle\sum\dif f$};
   \draw[|<->|, grispizarra, line width=0.5pt] (8.5,{\fx{1.0}}) -- (8.5,{\fx{7.6}});
   \draw[densely dashed, grispizarra] (7.6,{\fx{7.6}}) -- (8.5,{\fx{7.6}});
